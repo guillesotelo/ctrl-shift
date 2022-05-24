@@ -1,0 +1,25 @@
+.dropdown-btn-container {
+}
+
+.dropdown-btn {
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+    width: 50%
+}
+
+.dropdown-option {
+    margin: 40px;
+    background: #e5e5e5;
+    color: #242f40;
+    background-color: #e5e5e5;
+}
+
+.dropdown-option:active {
+    background-color: red !important;
+}
+
+.dropdown-label {
+    font-size: 4vw;
+    margin: 4vw 0 1vw 0;
+}
