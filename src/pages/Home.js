@@ -11,7 +11,6 @@ import { APP_COLORS } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
-import { setUserVoid } from '../store/services/reduxServices';
 
 export default function Home() {
   const [data, setData] = useState({})

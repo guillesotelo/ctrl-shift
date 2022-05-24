@@ -91,5 +91,8 @@
 }
 
 .login-register-link {
-  color: rgb(100, 100, 218)
+  color: rgb(100, 100, 218);
+  font-size: 3vw;
+  background-color: transparent;
+  border: none;
 }

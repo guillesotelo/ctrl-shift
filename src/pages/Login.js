@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import CTAButton from '../components/CTAButton'
@@ -66,7 +66,7 @@ export default function Login() {
                     color={APP_COLORS.BLUE}
                     style={{ margin: '10vw' }}
                 />
-                <h4 className='login-register-text'>No tenes cuenta? <a onClick={goToRegister} className='login-register-link'>Registrate</a></h4>
+                <h4 className='login-register-text'>No tenes cuenta? <button onClick={goToRegister} className='login-register-link'>Registrate</button></h4>
             </div>
         </div>
     )

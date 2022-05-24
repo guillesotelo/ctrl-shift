@@ -8,7 +8,6 @@ export default function InputField(props) {
         type, 
         label, 
         placeholder,
-        size, 
         style, 
         updateData,
         autoComplete

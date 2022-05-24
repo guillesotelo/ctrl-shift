@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { APP_COLORS } from '../../constants/colors'
 import './styles.css'
 
 export default function DropdownBTN(props) {
-    const { options, label, updateData, set, name } = props
+    const { options, label, updateData, name } = props
 
     const handleChange = (newValue) => {
         const { value } = newValue.target
