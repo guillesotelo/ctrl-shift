@@ -45,13 +45,12 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "serve -s build",
+    "start": "node index.js",
     "server": "nodemon index.js",
     "client": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
@@ -71,8 +70,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "engines": {
-    "node": "16.14.2"
   }
 }
