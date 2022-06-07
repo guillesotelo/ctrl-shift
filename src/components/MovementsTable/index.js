@@ -1,14 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles.css'
 
 export default function MovementsTable(props) {
 
     const { 
         tableData,
-        tableTitle
+        tableTitle,
+        setIsEdit,
+        setCheck,
+        check
     } = props
     const headers = ['Fecha', 'Autor', 'Detalle', 'Categoria', 'Tipo', 'Monto']
-    const rowData = tableData && tableData.length ? [...tableData].reverse() : []
+    const rowData = tableData && tableData.length ? tableData : []
+
+    const handleCheck = e => {
+        const { value, checked } = e.target
+
+        if(checked) {
+            setCheck(value)
+            setIsEdit(true)
+        } else {
+            setIsEdit(false)
+            setCheck(-1)
+        }
+    }
 
     return (
         <div className='table-container'>
@@ -19,6 +34,7 @@ export default function MovementsTable(props) {
                 }
             </div>
             {
+                rowData.length ?
                 rowData.map((row,i) =>  
                 <div 
                 key={i} 
@@ -30,7 +46,12 @@ export default function MovementsTable(props) {
                     <h4 className='table-row-item'>{row.category || 'n/a'}</h4>
                     <h4 className='table-row-item'>{row.pay_type || 'n/a'}</h4>
                     <h4 className='table-row-item'>${row.amount || 'n/a'}</h4>
+                    <input className='table-checkbox' checked={check == i} style={{ position: 'absolute', right: 0}} type="checkbox" value={i} onChange={handleCheck}></input>
                 </div>)
+                :
+                <div className='table-row' style={{ backgroundColor: '#E5E5E5', height: '2.5vw', justifyContent: 'center' }}>
+                    No hay movimientos para mostrar.
+                </div>
             }
         </div>
     )

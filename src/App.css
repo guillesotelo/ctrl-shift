@@ -1,10 +1,20 @@
+html, body {
+  /* max-width: 100%;
+  overflow-x: hidden;
+  height:auto!important; */
+}
+
 .home-container {
   margin: 5vw;
+  overflow-x: hidden;
 }
 
 .main-section {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 }
 
 .fill-section-container {
@@ -26,28 +36,19 @@
   justify-content: center;
 }
 
-.menu-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5vw;
-}
-
-.menu-close-btn {
-
-}
-
 .div-modal-btns {
   margin: 8vw 0 5vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 2vw;
 }
 
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 }
 
 .logo-container h1, h2{
@@ -61,11 +62,13 @@
 
 .text-ctrl {
   font-size: 10vw;
+  font-weight: bolder;
   color: #242F40;
 }
 
 .text-shift {
   color: #CCA43B;
+  font-weight: bolder;
   font-size: 12vw;
 }
 
@@ -95,4 +98,73 @@
   font-size: 3vw;
   background-color: transparent;
   border: none;
+  padding: 0;
+}
+
+.account-container {
+  margin: 10vw 4vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5vw;
+}
+
+.info-section {
+  font-size: 2.5vw;
+  font-weight: normal;
+}
+
+.svg-account {
+  height: 15vw;
+  filter: invert(11%) sepia(5%) saturate(5738%) hue-rotate(178deg) brightness(96%) contrast(81%);
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-title {
+  font-size: 5vw;
+  margin: 6vw 1vw 4vw;
+}
+
+.settings-module-title {
+  font-size: 4vw;
+  margin: 6vw 1vw 2vw;
+  margin: 4vw;
+}
+
+.div-settings-module {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.settings-list-item {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+  border-radius: 3vw;
+  background-color: #242F40;
+  width: fit-content;
+  color: white;
+  margin: 2vw;
+}
+
+.settings-list-item-text {
+  font-size: 3vw;
+  border-radius: 2vw;
+  background-color: #242F40;
+  width: fit-content;
+  color: white;
+  padding: 2vw;
+  margin: 1vw;
+}
+
+.svg-trash {
+  filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
 }

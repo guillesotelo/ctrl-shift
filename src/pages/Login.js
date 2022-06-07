@@ -22,8 +22,8 @@ export default function Login() {
             const login = await dispatch(logIn(data)).then(data => data.payload)
             if (login) {
                 localStorage.setItem('user', JSON.stringify(login))
-                toast.success('Bienvenid@!')
-                history.push('/home')
+                toast.success(`Bienvenid@, ${login.username}!`)
+                setTimeout(() => history.push('/ledger'), 2000)
             } else toast.error('Credenciales incorrectas')
         } catch (_) { toast.error('Credenciales incorrectas') }
     }
@@ -66,7 +66,7 @@ export default function Login() {
                     color={APP_COLORS.BLUE}
                     style={{ margin: '10vw' }}
                 />
-                <h4 className='login-register-text'>No tenes cuenta? <button onClick={goToRegister} className='login-register-link'>Registrate</button></h4>
+                <h4 className='login-register-text'>No tienes cuenta? <button onClick={goToRegister} className='login-register-link'>Registrate</button></h4>
             </div>
         </div>
     )

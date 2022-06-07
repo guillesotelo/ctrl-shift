@@ -10,7 +10,8 @@ export default function InputField(props) {
         placeholder,
         style, 
         updateData,
-        autoComplete
+        autoComplete,
+        value
     } = props
 
     const handleChange = (newValue) => {
@@ -33,6 +34,7 @@ export default function InputField(props) {
                 placeholder={placeholder || ''}
                 type={type || 'text'}
                 style={style || null}
+                value={value}
                 />
         </div>
     )

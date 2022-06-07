@@ -23,6 +23,12 @@ const movementSchema = new mongoose.Schema({
     },
     category: {
         type: String
+    },
+    ledger: {
+        type: String
+    },
+    user: {
+        type: String
     }
 })
 

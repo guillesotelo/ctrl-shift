@@ -3,9 +3,16 @@ import { APP_COLORS } from '../../constants/colors'
 import './styles.css'
 
 export default function DropdownBTN(props) {
-    const { options, label, updateData, name } = props
+    const { 
+        options, 
+        label, 
+        updateData, 
+        name, 
+        value 
+    } = props
 
     const handleChange = (newValue) => {
+        console.log(newValue)
         const { value } = newValue.target
         updateData(name, value)
       }
@@ -13,7 +20,7 @@ export default function DropdownBTN(props) {
     return (
         <div className='dropdown-btn-container'>
             <h4 style={{ color: APP_COLORS.GRAY }} className='dropdown-label'>{label || ''}</h4>
-            <select id={label} className='dropdown-btn' onChange={handleChange}>
+            <select id={label} className='dropdown-btn' onChange={handleChange} value={value}>
                 {options.map((op, i) => 
                     <option key={i} className='dropdown-option' value={op}>{op}</option> 
                 )}

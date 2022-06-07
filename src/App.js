@@ -5,7 +5,9 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
 import Header from './components/Header'
-import Menu from './pages/Menu'
+import Ledger from './components/Ledger'
+import Account from './pages/Account'
+import Settings from './pages/Settings'
 // import NotFound from './pages/NotFound'
  
 function App() {
@@ -21,9 +23,17 @@ function App() {
               <Header/>
               <Home/>
             </Route>
-            <Route path="/menu"> 
+            <Route path="/ledger"> 
               <Header/>
-              <Menu/>
+              <Ledger/>
+            </Route>
+            <Route path="/account"> 
+              <Header/>
+              <Account/>
+            </Route>
+            <Route path="/settings"> 
+              <Header/>
+              <Settings/>
             </Route>
           </Switch>
     )

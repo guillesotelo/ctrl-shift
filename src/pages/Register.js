@@ -24,11 +24,11 @@ export default function Register() {
             }
             const newUser = await dispatch(createUser(data)).then(data => data.payload)
             if (newUser) {
-                const login = await dispatch(logIn(data)).then(d => d.payload)
+                const login = await dispatch(logIn(data)).then(data => data.payload)
                 if (login) {
+                    localStorage.setItem('user', JSON.stringify(login))
                     toast.success('Bienvenid@!')
-                    localStorage.setItem('user', login)
-                    history.push('/home')
+                    setTimeout(() => history.push('/ledger'), 2000)
                 }
 
             } else return toast.error('Error en el registro')
@@ -43,7 +43,7 @@ export default function Register() {
                 <h2 className='text-shift'>Shift↑</h2>
             </div>
             <div className='login-section'>
-                <h4 className='hi-login'>Nuevo por aqui?</h4>
+                <h4 className='hi-login'>Primera vez por aqui?</h4>
                 <InputField
                     label=''
                     updateData={updateData}
@@ -88,8 +88,8 @@ export default function Register() {
                     style={{ marginTop: '6vw' }}
                 />
                 <CTAButton
-                    label='Atras'
-                    handleClick={() => history.push('/')}
+                    label='Volver'
+                    handleClick={() => history.goBack()}
                     size='100%'
                     color={APP_COLORS.GRAY}
                     style={{ marginTop: '3vw' }}
