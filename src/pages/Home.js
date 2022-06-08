@@ -10,7 +10,8 @@ import BarChart from '../components/BarChart'
 import PieChart from '../components/PieChart'
 import PolarChart from '../components/PolarChart'
 import TrashCan from '../assets/trash-can.svg'
-import { getMovements, saveMovement, removeMovement } from '../store/reducers/movement'
+import EyeClosed from '../assets/eye-closed.svg'
+import { getMovements, saveMovement, editMovement, removeMovement } from '../store/reducers/movement'
 import { APP_COLORS } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,6 +29,8 @@ export default function Home() {
   const [openModal, setOpenModal] = useState(false)
   const [dateClicked, setDateClicked] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const [salary, setSalary] = useState(0)
+  const [viewSalary, setViewSalary] = useState(false)
   const [check, setCheck] = useState(-1)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -60,7 +63,8 @@ export default function Home() {
       date: new Date(),
       category: categories[0],
       ledger: localLedger.id || -1,
-      user: localUser.email
+      user: localUser.email,
+      salary
     }
 
     setData(newData)
@@ -68,6 +72,11 @@ export default function Home() {
     getAllMovements(newData)
 
   }, [])
+
+  useEffect(() => {
+      const debited = data.salary - arrData.reduce((item, current) => item + Number(current.amount), 0)
+      setSalary(debited)
+  }, [data.salary, arrData.length])
 
   useEffect(() => {
     const fillPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
@@ -92,7 +101,6 @@ export default function Home() {
   const handleClick = () => {
     if (isEdit) {
       const item = arrData[check]
-      console.log("item", item)
       setData({
         ...item,
         date: new Date(item.date)
@@ -116,7 +124,7 @@ export default function Home() {
 
   const checkDataOk = dataToCheck => {
     const num = dataToCheck.amount
-    if (isNaN(num) || num < 2 || num === 0) return false
+    if (isNaN(num) || num < 2 || num === 0 || !dataToCheck.detail) return false
     return true
   }
 
@@ -131,13 +139,13 @@ export default function Home() {
   const handleSave = async () => {
 
     if (checkDataOk(data)) {
-
-      const saved = await dispatch(saveMovement(data)).then(d => d.payload)
+      const saved = await isEdit ? dispatch(editMovement(data)).then(d => d.payload) : dispatch(saveMovement(data)).then(d => d.payload)
       if (saved) toast.success('Gasto guardado!')
       else toast.error('Error al guardar')
 
       getAllMovements(data)
       setData({
+        ...data,
         pay_type: allPayTypes[0],
         category: allCategories[0],
         author: user.username,
@@ -146,8 +154,10 @@ export default function Home() {
         user: user.email
       })
       setOpenModal(false)
+      setIsEdit(false)
+      setCheck(-1)
     }
-    else toast.error('Datos no validos')
+    else toast.error('Chequea los campos')
   }
 
   const handleCancel = () => {
@@ -258,6 +268,15 @@ export default function Home() {
           />
         </div>
       }
+
+      <div className='salary-div'>
+        <h4>Saldo Actual:</h4>
+        {
+          viewSalary ? <h4 onClick={() => setViewSalary(false)}>${salary}</h4>
+            : <img onClick={() => setViewSalary(true)} style={{}} className='svg-menu' src={EyeClosed} alt="Show Salary" />
+        }
+      </div>
+
       <MovementsTable
         tableData={arrData}
         tableTitle='Movimientos'

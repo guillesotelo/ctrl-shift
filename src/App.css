@@ -168,3 +168,13 @@ html, body {
 .svg-trash {
   filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
 }
+
+.salary-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vw;
+  margin: 2vw;
+  gap: 3vw;
+}

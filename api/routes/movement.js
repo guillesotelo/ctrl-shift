@@ -20,6 +20,16 @@ router.post('/', async (req, res, next) => {
     } catch(err) { console.log(err) }
 })
 
+router.post('/update', async (req, res, next) => {
+    try {
+        const { _id } = req.body
+        const updated = await Movement.findByIdAndUpdate( _id, req.body, { useFindAndModify: false } )
+        if(!updated) return res.status(404).send('Error updating Movement.')
+
+        res.status(200).json({ message: 'Updated' })
+    } catch(err) { console.log(err) }
+})
+
 router.post('/remove', async (req, res, next) => {
     try {
         const { _id } = req.body

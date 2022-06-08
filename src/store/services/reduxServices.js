@@ -38,6 +38,13 @@ const createMovement = async data => {
     } catch (err) { console.log(err) }
 }
 
+const updateMovement = async data => {
+    try {
+        const ledger = await axios.post(`/api/movement/update`, data)
+        return ledger
+    } catch (err) { console.log(err) }
+}
+
 const deleteMovement = async data => {
     try {
         const deleted = await axios.post(`/api/movement/remove`, data)
@@ -79,6 +86,7 @@ export {
     setUserVoid,
     getAllMovements,
     createMovement,
+    updateMovement,
     createLedger,
     getAllLedgersByEmail,
     loginLedger,
