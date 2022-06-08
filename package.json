@@ -52,7 +52,7 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "client": "react-scripts start",
-    "build": "webpack --config config-overrides.js",
+    "build": "react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -74,5 +74,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.2.1"
   }
 }
