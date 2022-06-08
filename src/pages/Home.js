@@ -31,7 +31,7 @@ export default function Home() {
   const [check, setCheck] = useState(-1)
   const dispatch = useDispatch()
   const history = useHistory()
-  
+
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('user'))
     const localLedger = JSON.parse(localStorage.getItem('ledger'))
@@ -106,7 +106,7 @@ export default function Home() {
       const removed = await dispatch(removeMovement(arrData[check])).then(d => d.payload)
       if (removed) {
         toast.success('Gasto borrado!')
-        setTimeout(() => history.go(0), 2000)
+        setTimeout(() => getAllMovements(data), 2000)
       }
       else toast.error('Error al borrar')
       setCheck(-1)
