@@ -52,7 +52,7 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "client": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "webpack --config config-overrides.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
