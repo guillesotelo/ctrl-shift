@@ -6,7 +6,7 @@ router.get('/', async (req, res, next) => {
     try {
         const { ledger } = req.query
         if(ledger) {
-            const movements = await Movement.find({ ledger })
+            const movements = await Movement.find({ ledger }).sort([['date', 'descending']])
             if(!movements) return res.status(404).send('No movements found.')
             res.status(200).json(movements)
         }

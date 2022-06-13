@@ -18,15 +18,13 @@ export default function Settings() {
     const [newPayType, setNewPayType] = useState(false)
     const [newCategory, setNewCategory] = useState(false)
     const [newSalary, setNewSalary] = useState(false)
+    const [budget, setBudget] = useState({ total: 100 })
 
     const dispatch = useDispatch()
     const history = useHistory()
 
-    console.log("data", data)
-
     useEffect(() => {
-        const { settings, id } = JSON.parse(localStorage.getItem('ledger'))
-        setData({ ...JSON.parse(settings), id })
+        pullSettings()
     }, [])
 
     const updateData = (key, newData) => {
@@ -42,17 +40,37 @@ export default function Settings() {
         setData(newData)
     }
 
+    const pullSettings = () => {
+        const { settings, id } = JSON.parse(localStorage.getItem('ledger'))
+        const _settings = JSON.parse(settings)
+        setData({ ..._settings, id })
+        if(_settings.budget) setBudget(_settings.budget)
+    }
+
     const handleSave = async () => {
         try {
-            console.log('data', data)
-            const newLedger = await dispatch(updateLedgerData({ settings: JSON.stringify(data), id: data.id })).then(data => data.payload)
+            const newLedger = await dispatch(updateLedgerData({ 
+                settings: JSON.stringify({...data, budget}), 
+                id: data.id 
+            })).then(data => data.payload)
+
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
                 toast.success('Guardado con exito!')
-                setTimeout(() => history.go(0), 1500)
+                setTimeout(() => pullSettings(), 1500)
             }
         } catch (err) { console.error(err) }
+    }
+
+    const updateBudget = (category, type) => {
+        const newValue = Number(budget[category]) || 0
+        if (type === '-' && newValue > 0 && budget.total < 100) {
+            setBudget({ ...budget, [category]: newValue-1, total: budget.total+1 })
+        }
+        if (type === '+' && newValue < 100 && budget.total > 0) {
+            setBudget({ ...budget, [category]: newValue+1, total: budget.total-1 })
+        }
     }
 
     return (
@@ -128,6 +146,35 @@ export default function Settings() {
                         color={APP_COLORS.YELLOW}
                         style={{ color: 'black', fontWeight: 'bold', marginTop: '2vw' }}
                     />
+                }
+
+                <div style={{ borderTop: '1px solid lightgray', margin: '8vw 2vw', width: '100%' }}></div>
+
+            </div>
+
+            <h4 className='settings-module-title'>Presupuesto</h4>
+            <div className='div-budget-module'>
+                {
+                    data.categories.map((cat, i) =>
+                        <div key={i} className='settings-list-budget'>
+                            <h4 className='settings-budget-item-text'>{cat}</h4>
+                            <CTAButton
+                                handleClick={() => updateBudget(cat, '-')}
+                                label='-'
+                                size='30%'
+                                color={APP_COLORS.YELLOW}
+                                style={{ color: 'black', fontWeight: 'bold' }}
+                            />
+                            <h4 className='settings-budget-item-percent'>%{budget[cat] || 0}</h4>
+                            <CTAButton
+                                handleClick={() => updateBudget(cat, '+')}
+                                label='+'
+                                size='30%'
+                                color={APP_COLORS.YELLOW}
+                                style={{ color: 'black', fontWeight: 'bold' }}
+                            />
+                        </div>
+                    )
                 }
 
                 <div style={{ borderTop: '1px solid lightgray', margin: '8vw 2vw', width: '100%' }}></div>

@@ -25,12 +25,15 @@ export default function Home() {
   const [allUsers, setAllUsers] = useState([])
   const [allPayTypes, setAllPayTypes] = useState([])
   const [allCategories, setAllCategories] = useState([])
-  const [chartData, setChartData] = useState({ labels: [], datasets: [] })
+  const [categoryChart, setCategoryChart] = useState({ labels: [], datasets: [] })
+  const [typeChart, setTypeChart] = useState({ labels: [], datasets: [] })
+  const [budgetChart, setBudgetChart] = useState({ labels: [], datasets: [] })
   const [openModal, setOpenModal] = useState(false)
   const [dateClicked, setDateClicked] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [salary, setSalary] = useState(0)
   const [viewSalary, setViewSalary] = useState(false)
+  const [budget, setBudget] = useState({})
   const [check, setCheck] = useState(-1)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -71,31 +74,59 @@ export default function Home() {
 
     getAllMovements(newData)
 
+    pullSettings()
+
   }, [])
 
   useEffect(() => {
-      const debited = data.salary - arrData.reduce((item, current) => item + Number(current.amount), 0)
-      setSalary(debited)
+    const debited = data.salary - arrData.reduce((item, current) => item + Number(current.amount), 0)
+    setSalary(debited)
   }, [data.salary, arrData.length])
 
   useEffect(() => {
-    const fillPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
+    const categoryPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
+    const payTypePattern = allPayTypes.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
 
-    setChartData({
+    setCategoryChart({
       labels: allCategories,
       datasets: [{
         label: `${ledger.name}`,
-        data: allCategories.map(cat => chartCalculator(arrData, cat)),
-        backgroundColor: fillPattern
+        data: allCategories.map(cat => chartCalculator(arrData, cat, 'category')),
+        backgroundColor: categoryPattern
       }]
     })
-  }, [data, allCategories, arrData])
+
+    setTypeChart({
+      labels: allPayTypes,
+      datasets: [{
+        label: `${ledger.name}`,
+        data: allPayTypes.map(type => chartCalculator(arrData, type, 'pay_type')),
+        backgroundColor: payTypePattern
+      }]
+    })
+
+    setBudgetChart({
+      labels: allCategories.map(c => c + ' %'),
+      datasets: [{
+        label: `${ledger.name}`,
+        data: allCategories.map(cat => budget[cat] ),
+        backgroundColor: categoryPattern
+      }]
+    })
+
+  }, [data, allCategories, allPayTypes, arrData])
 
   const getAllMovements = async newData => {
     try {
       const movs = await dispatch(getMovements(newData)).then(d => d.payload)
-      if (movs) setArrData([...movs.data].reverse())
+      if (movs) setArrData(movs.data)
     } catch (err) { console.error(err) }
+  }
+
+  const pullSettings = () => {
+    const { settings } = JSON.parse(localStorage.getItem('ledger'))
+    const _settings = JSON.parse(settings)
+    if(_settings.budget) setBudget(_settings.budget)
   }
 
   const handleClick = () => {
@@ -128,10 +159,10 @@ export default function Home() {
     return true
   }
 
-  const chartCalculator = (data, cat) => {
+  const chartCalculator = (data, col, type) => {
     let sum = 0
     data.forEach(mov => {
-      if (mov.category === cat) sum += parseInt(mov.amount)
+      if (mov[type] === col) sum += parseInt(mov.amount)
     })
     return sum
   }
@@ -143,12 +174,13 @@ export default function Home() {
       if (saved) toast.success('Gasto guardado!')
       else toast.error('Error al guardar')
 
-      getAllMovements(data)
+      setTimeout(() => getAllMovements(data), 2000)
+
       setData({
         ...data,
         pay_type: allPayTypes[0],
         category: allCategories[0],
-        author: user.username,
+        author: allUsers[0],
         date: new Date(),
         ledger: ledger.id,
         user: user.email
@@ -250,9 +282,10 @@ export default function Home() {
           <CTAButton
             handleClick={handleClick}
             label='Editar'
-            size='70%'
+            size='80%'
             color={APP_COLORS.GRAY}
             disabled={!isEdit}
+            style={{ fontSize: '4.5vw' }}
           />
           {isEdit &&
             <div onClick={handleRemoveItem}>
@@ -262,9 +295,9 @@ export default function Home() {
           <CTAButton
             handleClick={handleClick}
             label='Nuevo Gasto'
-            size='70%'
+            size='80%'
             color={APP_COLORS.YELLOW}
-            style={{ color: 'black' }}
+            style={{ color: 'black', fontSize: '4.5vw' }}
           />
         </div>
       }
@@ -272,7 +305,7 @@ export default function Home() {
       <div className='salary-div'>
         <h4>Saldo Actual:</h4>
         {
-          viewSalary ? <h4 onClick={() => setViewSalary(false)}>${salary}</h4>
+          viewSalary ? <h4 onClick={() => setViewSalary(false)} className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
             : <img onClick={() => setViewSalary(true)} style={{}} className='svg-menu' src={EyeClosed} alt="Show Salary" />
         }
       </div>
@@ -285,11 +318,13 @@ export default function Home() {
         check={check}
       />
       <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-      <BarChart chartData={chartData} title='Dashboard' />
+      <BarChart chartData={categoryChart} title='Categorias' />
       <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-      <PieChart chartData={chartData} />
+      <PieChart chartData={budgetChart} title='Presupuesto %' />
       <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-      <PolarChart chartData={chartData} />
+      <BarChart chartData={typeChart} title='Tipos de Pago' />
+      <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
+      <PolarChart chartData={categoryChart} title='' />
     </div>
   )
 }

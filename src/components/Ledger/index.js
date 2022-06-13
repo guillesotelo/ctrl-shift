@@ -87,7 +87,7 @@ export default function Ledger() {
                             label='Desconectar'
                             color='#363636'
                             handleClick={handleDisconnect}
-                            style={{ marginTop: '4vw' }}
+                            style={{ marginTop: '4vw', fontSize: '4vw' }}
                         />
                     </>
                     :

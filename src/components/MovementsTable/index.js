@@ -46,7 +46,7 @@ export default function MovementsTable(props) {
                     <h4 className='table-row-item'>{row.category || 'n/a'}</h4>
                     <h4 className='table-row-item'>{row.pay_type || 'n/a'}</h4>
                     <h4 className='table-row-item'>${row.amount || 'n/a'}</h4>
-                    <input className='table-checkbox' checked={check == i} style={{ position: 'absolute', right: 0}} type="checkbox" value={i} onChange={handleCheck}></input>
+                    <input className='table-checkbox' checked={check == i} style={{ position: 'absolute', right: 0, marginRight: 10 }} type="checkbox" value={i} onChange={handleCheck}></input>
                 </div>)
                 :
                 <div className='table-row' style={{ backgroundColor: '#E5E5E5', height: '2.5vw', justifyContent: 'center' }}>

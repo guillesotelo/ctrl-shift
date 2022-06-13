@@ -24,7 +24,7 @@
 }
 
 .group-text {
-    font-size: 3vw;
+    font-size: 3.5vw;
     font-weight: normal;
     text-align: center;
     width: 80%;
@@ -33,5 +33,10 @@
 
 .ledger-connected {
     text-align: center;
-    font-size: 3.5vw;
+    font-size: 4vw;
+    border: 1px solid lightgray;
+    box-shadow: 4px 4px 8px lightgray;
+    border-radius: 2vw;
+    align-self: center;
+    padding: 4vw 8vw;
 }

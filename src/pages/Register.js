@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import CTAButton from '../components/CTAButton'
 import InputField from '../components/InputField'
+import Logo from '../assets/logo.png'
 import { createUser, logIn } from '../store/reducers/user'
 import { APP_COLORS } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
@@ -39,8 +40,7 @@ export default function Register() {
         <div className='login-container'>
             <ToastContainer autoClose={2000} />
             <div className='logo-container'>
-                <h1 className='text-ctrl'>Ctrl</h1>
-                <h2 className='text-shift'>Shift↑</h2>
+                <img className='logo-img' src={Logo} alt="Ctrol Shiflt" />
             </div>
             <div className='login-section'>
                 <h4 className='hi-login'>Primera vez por aqui?</h4>
@@ -50,7 +50,7 @@ export default function Register() {
                     placeholder='Tu nombre'
                     name='username'
                     type='text'
-                    style={{ fontWeight: 'normal' }}
+                    style={{ fontWeight: 'normal', fontSize: '4vw' }}
                     autoComplete='false'
                 />
                 <InputField
@@ -59,7 +59,7 @@ export default function Register() {
                     placeholder='Email'
                     name='email'
                     type='email'
-                    style={{ fontWeight: 'normal' }}
+                    style={{ fontWeight: 'normal', fontSize: '4vw' }}
                     autoComplete='false'
                 />
                 <InputField
@@ -68,7 +68,7 @@ export default function Register() {
                     placeholder='Contraseña'
                     name='password'
                     type='password'
-                    style={{ fontWeight: 'normal' }}
+                    style={{ fontWeight: 'normal', fontSize: '4vw' }}
                     autoComplete='false'
                 />
                 <InputField
@@ -77,7 +77,7 @@ export default function Register() {
                     placeholder='Reingresa contrasenia'
                     name='password2'
                     type='password'
-                    style={{ fontWeight: 'normal' }}
+                    style={{ fontWeight: 'normal', fontSize: '4vw' }}
                     autoComplete='false'
                 />
                 <CTAButton
@@ -85,14 +85,14 @@ export default function Register() {
                     handleClick={onRegister}
                     size='100%'
                     color={APP_COLORS.BLUE}
-                    style={{ marginTop: '6vw' }}
+                    style={{ marginTop: '6vw', fontSize: '4vw' }}
                 />
                 <CTAButton
                     label='Volver'
                     handleClick={() => history.goBack()}
                     size='100%'
                     color={APP_COLORS.GRAY}
-                    style={{ marginTop: '3vw' }}
+                    style={{ marginTop: '10vw', fontSize: '4vw' }}
                 />
             </div>
         </div>

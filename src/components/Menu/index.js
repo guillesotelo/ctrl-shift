@@ -31,7 +31,8 @@ export default function Menu(props) {
           label='Mi cuenta'
           color='#242F40'
           handleClick={handleAccount}
-          style={{ color: '#CCA43B' }}
+          size='100%'
+          style={{ color: '#CCA43B', fontSize: '5vw' }}
         />
         {
           name &&
@@ -43,8 +44,9 @@ export default function Menu(props) {
                 setMenuClass('menu-hidden')
                 history.push('/home')
               }}
-              style={{ color: '#CCA43B' }}
-            />
+          size='100%'
+          style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
+              />
             <CTAButton
               label='Ajustes'
               color='#242F40'
@@ -52,17 +54,18 @@ export default function Menu(props) {
                 setMenuClass('menu-hidden')
                 history.push('/settings')
               }}
-              style={{ color: '#CCA43B' }}
-            />
+          size='100%'
+          style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
+              />
           </>
         }
         <CTAButton
           label='Cerrar sesion'
           color='#242F40'
           handleClick={handleLogOut}
-          style={{ color: '#CCA43B' }}
+          size='100%'
+          style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
         />
-
       </div>
       <h4 className='app-version'>{VERSION}</h4>
     </div>

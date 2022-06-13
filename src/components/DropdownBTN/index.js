@@ -12,7 +12,6 @@ export default function DropdownBTN(props) {
     } = props
 
     const handleChange = (newValue) => {
-        console.log(newValue)
         const { value } = newValue.target
         updateData(name, value)
       }

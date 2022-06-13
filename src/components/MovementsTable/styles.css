@@ -1,12 +1,13 @@
-.table-conainer {
+.table-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-self: center;
+    width: 97%;
 }
 
 .table-title {
     font-size: 4vw;
-    margin: 6vw 1vw 2vw;
+    margin: 0vw 1vw 2vw;
 }
 
 .table-headers {
@@ -51,4 +52,8 @@
 
 .table-row-item:hover {
     white-space: inherit
+}
+
+.table-checkbox {
+
 }

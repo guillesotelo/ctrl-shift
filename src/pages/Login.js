@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import CTAButton from '../components/CTAButton'
 import InputField from '../components/InputField'
+import Logo from '../assets/logo.png'
 import { logIn } from '../store/reducers/user'
 import { APP_COLORS } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
@@ -37,8 +38,7 @@ export default function Login() {
         <div className='login-container'>
             <ToastContainer autoClose={2000} />
             <div className='logo-container'>
-                <h1 className='text-ctrl'>Ctrl</h1>
-                <h2 className='text-shift'>Shift↑</h2>
+                <img className='logo-img' src={Logo} alt="Ctrol Shiflt" />
             </div>
             <div className='login-section'>
                 <h4 className='hi-login'>Hola!<br />Ingresa tus credenciales para comenzar</h4>
@@ -48,7 +48,7 @@ export default function Login() {
                     placeholder='Tu email'
                     name='email'
                     type='email'
-                    style={{ fontWeight: 'normal' }}
+                    style={{ fontWeight: 'normal', fontSize: '4vw', marginTop: '5vw' }}
                 />
                 <InputField
                     label=''
@@ -56,7 +56,7 @@ export default function Login() {
                     placeholder='Tu contraseña'
                     name='password'
                     type='password'
-                    style={{ fontWeight: 'normal' }}
+                    style={{ fontWeight: 'normal', fontSize: '4vw' }}
                     autoComplete='false'
                 />
                 <CTAButton
@@ -64,7 +64,7 @@ export default function Login() {
                     handleClick={onLogin}
                     size='100%'
                     color={APP_COLORS.BLUE}
-                    style={{ margin: '10vw' }}
+                    style={{ margin: '10vw', fontSize: '4vw' }}
                 />
                 <h4 className='login-register-text'>No tienes cuenta? <button onClick={goToRegister} className='login-register-link'>Registrate</button></h4>
             </div>
