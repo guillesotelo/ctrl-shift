@@ -40,7 +40,7 @@ body {
     transform: translate(-55%, -50%);
     z-index: 10;
     width: 30%;
-    height: 80%;
+    height: fit-content !important;
     background-color: white;
     filter: none !important;
     padding: 0.8vw;
