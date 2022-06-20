@@ -1,0 +1,35 @@
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5vw;
+    background-color: #242F40;
+    position: fixed;
+    width: 70%;
+    height: 100%;
+    padding: 3vw;
+    z-index: 1;
+  }
+  
+  .menu-hidden {
+    transform-origin: top center;
+    transform: translateX(150%);
+    transition: 0.5s
+  }
+
+  .menu-toggled {
+    transform: translateX(35%);
+    transition: 0.5s
+  }
+
+  .menu-close-btn {
+  
+  }
+
+  .app-version {
+    font-weight: normal;
+    color: white;
+    align-self: center;
+    position: absolute;
+    bottom: 0;
+    height: 30vw;
+  }

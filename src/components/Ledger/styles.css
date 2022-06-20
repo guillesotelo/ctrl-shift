@@ -1,0 +1,42 @@
+.user-group-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8vw;
+    gap: 3vw;
+}
+
+.new-group-section {
+    margin: 4vw;
+    box-shadow: 4px 4px 11px rgb(155, 155, 155);
+    border-radius: 2vw;
+    align-self: center;
+    width: 80%;
+    gap: 3vw;
+}
+
+.connect-group-section {
+    box-shadow: 4px 4px 11px rgb(155, 155, 155);
+    margin: 4vw;
+    border-radius: 2vw;
+    align-self: center;
+    width: 80%;
+    gap: 3vw;
+}
+
+.group-text {
+    font-size: 3.5vw;
+    font-weight: normal;
+    text-align: center;
+    width: 80%;
+    align-self: center;
+}
+
+.ledger-connected {
+    text-align: center;
+    font-size: 4vw;
+    border: 1px solid lightgray;
+    box-shadow: 4px 4px 8px lightgray;
+    border-radius: 2vw;
+    align-self: center;
+    padding: 4vw 8vw;
+}

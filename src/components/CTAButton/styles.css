@@ -1,0 +1,13 @@
+.cta-btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.cta-btn {
+    padding: 3vw;
+    color: #E5E5E5;
+    border: none;
+    border-radius: 3vw;
+}

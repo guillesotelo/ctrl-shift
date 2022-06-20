@@ -1,0 +1,23 @@
+.header-container {
+    padding: 6vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #242F40;
+    box-shadow: 3px 5px 7px rgb(155, 155, 155);
+}
+
+.svg-menu {
+    height: 6vw;
+    filter: invert(65%) sepia(60%) saturate(455%) hue-rotate(6deg) brightness(90%) contrast(89%);
+}
+
+.user-group-title {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: #CCA43B;
+    text-align: center;
+    font-size: 5vw;
+    text-overflow: ellipsis;
+}
