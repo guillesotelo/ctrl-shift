@@ -9,10 +9,18 @@ export default function BarChart(props) {
         chartData
     } = props
 
+    const options = {
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
+
     return (
         <div className='barchart-container'>
             <h4 className='table-title'>{title || ''}</h4>
-            <Bar data={chartData}/>
+            <Bar data={chartData} options={options}/>
         </div>
     )
 }

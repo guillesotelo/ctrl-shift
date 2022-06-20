@@ -38,6 +38,7 @@
     border-left: 2px solid #242F40;
     border-bottom: 2px solid #242F40;
     padding: 1vw;
+    height: fit-content;
 }
 
 .table-row-item {
@@ -51,9 +52,20 @@
 }
 
 .table-row-item:hover {
-    white-space: inherit
+    white-space: inherit;
+    word-wrap: break-word;
 }
 
 .table-checkbox {
 
+}
+
+.table-lazy-btn {
+    border: 1px solid #242F40;
+    border-top: none;
+    border-bottom-left-radius: 3vw;
+    border-bottom-right-radius: 3vw;
+    background-color: #d7dfeb;
+    padding: 1.5vw;
+    color: rgb(79, 79, 79);
 }

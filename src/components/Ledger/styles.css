@@ -6,8 +6,8 @@
 }
 
 .new-group-section {
-    margin-top: 4vw;
-    border: 2px solid lightgray;
+    margin: 4vw;
+    box-shadow: 4px 4px 11px rgb(155, 155, 155);
     border-radius: 2vw;
     align-self: center;
     width: 80%;
@@ -15,8 +15,8 @@
 }
 
 .connect-group-section {
-    margin-top: 4vw;
-    border: 2px solid lightgray;
+    box-shadow: 4px 4px 11px rgb(155, 155, 155);
+    margin: 4vw;
     border-radius: 2vw;
     align-self: center;
     width: 80%;
