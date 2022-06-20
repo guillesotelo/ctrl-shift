@@ -1,24 +1,53 @@
-.inputfield-container {
-    display: flex;
-    flex-direction: column;
+@media only screen and (max-width: 2400px) {
+    .inputfield-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .inputfield-label {
+        font-size: 1.2vw;
+        margin: 1vw;
+        text-align: center;
+    }
+
+    .inputfield-field {
+        border: 3px solid #cca43b;
+        background-color: #e5e5e5;
+        font-weight: bolder;
+        border-radius: 3vw;
+        padding: 1vw;
+        text-align: center;
+        font-size: 1vw !important;
+    }
+
+    .inputfield-field::placeholder {
+        /* font-size: 3vw */
+    }
 }
 
-.inputfield-label {
-    font-size: 4vw;
-    margin: 4vw 0 1vw 0;
-    text-align: center;
-}
+@media only screen and (max-width: 640px) {
+    .inputfield-container {
+        display: flex;
+        flex-direction: column;
+    }
 
-.inputfield-field {
-    border: 3px solid #cca43b;
-    background-color: #e5e5e5;
-    font-weight: bolder;
-    border-radius: 3vw;
-    padding: 2vw;
-    text-align: center;
-    font-size: 3vw
-}
+    .inputfield-label {
+        font-size: 4vw;
+        margin: 4vw 0 1vw 0;
+        text-align: center;
+    }
 
-.inputfield-field::placeholder {
-    font-size: 3vw
+    .inputfield-field {
+        border: 3px solid #cca43b;
+        background-color: #e5e5e5;
+        font-weight: bolder;
+        border-radius: 3vw;
+        padding: 2vw;
+        text-align: center;
+        font-size: 3vw !important;
+    }
+
+    .inputfield-field::placeholder {
+        font-size: 3vw
+    }
 }

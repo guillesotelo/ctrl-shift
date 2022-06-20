@@ -37,7 +37,7 @@ export default function Login() {
     return (
         <div className='login-container'>
             <ToastContainer autoClose={2000} />
-            <div className='logo-container'>
+            <div className='logo-login-container'>
                 <img className='logo-img' src={Logo} alt="Ctrol Shiflt" />
             </div>
             <div className='login-section'>
@@ -48,7 +48,7 @@ export default function Login() {
                     placeholder='Tu email'
                     name='email'
                     type='email'
-                    style={{ fontWeight: 'normal', fontSize: '4vw', marginTop: '5vw' }}
+                    style={{ fontWeight: 'normal', fontSize: '4vw' }}
                 />
                 <InputField
                     label=''

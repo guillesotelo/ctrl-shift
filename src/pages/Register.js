@@ -39,7 +39,7 @@ export default function Register() {
     return (
         <div className='login-container'>
             <ToastContainer autoClose={2000} />
-            <div className='logo-container'>
+            <div className='logo-register-container'>
                 <img className='logo-img' src={Logo} alt="Ctrol Shiflt" />
             </div>
             <div className='login-section'>

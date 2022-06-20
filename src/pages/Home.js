@@ -86,7 +86,7 @@ export default function Home() {
   }, [data.salary, arrData.length])
 
   useEffect(() => {
-    const categoryPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
+    const categoryPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16799215).toString(16))
     const payTypePattern = allPayTypes.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
     const localLedger = JSON.parse(localStorage.getItem('ledger'))
     const { salary } = JSON.parse(localLedger.settings)
@@ -227,15 +227,15 @@ export default function Home() {
 
   const downloadCSV = () => {
     const csvData = arrData.map(el => {
-        return {
-          'Fecha': el.date,
-          'Detalle': el.detail,
-          'Categoria': el.category,
-          'Tipo de Pago': el.pay_type,
-          'Usuario': el.user,
-          'Monto': el.amount
-        }
+      return {
+        'Fecha': el.date.toLocaleDateString(),
+        'Detalle': el.detail,
+        'Categoria': el.category,
+        'Tipo de Pago': el.pay_type,
+        'Usuario': el.user,
+        'Monto': el.amount
       }
+    }
     )
     const options = {
       fieldSeparator: ',',
@@ -365,7 +365,7 @@ export default function Home() {
       }
 
       <div className='salary-div' style={{ filter: openModal && 'blur(10px)' }}>
-        <h4>Saldo Actual:</h4>
+        <h4 className='salary-text'>Saldo Actual:</h4>
         {
           viewSalary ? <h4 onClick={() => setViewSalary(false)} className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
             : <img onClick={() => setViewSalary(true)} style={{}} className='svg-menu' src={EyeClosed} alt="Show Salary" />
@@ -383,22 +383,24 @@ export default function Home() {
         <CTAButton
           handleClick={downloadCSV}
           label='⇩ CSV'
-          size='25%'
+          size='fit-content'
           color={APP_COLORS.BLUE}
           style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end' }}
         />
-        <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-        <BarChart chartData={categoryChart} title='Categorias' />
-        <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-        {Object.keys(budget).length &&
-          <>
-            <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
-            <h4 className='table-title' style={{ marginTop: 30 }}>Porcentaje total %</h4>
-            <PieChart chartData={budgetChart2} title='' />
-          </>
-        }
-        <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-        <PolarChart chartData={typeChart} title='Tipos de Pago' />
+        <div className='div-charts'>
+          <div className='separator' style={{ width: '85%' }}></div>
+          <BarChart chartData={categoryChart} title='Categorias' />
+          <div className='separator' style={{ width: '85%' }}></div>
+          {Object.keys(budget).length > 1 &&
+            <>
+              <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
+              <h4 className='table-title' style={{ marginTop: 30 }}>Porcentaje total %</h4>
+              <PieChart chartData={budgetChart2} title='' />
+              <div className='separator' style={{ width: '85%' }}></div>
+            </>
+          }
+          <PolarChart chartData={typeChart} title='Tipos de Pago' />
+        </div>
       </div>
     </div>
   )

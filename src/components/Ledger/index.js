@@ -81,7 +81,7 @@ export default function Ledger() {
                 Tambien puedes conectarte con un <b>Libro</b> existente.</h4>
             {
                 ledger && ledger.name ?
-                    <>
+                    <div className='div-ledger-connected'>
                         <h4 className='ledger-connected'>Libro actual: <br /><br /><i>{ledger.name}</i></h4>
                         <CTAButton
                             label='Desconectar'
@@ -89,9 +89,9 @@ export default function Ledger() {
                             handleClick={handleDisconnect}
                             style={{ marginTop: '4vw', fontSize: '4vw' }}
                         />
-                    </>
+                    </div>
                     :
-                    <>
+                    <div className='no-ledger-section'>
                         <CTAButton
                             label='Nuevo Libro'
                             color='#CCA43B'
@@ -118,7 +118,7 @@ export default function Ledger() {
                                     placeholder='Nombre del Libro'
                                     name='name'
                                     type='text'
-                                    style={{ marginTop: '3vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
+                                    style={{ marginTop: '1vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
                                 />
                                 <InputField
                                     label=''
@@ -126,13 +126,13 @@ export default function Ledger() {
                                     placeholder='PIN'
                                     name='pin'
                                     type='number'
-                                    style={{ marginBottom: '3vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
+                                    style={{ marginBottom: '1vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
                                 />
                                 <CTAButton
                                     label='Guardar'
                                     color='#242F40'
                                     handleClick={handleSaveLedger}
-                                    style={{ margin: '3vw', color: '#CCA43B' }}
+                                    style={{ margin: '1vw', color: '#CCA43B' }}
                                 />
                             </div>
                         }
@@ -145,7 +145,7 @@ export default function Ledger() {
                                     placeholder='Nombre del Libro'
                                     name='name'
                                     type='text'
-                                    style={{ marginTop: '3vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
+                                    style={{ marginTop: '1vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
                                 />
                                 <InputField
                                     label=''
@@ -153,17 +153,17 @@ export default function Ledger() {
                                     placeholder='PIN'
                                     name='pin'
                                     type='number'
-                                    style={{ marginBottom: '3vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
+                                    style={{ marginBottom: '1vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
                                 />
                                 <CTAButton
                                     label='Conectar'
                                     color='#242F40'
                                     handleClick={handleConnect}
-                                    style={{ margin: '3vw', color: '#CCA43B' }}
+                                    style={{ margin: '1vw', color: '#CCA43B' }}
                                 />
                             </div>
                         }
-                    </>
+                    </div>
             }
         </div>
     )

@@ -1,3 +1,13 @@
-.barchart-container {
-    margin-top: 10vw;
+@media only screen and (max-width: 2400px) {
+    .barchart-container {
+        margin-top: 3vw;
+        width: 40%;
+    }    
+}
+
+@media only screen and (max-width: 640px) {
+    .barchart-container {
+        margin-top: 1vw;
+        width: 95%;
+    }    
 }

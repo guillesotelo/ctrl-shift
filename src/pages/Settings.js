@@ -44,14 +44,14 @@ export default function Settings() {
         const { settings, id } = JSON.parse(localStorage.getItem('ledger'))
         const _settings = JSON.parse(settings)
         setData({ ..._settings, id })
-        if(_settings.budget) setBudget(_settings.budget)
+        if (_settings.budget) setBudget(_settings.budget)
     }
 
     const handleSave = async () => {
         try {
-            const newLedger = await dispatch(updateLedgerData({ 
-                settings: JSON.stringify({...data, budget}), 
-                id: data.id 
+            const newLedger = await dispatch(updateLedgerData({
+                settings: JSON.stringify({ ...data, budget }),
+                id: data.id
             })).then(data => data.payload)
 
             if (newLedger) {
@@ -66,10 +66,10 @@ export default function Settings() {
     const updateBudget = (category, type) => {
         const newValue = Number(budget[category]) || 0
         if (type === '-' && newValue > 0 && budget.total < 100) {
-            setBudget({ ...budget, [category]: newValue-1, total: budget.total+1 })
+            setBudget({ ...budget, [category]: newValue - 1, total: budget.total + 1 })
         }
         if (type === '+' && newValue < 100 && budget.total > 0) {
-            setBudget({ ...budget, [category]: newValue+1, total: budget.total-1 })
+            setBudget({ ...budget, [category]: newValue + 1, total: budget.total - 1 })
         }
     }
 
@@ -101,7 +101,7 @@ export default function Settings() {
                 />
             }
 
-            <div style={{ borderTop: '1px solid lightgray', margin: '8vw 2vw', width: '100%' }}></div>
+            <div className='separator' style={{ width: '85%' }}></div>
 
             <h4 className='settings-module-title'>Categorias</h4>
             <div className='div-settings-module'>
@@ -148,7 +148,7 @@ export default function Settings() {
                     />
                 }
 
-                <div style={{ borderTop: '1px solid lightgray', margin: '8vw 2vw', width: '100%' }}></div>
+                <div className='separator' style={{ width: '85%' }}></div>
 
             </div>
 
@@ -177,9 +177,9 @@ export default function Settings() {
                     )
                 }
 
-                <div style={{ borderTop: '1px solid lightgray', margin: '8vw 2vw', width: '100%' }}></div>
 
             </div>
+            <div className='separator' style={{ width: '85%' }}></div>
 
             <h4 className='settings-module-title'>Autores</h4>
             <div className='div-settings-module'>
@@ -226,7 +226,7 @@ export default function Settings() {
                     />
                 }
 
-                <div style={{ borderTop: '1px solid lightgray', margin: '8vw 2vw', width: '100%' }}></div>
+                <div className='separator' style={{ width: '85%' }}></div>
             </div>
 
             <h4 className='settings-module-title'>Tipos de Pago</h4>
@@ -274,7 +274,7 @@ export default function Settings() {
                     />
                 }
 
-                <div style={{ borderTop: '1px solid lightgray', margin: '8vw 2vw', width: '100%' }}></div>
+                <div className='separator' style={{ width: '85%' }}></div>
 
             </div>
 
