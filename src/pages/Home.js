@@ -226,14 +226,14 @@ export default function Home() {
   }
 
   const downloadCSV = () => {
-    const csvData = arrData.map(el => {
+    const csvData = arrData.map(mov => {
       return {
-        'Fecha': el.date.toLocaleDateString(),
-        'Detalle': el.detail,
-        'Categoria': el.category,
-        'Tipo de Pago': el.pay_type,
-        'Usuario': el.user,
-        'Monto': el.amount
+        'Fecha': (new Date(mov.date)).toLocaleDateString(),
+        'Detalle': mov.detail,
+        'Categoria': mov.category,
+        'Tipo de Pago': mov.pay_type,
+        'Usuario': mov.user,
+        'Monto': mov.amount
       }
     }
     )
@@ -385,7 +385,7 @@ export default function Home() {
           label='⇩ CSV'
           size='fit-content'
           color={APP_COLORS.BLUE}
-          style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end' }}
+          style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
         />
         <div className='div-charts'>
           <div className='separator' style={{ width: '85%' }}></div>
