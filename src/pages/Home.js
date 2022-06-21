@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom'
+import { ExportToCsv } from 'export-to-csv';
 import DatePicker from 'react-datepicker'
 import CTAButton from '../components/CTAButton'
 import DropdownBTN from '../components/DropdownBTN'
@@ -28,6 +29,7 @@ export default function Home() {
   const [categoryChart, setCategoryChart] = useState({ labels: [], datasets: [] })
   const [typeChart, setTypeChart] = useState({ labels: [], datasets: [] })
   const [budgetChart, setBudgetChart] = useState({ labels: [], datasets: [] })
+  const [budgetChart2, setBudgetChart2] = useState({ labels: [], datasets: [] })
   const [openModal, setOpenModal] = useState(false)
   const [dateClicked, setDateClicked] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -84,13 +86,21 @@ export default function Home() {
   }, [data.salary, arrData.length])
 
   useEffect(() => {
-    const categoryPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
+    const categoryPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16799215).toString(16))
     const payTypePattern = allPayTypes.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
+    const localLedger = JSON.parse(localStorage.getItem('ledger'))
+    const { salary } = JSON.parse(localLedger.settings)
+
+    const budgetArr = allCategories.map(cat => {
+      const num = chartCalculator(arrData, cat, 'category')
+      return (Number(budget[cat]) * Number(salary) / 100) - num
+    })
+
+    const budgetPattern = budgetArr.map(item => item > 0 ? '#A5DF6A' : '#DF736A')
 
     setCategoryChart({
       labels: allCategories,
       datasets: [{
-        label: `${ledger.name}`,
         data: allCategories.map(cat => chartCalculator(arrData, cat, 'category')),
         backgroundColor: categoryPattern
       }]
@@ -99,17 +109,23 @@ export default function Home() {
     setTypeChart({
       labels: allPayTypes,
       datasets: [{
-        label: `${ledger.name}`,
         data: allPayTypes.map(type => chartCalculator(arrData, type, 'pay_type')),
         backgroundColor: payTypePattern
       }]
     })
 
     setBudgetChart({
+      labels: allCategories,
+      datasets: [{
+        data: budgetArr,
+        backgroundColor: budgetPattern
+      }]
+    })
+
+    setBudgetChart2({
       labels: allCategories.map(c => c + ' %'),
       datasets: [{
-        label: `${ledger.name}`,
-        data: allCategories.map(cat => budget[cat] ),
+        data: allCategories.map(cat => budget[cat]),
         backgroundColor: categoryPattern
       }]
     })
@@ -126,7 +142,7 @@ export default function Home() {
   const pullSettings = () => {
     const { settings } = JSON.parse(localStorage.getItem('ledger'))
     const _settings = JSON.parse(settings)
-    if(_settings.budget) setBudget(_settings.budget)
+    if (_settings.budget) setBudget(_settings.budget)
   }
 
   const handleClick = () => {
@@ -181,6 +197,8 @@ export default function Home() {
         pay_type: allPayTypes[0],
         category: allCategories[0],
         author: allUsers[0],
+        amount: '',
+        detail: '',
         date: new Date(),
         ledger: ledger.id,
         user: user.email
@@ -193,7 +211,47 @@ export default function Home() {
   }
 
   const handleCancel = () => {
+    setIsEdit(false)
+    setCheck(-1)
     setOpenModal(false)
+    setData({
+      ...data,
+      amount: '',
+      detail: '',
+      pay_type: allPayTypes[0],
+      category: allCategories[0],
+      author: allUsers[0],
+      date: new Date(),
+    })
+  }
+
+  const downloadCSV = () => {
+    const csvData = arrData.map(mov => {
+      return {
+        'Fecha': (new Date(mov.date)).toLocaleDateString(),
+        'Detalle': mov.detail,
+        'Categoria': mov.category,
+        'Tipo de Pago': mov.pay_type,
+        'Usuario': mov.user,
+        'Monto': mov.amount
+      }
+    }
+    )
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: `Movimientos del Libro "${ledger.name}"`,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+      filename: `Extracto de ${ledger.name}`
+    }
+    const csvExporter = new ExportToCsv(options);
+
+    csvExporter.generateCsv(csvData);
   }
 
   const updateData = (key, newData) => {
@@ -203,7 +261,7 @@ export default function Home() {
   return (
     <div className='home-container'>
       <ToastContainer autoClose={2000} />
-      {openModal ?
+      {openModal &&
         <div className='fill-section-container'>
           <h3 style={{ color: APP_COLORS.GRAY }}>Info del pago:</h3>
           <div className='fill-section'>
@@ -260,6 +318,7 @@ export default function Home() {
               label='Categoria'
               name='category'
               updateData={updateData}
+              value={data.category}
             />
             <div className='div-modal-btns'>
               <CTAButton
@@ -277,15 +336,15 @@ export default function Home() {
             </div>
           </div>
         </div>
-        :
-        <div className='main-section'>
+      }{
+        <div className='main-section' style={{ filter: openModal && 'blur(10px)' }}>
           <CTAButton
             handleClick={handleClick}
             label='Editar'
             size='80%'
             color={APP_COLORS.GRAY}
             disabled={!isEdit}
-            style={{ fontSize: '4.5vw' }}
+            style={{ fontSize: '4vw' }}
           />
           {isEdit &&
             <div onClick={handleRemoveItem}>
@@ -293,40 +352,56 @@ export default function Home() {
             </div>
           }
           <CTAButton
-            handleClick={handleClick}
+            handleClick={() => {
+              setIsEdit(false)
+              handleClick()
+            }}
             label='Nuevo Gasto'
             size='80%'
             color={APP_COLORS.YELLOW}
-            style={{ color: 'black', fontSize: '4.5vw' }}
+            style={{ color: 'black', fontSize: '4vw' }}
           />
         </div>
       }
 
-      <div className='salary-div'>
-        <h4>Saldo Actual:</h4>
+      <div className='salary-div' style={{ filter: openModal && 'blur(10px)' }}>
+        <h4 className='salary-text'>Saldo Actual:</h4>
         {
           viewSalary ? <h4 onClick={() => setViewSalary(false)} className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
             : <img onClick={() => setViewSalary(true)} style={{}} className='svg-menu' src={EyeClosed} alt="Show Salary" />
         }
       </div>
 
-      <MovementsTable
-        tableData={arrData}
-        tableTitle='Movimientos'
-        setIsEdit={setIsEdit}
-        setCheck={setCheck}
-        check={check}
-      />
-      <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-      <BarChart chartData={categoryChart} title='Categorias' />
-      <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-      { Object.keys(budget).length &&
-        <PieChart chartData={budgetChart} title='Presupuesto %' />
-      }
-      <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-      <BarChart chartData={typeChart} title='Tipos de Pago' />
-      <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-      <PolarChart chartData={categoryChart} title='' />
+      <div style={{ filter: openModal && 'blur(10px)' }}>
+        <MovementsTable
+          tableData={arrData}
+          tableTitle='Movimientos'
+          setIsEdit={setIsEdit}
+          setCheck={setCheck}
+          check={check}
+        />
+        <CTAButton
+          handleClick={downloadCSV}
+          label='⇩ CSV'
+          size='fit-content'
+          color={APP_COLORS.BLUE}
+          style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
+        />
+        <div className='div-charts'>
+          <div className='separator' style={{ width: '85%' }}></div>
+          <BarChart chartData={categoryChart} title='Categorias' />
+          <div className='separator' style={{ width: '85%' }}></div>
+          {Object.keys(budget).length > 1 &&
+            <>
+              <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
+              <h4 className='table-title' style={{ marginTop: 30 }}>Porcentaje total %</h4>
+              <PieChart chartData={budgetChart2} title='' />
+              <div className='separator' style={{ width: '85%' }}></div>
+            </>
+          }
+          <PolarChart chartData={typeChart} title='Tipos de Pago' />
+        </div>
+      </div>
     </div>
   )
 }

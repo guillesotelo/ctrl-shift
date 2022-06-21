@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import './styles.css'
 
 export default function MovementsTable(props) {
-
-    const { 
+    const [maxItems, setMaxItems] = useState(10)
+    const {
         tableData,
         tableTitle,
         setIsEdit,
@@ -16,7 +16,7 @@ export default function MovementsTable(props) {
     const handleCheck = e => {
         const { value, checked } = e.target
 
-        if(checked) {
+        if (checked) {
             setCheck(value)
             setIsEdit(true)
         } else {
@@ -30,28 +30,34 @@ export default function MovementsTable(props) {
             <h4 className='table-title'>{tableTitle || ''}</h4>
             <div className='table-headers'>
                 {
-                    headers.map((header,i) => <h4 key={i} className='table-header'>{header}</h4>)
+                    headers.map((header, i) => <h4 key={i} className='table-header'>{header}</h4>)
                 }
             </div>
             {
                 rowData.length ?
-                rowData.map((row,i) =>  
-                <div 
-                key={i} 
-                className='table-row' 
-                style={{ backgroundColor: i%2 === 0 ? '#E5E5E5' : 'white'}}>
-                    <h4 className='table-row-item'>{new Date(row.date).toLocaleDateString()}</h4>
-                    <h4 className='table-row-item'>{row.author || 'n/a'}</h4>
-                    <h4 className='table-row-item'>{row.detail || 'n/a'}</h4>
-                    <h4 className='table-row-item'>{row.category || 'n/a'}</h4>
-                    <h4 className='table-row-item'>{row.pay_type || 'n/a'}</h4>
-                    <h4 className='table-row-item'>${row.amount || 'n/a'}</h4>
-                    <input className='table-checkbox' checked={check == i} style={{ position: 'absolute', right: 0, marginRight: 10 }} type="checkbox" value={i} onChange={handleCheck}></input>
-                </div>)
-                :
-                <div className='table-row' style={{ backgroundColor: '#E5E5E5', height: '2.5vw', justifyContent: 'center' }}>
-                    No hay movimientos para mostrar.
-                </div>
+                    <>
+                        {rowData.map((row, i) => i < maxItems &&
+                            <div
+                                key={i}
+                                className='table-row'
+                                style={{ backgroundColor: i % 2 === 0 ? '#E5E5E5' : 'white' }}>
+                                <h4 className='table-row-item'>{new Date(row.date).toLocaleDateString()}</h4>
+                                <h4 className='table-row-item'>{row.author || 'n/a'}</h4>
+                                <h4 className='table-row-item'>{row.detail || 'n/a'}</h4>
+                                <h4 className='table-row-item'>{row.category || 'n/a'}</h4>
+                                <h4 className='table-row-item'>{row.pay_type || 'n/a'}</h4>
+                                <h4 className='table-row-item'>${row.amount || 'n/a'}</h4>
+                                <input className='table-checkbox' checked={check == i} style={{ position: 'absolute', right: 0, marginRight: 10 }} type="checkbox" value={i} onChange={handleCheck}></input>
+                            </div>
+                        )}
+                        {maxItems < rowData.length &&
+                            <button className='table-lazy-btn' onClick={() => setMaxItems(maxItems + 10)}>▼</button>
+                        }
+                    </>
+                    :
+                    <div className='table-row' style={{ backgroundColor: '#E5E5E5', height: '2.5vw', justifyContent: 'center' }}>
+                        No hay movimientos para mostrar.
+                    </div>
             }
         </div>
     )

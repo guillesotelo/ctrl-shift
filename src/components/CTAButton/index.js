@@ -23,7 +23,7 @@ export default function CTAButton(props) {
     return (
         <div className='cta-btn-container'>
             <button onClick={handleClick} style={buttonStyle} className='cta-btn' disabled={disabled || false}>
-                {label || 'Siguiente'}
+                {label || ''}
             </button>
         </div>
     )

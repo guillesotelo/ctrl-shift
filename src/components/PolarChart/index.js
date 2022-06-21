@@ -9,10 +9,12 @@ export default function PolarChart(props) {
         chartData
     } = props
 
+    const pieWidth = window.innerWidth - 180
+
     return (
         <div className='polarchart-container'>
             <h4 className='table-title'>{title || ''}</h4>
-            <PolarArea data={chartData}/>
+            <PolarArea width={pieWidth} height={pieWidth} data={chartData}/>
         </div>
     )
 }
