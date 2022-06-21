@@ -9,10 +9,23 @@ export default function PieChart(props) {
         chartData
     } = props
 
+    const options = {
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                callbacks: {
+                    label: tooltipItem => ` ${tooltipItem.formattedValue}%`
+                }
+            }
+        }
+    }
+
     return (
         <div className='piechart-container'>
             <h4 className='table-title'>{title || ''}</h4>
-            <Doughnut data={chartData}/>
+            <Doughnut data={chartData} options={options}/>
         </div>
     )
 }

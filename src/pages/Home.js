@@ -320,7 +320,9 @@ export default function Home() {
       <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
       <BarChart chartData={categoryChart} title='Categorias' />
       <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
-      <PieChart chartData={budgetChart} title='Presupuesto %' />
+      { Object.keys(budget).length &&
+        <PieChart chartData={budgetChart} title='Presupuesto %' />
+      }
       <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
       <BarChart chartData={typeChart} title='Tipos de Pago' />
       <div style={{ borderTop: '1px solid lightgray', margin: '10vw 2vw' }}></div>
