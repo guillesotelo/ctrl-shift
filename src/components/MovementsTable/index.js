@@ -40,7 +40,7 @@ export default function MovementsTable(props) {
                             <div
                                 key={i}
                                 className='table-row'
-                                style={{ backgroundColor: i % 2 === 0 ? '#E5E5E5' : 'white' }}>
+                                style={{ backgroundColor: i % 2 === 0 ? '#f2f2f2' : 'white' }}>
                                 <h4 className='table-row-item'>{new Date(row.date).toLocaleDateString()}</h4>
                                 <h4 className='table-row-item'>{row.author || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.detail || 'n/a'}</h4>

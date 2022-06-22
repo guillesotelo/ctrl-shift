@@ -1,75 +1,75 @@
-@media only screen and (max-width: 2400px) {
-    .table-container {
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-        margin: 0 2vw;
-    }
-    
-    .table-title {
-        font-size: 1.5vw;
-        margin: 0.8vw 0;
-    }
-    
-    .table-headers {
-        display: flex;
-        flex-direction: row;
-        font-size: 1vw;
-        justify-content: space-between;
-        border: 3px solid #242F40;
-        border-top-left-radius: 1vw;
-        border-top-right-radius: 1vw;
-        padding: 0.5vw;
-        background-color: #d7dfeb;
-    }
-    
-    .table-header {
-        margin: 0;
-        width: 14%;
-        text-align: center;
-    }
-    
-    .table-row {
-        display: flex;
-        flex-direction: row;
-        font-size: 1vw;
-        justify-content: space-between;
-        align-items: center;
-        border-right: 2px solid #242F40;
-        border-left: 2px solid #242F40;
-        border-bottom: 2px solid #242F40;
-        padding: 0.3vw;
-        height: fit-content;
-    }
-    
-    .table-row-item {
-        white-space: nowrap;
-        margin: 0;
-        width: 14%;
-        text-align: center;
-        font-weight: normal;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-    
-    .table-row-item:hover {
-        white-space: inherit;
-        word-wrap: break-word;
-    }
-    
-    .table-checkbox {
-        margin-right: 2vw !important;
-    }
-    
-    .table-lazy-btn {
-        border: 1px solid #242F40;
-        border-top: none;
-        border-bottom-left-radius: 1vw;
-        border-bottom-right-radius: 1vw;
-        background-color: #d7dfeb;
-        padding: 0.8vw;
-        color: rgb(79, 79, 79);
-    }
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin: 0 2vw;
+    width: 70%;
+    transform: translate(18%);
+}
+
+.table-title {
+    font-size: 1.5vw;
+    margin: 0.8vw 0;
+}
+
+.table-headers {
+    display: flex;
+    flex-direction: row;
+    font-size: 1vw;
+    justify-content: space-between;
+    border: 3px solid #242F40;
+    border-top-left-radius: 1vw;
+    border-top-right-radius: 1vw;
+    padding: 0.5vw;
+    background-color: #d7dfeb;
+}
+
+.table-header {
+    margin: 0;
+    width: 14%;
+    text-align: center;
+}
+
+.table-row {
+    display: flex;
+    flex-direction: row;
+    font-size: 1vw;
+    justify-content: space-between;
+    align-items: center;
+    border-right: 2px solid #242F40;
+    border-left: 2px solid #242F40;
+    border-bottom: 2px solid #242F40;
+    padding: 0.3vw;
+    height: fit-content;
+}
+
+.table-row-item {
+    white-space: nowrap;
+    margin: 0;
+    width: 14%;
+    text-align: center;
+    font-weight: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.table-row-item:hover {
+    white-space: inherit;
+    word-wrap: break-word;
+}
+
+.table-checkbox {
+    margin-right: 2vw !important;
+}
+
+.table-lazy-btn {
+    border: 1px solid #242F40;
+    border-top: none;
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
+    background-color: #d7dfeb;
+    padding: 0.8vw;
+    color: rgb(79, 79, 79);
 }
 
 @media only screen and (max-width: 640px) {
@@ -78,13 +78,14 @@
         flex-direction: column;
         align-self: center;
         width: 97%;
+        transform: none;
     }
-    
+
     .table-title {
         font-size: 4vw;
         margin: 0vw 1vw 2vw;
     }
-    
+
     .table-headers {
         display: flex;
         flex-direction: row;
@@ -96,13 +97,13 @@
         padding: 1vw;
         background-color: #d7dfeb;
     }
-    
+
     .table-header {
         margin: 0;
         width: 14%;
         text-align: center;
     }
-    
+
     .table-row {
         display: flex;
         flex-direction: row;
@@ -115,7 +116,7 @@
         padding: 1vw;
         height: fit-content;
     }
-    
+
     .table-row-item {
         white-space: nowrap;
         margin: 0;
@@ -125,16 +126,16 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
-    
+
     .table-row-item:hover {
         white-space: inherit;
         word-wrap: break-word;
     }
-    
+
     .table-checkbox {
         margin-right: 1vw !important;
     }
-    
+
     .table-lazy-btn {
         border: 1px solid #242F40;
         border-top: none;

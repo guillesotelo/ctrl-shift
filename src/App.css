@@ -6,246 +6,252 @@ body {
 }
 
 /* -----Desktop----- */
-@media only screen and (max-width: 2400px) {
-  .home-container {
-    padding: 2vw;
-    overflow-x: hidden;
-  }
-
-  .main-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .main-section button {
-    width: fit-content !important;
-  }
-
-  .salary-text {
-    font-size: 2vw;
-  }
-
-  .fill-section-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 5px 5px 11px rgb(155, 155, 155);
-    border-radius: 2vw;
-    position: absolute;
-    top: 53%;
-    left: 50%;
-    transform: translate(-55%, -50%);
-    z-index: 10;
-    width: 30%;
-    height: fit-content !important;
-    background-color: white;
-    filter: none !important;
-    padding: 0.8vw;
-  }
-
-  .fill-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .div-modal-btns {
-    margin: 1vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 4vw;
-  }
-
-  /* ----LOGIN---- */
-  .login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-  }
-
-  .logo-container h1,
-  h2 {
-    margin: 0;
-  }
-
-  .logo-login-container {
-    margin: 3vw 0 2vw 0;
-    text-align: center;
-  }
-
-  .logo-register-container {
-    margin: 1vw 0 0 0;
-    text-align: center;
-    width: 20%;
-  }
-
-  .logo-img {
-    width: 60%;
-    transform: translateX(4%);
-  }
-
-  .hi-login {
-    font-size: 1vw;
-    text-align: center;
-    margin: 0;
-    font-weight: normal;
-  }
-
-  .login-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 20%;
-  }
-
-  .login-register-text {
-    font-size: 1vw;
-    text-align: center;
-    font-weight: normal;
-    margin: 1vw;
-  }
-
-  .login-register-link {
-    color: rgb(100, 100, 218);
-    font-size: 1vw;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-
-  .account-container {
-    margin: 2vw 6vw;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 5vw;
-  }
-
-  .info-section {
-    font-size: 1vw;
-    font-weight: normal;
-  }
-
-  .svg-account {
-    height: 8vw;
-    filter: invert(11%) sepia(5%) saturate(5738%) hue-rotate(178deg) brightness(96%) contrast(81%);
-  }
-
-  .settings-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 4vw;
-  }
-
-  .settings-title {
-    font-size: 1.6vw;
-    margin: 1.5vw;
-  }
-
-  .settings-module-title {
-    font-size: 1.4vw;
-    margin: 1vw;
-    align-self: flex-start;
-    padding-left: 10vw;
-  }
-
-  .div-settings-module {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .settings-container button {
-    cursor: pointer;
-    width: fit-content !important;
-  }
-
-  .settings-list-item {
-    display: flex;
-    flex-direction: row;
-    border-radius: 2vw;
-    background-color: #242F40;
-    width: fit-content;
-    color: white;
-    margin: 0.5vw;
-  }
-
-  .settings-list-item-text {
-    font-size: 1vw;
-    border-radius: 2vw;
-    background-color: #242F40;
-    width: fit-content;
-    color: white;
-    margin: 1vw;
-    cursor: pointer;
-    font-weight: normal;
-  }
-
-  .div-budget-module {
-    width: 80%;
-  }
-
-  .settings-list-budget {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 1.5vw;
-  }
-
-  .settings-budget-item-text {
-    width: 40%;
-    margin: 0 10vw;
-    font-size: 1.5vw;
-    font-weight: normal;
-    align-self: center;
-    text-align: center;
-  }
-
-  .svg-trash {
-    filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
-  }
-
-  .salary-div {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    font-size: 5vw;
-    margin: 2vw;
-    gap: 3vw;
-  }
-
-  .salary-div h4 {
-    font-weight: normal;
-    margin: 0;
-  }
-
-  .salary {
-    color: #CCA43B;
-    font-weight: bold !important;
-    font-size: 2vw;
-  }
-
-  .separator {
-    border-top: 1px solid lightgray;
-    margin: 2vw 2vw;
-  }
-
-  .div-charts {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+.home-container {
+  padding: 0 2vw 2vw 2vw;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
+
+.main-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-section button {
+  width: fit-content !important;
+}
+
+.fill-section-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 5px 5px 11px rgb(155, 155, 155);
+  border-radius: 2vw;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-55%, -50%);
+  z-index: 10;
+  width: 30%;
+  height: fit-content !important;
+  background-color: white;
+  filter: none !important;
+  padding: 0.8vw;
+}
+
+.fill-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.div-modal-btns {
+  margin: 1vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 4vw;
+}
+
+/* ----LOGIN---- */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.logo-container h1,
+h2 {
+  margin: 0;
+}
+
+.logo-login-container {
+  margin: 3vw 0 2vw 0;
+  text-align: center;
+}
+
+.logo-register-container {
+  margin: 1vw 0 0 0;
+  text-align: center;
+  width: 20%;
+}
+
+.logo-img {
+  width: 60%;
+  transform: translateX(4%);
+}
+
+.hi-login {
+  font-size: 1vw;
+  text-align: center;
+  margin: 0;
+  font-weight: normal;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 20%;
+}
+
+.login-register-text {
+  font-size: 1vw;
+  text-align: center;
+  font-weight: normal;
+  margin: 1vw;
+}
+
+.login-register-link {
+  color: rgb(100, 100, 218);
+  font-size: 1vw;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.account-container {
+  margin: 2vw 6vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5vw;
+}
+
+.info-section {
+  font-size: 1vw;
+  font-weight: normal;
+}
+
+.svg-account {
+  height: 8vw;
+  filter: invert(11%) sepia(5%) saturate(5738%) hue-rotate(178deg) brightness(96%) contrast(81%);
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4vw;
+}
+
+.settings-title {
+  font-size: 1.6vw;
+  margin: 1.5vw;
+}
+
+.settings-module-title {
+  font-size: 1.4vw;
+  margin: 1vw;
+  align-self: flex-start;
+  padding-left: 10vw;
+}
+
+.div-settings-module {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.settings-container button {
+  cursor: pointer;
+  width: fit-content !important;
+}
+
+.settings-list-item {
+  display: flex;
+  flex-direction: row;
+  border-radius: 2vw;
+  background-color: #242F40;
+  width: fit-content;
+  color: white;
+  margin: 0.5vw;
+}
+
+.settings-list-item-text {
+  font-size: 1vw;
+  border-radius: 2vw;
+  background-color: #242F40;
+  width: fit-content;
+  color: white;
+  margin: 1vw;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.div-budget-module {
+  width: 80%;
+}
+
+.settings-list-budget {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.5vw;
+}
+
+.settings-budget-item-text {
+  width: 40%;
+  margin: 0 10vw;
+  font-size: 1.5vw;
+  font-weight: normal;
+  align-self: center;
+  text-align: center;
+}
+
+.svg-trash {
+  filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
+}
+
+.salary-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vw;
+  margin: 0;
+  gap: 3vw;
+  box-shadow: 4px 4px 11px rgb(155, 155, 155);
+  border-radius: 2vw;
+  width: fit-content;
+  padding: 1vw 3vw;
+  align-self: center;
+}
+
+.salary-div h4 {
+  font-weight: normal;
+  margin: 0;
+}
+
+.salary-text {
+  font-size: 1.3vw;
+}
+
+.salary {
+  color: #CCA43B;
+  font-weight: bold !important;
+  font-size: 1.3vw;
+}
+
+.separator {
+  border-top: 1px solid lightgray;
+  margin: 2vw 2vw;
+}
+
+.div-charts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 
 /* -----Tablet----- */
 @media only screen and (max-width: 768px) {}
