@@ -372,11 +372,12 @@ export default function Home() {
         }
       </div>
 
-      <div style={{ filter: openModal && 'blur(10px)' }}>
+      <div style={{ filter: openModal && 'blur(10px)' }} className='table-div'>
         <MovementsTable
           tableData={arrData}
           tableTitle='Movimientos'
           setIsEdit={setIsEdit}
+          isEdit={isEdit}
           setCheck={setCheck}
           check={check}
         />

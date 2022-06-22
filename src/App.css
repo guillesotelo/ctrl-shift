@@ -7,7 +7,7 @@ body {
 
 /* -----Desktop----- */
 .home-container {
-  padding: 0 2vw 2vw 2vw;
+  padding: 1vw 2vw 2vw 2vw;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -219,10 +219,10 @@ h2 {
   font-size: 5vw;
   margin: 0;
   gap: 3vw;
-  box-shadow: 4px 4px 11px rgb(155, 155, 155);
+  box-shadow: 4px 4px 9px rgb(155, 155, 155);
   border-radius: 2vw;
   width: fit-content;
-  padding: 1vw 3vw;
+  padding: 1vw 2vw;
   align-self: center;
 }
 
@@ -239,6 +239,11 @@ h2 {
   color: #CCA43B;
   font-weight: bold !important;
   font-size: 1.3vw;
+}
+
+.table-div {
+  width: 70%;
+  transform: translate(18%);
 }
 
 .separator {
@@ -479,6 +484,7 @@ h2 {
     margin: 10vw 2vw;
     align-self: center;
   }
+
   .div-charts {
     display: flex;
     flex-direction: column;

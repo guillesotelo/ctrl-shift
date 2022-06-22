@@ -1,20 +1,25 @@
-@media only screen and (max-width: 2400px) {
-    .cta-btn-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    .cta-btn {
-        font-size: 1.2vw !important;
-        padding: 1vw 2vw !important;
-        margin: 1vw !important;
-        color: #E5E5E5;
-        border: none;
-        border-radius: 3vw;
-    }
+.cta-btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: 0.3s;
 }
+
+.cta-btn {
+    font-size: 1.2vw !important;
+    padding: 1vw 2vw !important;
+    margin: 1vw !important;
+    color: #E5E5E5;
+    border: none;
+    border-radius: 3vw;
+    cursor: pointer;
+}
+
+.cta-btn-container:hover {
+    opacity: 0.8;
+}
+
 
 @media only screen and (max-width: 640px) {
     .cta-btn-container {

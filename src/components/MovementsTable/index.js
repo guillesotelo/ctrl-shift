@@ -7,21 +7,21 @@ export default function MovementsTable(props) {
         tableData,
         tableTitle,
         setIsEdit,
+        isEdit,
         setCheck,
         check
     } = props
     const headers = ['Fecha', 'Autor', 'Detalle', 'Categoria', 'Tipo', 'Monto']
     const rowData = tableData && tableData.length ? tableData : []
 
-    const handleCheck = e => {
-        const { value, checked } = e.target
-
-        if (checked) {
-            setCheck(value)
-            setIsEdit(true)
-        } else {
-            setIsEdit(false)
+    const handleCheck = key => {
+        if(isEdit) {
             setCheck(-1)
+            setIsEdit(!isEdit)
+        }
+        else {
+            setCheck(key)
+            setIsEdit(!isEdit)
         }
     }
 
@@ -40,14 +40,14 @@ export default function MovementsTable(props) {
                             <div
                                 key={i}
                                 className='table-row'
-                                style={{ backgroundColor: i % 2 === 0 ? '#f2f2f2' : 'white' }}>
+                                onClick={() => handleCheck(i)}
+                                style={{ backgroundColor: check === i ? 'lightblue' : i % 2 === 0 ? '#f2f2f2' : 'white' }}>
                                 <h4 className='table-row-item'>{new Date(row.date).toLocaleDateString()}</h4>
                                 <h4 className='table-row-item'>{row.author || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.detail || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.category || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.pay_type || 'n/a'}</h4>
                                 <h4 className='table-row-item'>${row.amount || 'n/a'}</h4>
-                                <input className='table-checkbox' checked={check == i} style={{ position: 'absolute', right: 0, marginRight: 10 }} type="checkbox" value={i} onChange={handleCheck}></input>
                             </div>
                         )}
                         {maxItems < rowData.length &&

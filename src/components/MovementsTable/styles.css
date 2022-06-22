@@ -3,8 +3,6 @@
     flex-direction: column;
     align-self: center;
     margin: 0 2vw;
-    width: 70%;
-    transform: translate(18%);
 }
 
 .table-title {
@@ -51,6 +49,7 @@
     font-weight: normal;
     text-overflow: ellipsis;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .table-row-item:hover {
@@ -70,6 +69,7 @@
     background-color: #d7dfeb;
     padding: 0.8vw;
     color: rgb(79, 79, 79);
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 640px) {
