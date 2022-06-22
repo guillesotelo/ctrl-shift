@@ -16,8 +16,11 @@ export default function MovementsTable(props) {
 
     const handleCheck = key => {
         if(isEdit) {
-            setCheck(-1)
-            setIsEdit(!isEdit)
+            if(key !== check) setCheck(key)
+            else {
+                setCheck(-1)
+                setIsEdit(!isEdit)
+            }
         }
         else {
             setCheck(key)
@@ -41,7 +44,7 @@ export default function MovementsTable(props) {
                                 key={i}
                                 className='table-row'
                                 onClick={() => handleCheck(i)}
-                                style={{ backgroundColor: check === i ? 'lightblue' : i % 2 === 0 ? '#f2f2f2' : 'white' }}>
+                                style={{ backgroundColor: check === i ? '#CCA43B' : i % 2 === 0 ? '#f2f2f2' : 'white' }}>
                                 <h4 className='table-row-item'>{new Date(row.date).toLocaleDateString()}</h4>
                                 <h4 className='table-row-item'>{row.author || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.detail || 'n/a'}</h4>

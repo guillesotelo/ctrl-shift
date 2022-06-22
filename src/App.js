@@ -28,17 +28,14 @@ function App() {
             <Route path="/ledger"> 
               <Header/>
               <Ledger/>
-              <Footer/>
             </Route>
             <Route path="/account"> 
               <Header/>
               <Account/>
-              <Footer/>
             </Route>
             <Route path="/settings"> 
               <Header/>
               <Settings/>
-              <Footer/>
             </Route>
           </Switch>
     )

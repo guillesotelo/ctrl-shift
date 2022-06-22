@@ -364,11 +364,11 @@ export default function Home() {
         </div>
       }
 
-      <div className='salary-div' style={{ filter: openModal && 'blur(10px)' }}>
+      <div className='salary-div' onClick={() => setViewSalary(!viewSalary)} style={{ filter: openModal && 'blur(10px)' }}>
         <h4 className='salary-text'>Saldo Actual:</h4>
         {
-          viewSalary ? <h4 onClick={() => setViewSalary(false)} className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
-            : <img onClick={() => setViewSalary(true)} style={{}} className='svg-menu' src={EyeClosed} alt="Show Salary" />
+          viewSalary ? <h4 className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
+            : <img className='svg-eye' src={EyeClosed} alt="Show Salary" />
         }
       </div>
 
