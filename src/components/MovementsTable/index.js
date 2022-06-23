@@ -44,10 +44,10 @@ export default function MovementsTable(props) {
                                 key={i}
                                 className='table-row'
                                 onClick={() => handleCheck(i)}
-                                style={{ backgroundColor: check === i ? '#CCA43B' : i % 2 === 0 ? '#f2f2f2' : 'white' }}>
+                                style={{ backgroundColor: check === i ? '#CCA43B' : i % 2 === 0 ? '#eaeaea' : 'white' }}>
                                 <h4 className='table-row-item'>{new Date(row.date).toLocaleDateString()}</h4>
                                 <h4 className='table-row-item'>{row.author || 'n/a'}</h4>
-                                <h4 className='table-row-item'>{row.detail || 'n/a'}</h4>
+                                <h4 className='table-row-item detail'>{row.detail || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.category || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.pay_type || 'n/a'}</h4>
                                 <h4 className='table-row-item'>${row.amount || 'n/a'}</h4>

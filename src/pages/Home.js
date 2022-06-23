@@ -31,6 +31,7 @@ export default function Home() {
   const [budgetChart, setBudgetChart] = useState({ labels: [], datasets: [] })
   const [budgetChart2, setBudgetChart2] = useState({ labels: [], datasets: [] })
   const [openModal, setOpenModal] = useState(false)
+  const [removeModal, setRemoveModal] = useState(false)
   const [dateClicked, setDateClicked] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [salary, setSalary] = useState(0)
@@ -82,7 +83,7 @@ export default function Home() {
 
   useEffect(() => {
     const debited = data.salary - arrData.reduce((item, current) => item + Number(current.amount), 0)
-    setSalary(debited)
+    if(!isNaN(debited)) setSalary(debited)
   }, [data.salary, arrData.length])
 
   useEffect(() => {
@@ -261,6 +262,28 @@ export default function Home() {
   return (
     <div className='home-container'>
       <ToastContainer autoClose={2000} />
+      {removeModal &&
+        <div className='remove-modal'>
+          <h3>Estas a punto de eliminar:<br/><br/>'{arrData[check].detail}' - ${arrData[check].amount}</h3>
+          <div className='remove-btns'>
+            <CTAButton
+              label='Cancelar'
+              color={APP_COLORS.GRAY}
+              handleClick={() => setRemoveModal(false)}
+              size='fit-content'
+            />
+            <CTAButton
+              label='Confirmar'
+              color={APP_COLORS.BLUE}
+              handleClick={() => {
+                setRemoveModal(false)
+                handleRemoveItem()
+              }}
+              size='fit-content'
+            />
+          </div>
+        </div>
+      }
       {openModal &&
         <div className='fill-section-container'>
           <h3 style={{ color: APP_COLORS.GRAY }}>Info del pago:</h3>
@@ -337,7 +360,7 @@ export default function Home() {
           </div>
         </div>
       }{
-        <div className='main-section' style={{ filter: openModal && 'blur(10px)' }}>
+        <div className='main-section' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
           <CTAButton
             handleClick={handleClick}
             label='Editar'
@@ -347,7 +370,7 @@ export default function Home() {
             style={{ fontSize: '4vw' }}
           />
           {isEdit &&
-            <div onClick={handleRemoveItem}>
+            <div onClick={() => setRemoveModal(true)}>
               <img style={{ transform: 'scale(0.7)' }} className='svg-trash' src={TrashCan} alt="Trash Can" />
             </div>
           }
@@ -364,7 +387,7 @@ export default function Home() {
         </div>
       }
 
-      <div className='salary-div' onClick={() => setViewSalary(!viewSalary)} style={{ filter: openModal && 'blur(10px)' }}>
+      <div className='salary-div' onClick={() => setViewSalary(!viewSalary)} style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
         <h4 className='salary-text'>Saldo Actual:</h4>
         {
           viewSalary ? <h4 className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
@@ -372,7 +395,7 @@ export default function Home() {
         }
       </div>
 
-      <div style={{ filter: openModal && 'blur(10px)' }} className='table-div'>
+      <div style={{ filter: (openModal || removeModal) && 'blur(10px)' }} className='table-div'>
         <MovementsTable
           tableData={arrData}
           tableTitle='Movimientos'

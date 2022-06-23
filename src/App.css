@@ -3,7 +3,7 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   height: auto !important;
-  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 /* -----Desktop----- */
@@ -42,6 +42,34 @@ body {
   background-color: white;
   filter: none !important;
   padding: 0.8vw;
+}
+
+.remove-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 5px 5px 11px rgb(155, 155, 155);
+  border-radius: 4vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 80%;
+  height: fit-content !important;
+  background-color: white;
+  padding: 4vw 2vw;
+  text-align: center;
+  font-size: 3vw;
+}
+
+.remove-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15vw;
+  margin-top: 6vw;
 }
 
 .fill-section {
@@ -231,15 +259,14 @@ h2 {
   font-weight: normal;
   margin: 0;
   font-size: 1.3vw;
+  cursor: pointer;
 }
 
-.salary-text {
-}
+.salary-text {}
 
 .svg-eye {
-  height: 5vw;
+  height: 1.5vw;
   filter: invert(65%) sepia(60%) saturate(455%) hue-rotate(6deg) brightness(90%) contrast(89%);
-  cursor: pointer;
 }
 
 .salary {
@@ -472,6 +499,7 @@ h2 {
     font-size: 5vw;
     margin: 6vw;
     gap: 3vw;
+    cursor: pointer;
   }
 
   .salary-div h4 {
@@ -483,6 +511,12 @@ h2 {
     color: #CCA43B;
     font-weight: bold !important;
     font-size: 2vw;
+    cursor: pointer;
+  }
+
+  .svg-eye {
+    height: 5vw;
+    cursor: pointer;
   }
 
   .table-div {
