@@ -133,8 +133,18 @@
         width: 14%;
         text-align: center;
         font-weight: normal;
+        overflow: hidden;
+    }
+    
+    .detail {
+        white-space: nowrap;
+        margin: 0;
+        width: 14%;
+        text-align: center;
+        font-weight: normal;
         text-overflow: ellipsis;
         overflow: hidden;
+        cursor: pointer;
     }
 
     .table-row-item:hover {
