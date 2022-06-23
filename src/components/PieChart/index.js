@@ -28,7 +28,7 @@ export default function PieChart(props) {
     return (
         <div className='piechart-container'>
             <h4 className='table-title'>{title || ''}</h4>
-            <Doughnut data={chartData} width={pieWidth} height={pieWidth} options={options}/>
+            <Doughnut data={chartData}  options={options}/>
         </div>
     )
 }

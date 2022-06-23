@@ -1,14 +1,13 @@
-@media only screen and (max-width: 2400px) {
-    .polarchart-container {
-        margin-top: 2vw;
-        width: 30%;
-    }
+.polarchart-container {
+    margin-top: 2vw;
+    width: 30%;
 }
 
 @media only screen and (max-width: 640px) {
     .polarchart-container {
         margin-top: 10vw;
         width: 100%;
+        text-align: center;
     }
     .polarchart-container canvas {
         margin-left: 7vw;

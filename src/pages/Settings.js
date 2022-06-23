@@ -90,7 +90,7 @@ export default function Settings() {
                     placeholder='$ -'
                     name='newSalary'
                     type='text'
-                    value={data.newSalary >= 0 ? '$ ' + data.newSalary : '$ ' + data.salary}
+                    value={data.newSalary >= 0 ? data.newSalary : data.salary}
                 />
             </div>
 
@@ -101,10 +101,10 @@ export default function Settings() {
                         setNewSalary(false)
                         setEdited(true)
                     }}
-                    label='Agregar'
+                    label='Actualizar'
                     size='25%'
                     color={APP_COLORS.YELLOW}
-                    style={{ color: 'black', marginTop: '2vw' }}
+                    style={{ color: 'black', marginTop: '3vw' }}
                 />
             }
 

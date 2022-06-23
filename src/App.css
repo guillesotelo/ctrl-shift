@@ -317,8 +317,6 @@ h2 {
 }
 
 .table-div {
-  /* width: 70%; */
-  /* transform: translate(18%); */
   margin: 0 12vw
 }
 
@@ -330,6 +328,8 @@ h2 {
 .div-charts {
   display: flex;
   flex-wrap: wrap;
+  gap: 0 8vw;
+  /* text-align: center */
   justify-content: center;
 }
 
@@ -593,15 +593,19 @@ h2 {
     padding: 5vw;
     position: fixed;
     bottom: 0;
-    background-color: #242F40;
+    /* left: 0; */
+    background-color: #E5E5E5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
-
+  
   .save-div-btns {
     display: flex;
     flex-direction: row;
     width: 100%;
   }
-  
 
   .svg-trash {
     filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);

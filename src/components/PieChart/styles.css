@@ -1,16 +1,17 @@
-@media only screen and (max-width: 2400px) {
-    .piechart-container {
-        margin-top: 3vw;
-        width: 30%;
-        height: 20vw;
-    }
+.piechart-container {
+    margin: 3vw;
+    width: 14vw;
+    height: 14vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 @media only screen and (max-width: 640px) {
     .piechart-container {
-        margin-top: 1vw;
-        width: 40vw;
-        height: 40vw;
+        margin-top: 10vw;
+        width: 50vw;
+        height: 50vw;
         align-self: center;
     }
 }

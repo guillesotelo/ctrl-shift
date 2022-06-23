@@ -414,16 +414,15 @@ export default function Home() {
         <div className='div-charts'>
           <div className='separator' style={{ width: '85%' }}></div>
           <BarChart chartData={categoryChart} title='Categorias' />
+          <PolarChart chartData={typeChart} title='Tipos de Pago' />
           <div className='separator' style={{ width: '85%' }}></div>
           {Object.keys(budget).length > 1 &&
             <>
               <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
-              <h4 className='table-title' style={{ marginTop: 30 }}>Porcentaje total %</h4>
-              <PieChart chartData={budgetChart2} title='' />
+              <PieChart chartData={budgetChart2} title='Porcentaje total %' />
               <div className='separator' style={{ width: '85%' }}></div>
             </>
           }
-          <PolarChart chartData={typeChart} title='Tipos de Pago' />
         </div>
       </div>
     </div>
