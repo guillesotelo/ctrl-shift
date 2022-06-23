@@ -146,7 +146,7 @@ export default function Home() {
     if (_settings.budget) setBudget(_settings.budget)
   }
 
-  const handleClick = () => {
+  const handleEdit = () => {
     if (isEdit) {
       const item = arrData[check]
       setData({
@@ -362,7 +362,7 @@ export default function Home() {
       }{
         <div className='main-section' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
           <CTAButton
-            handleClick={handleClick}
+            handleClick={handleEdit}
             label='Editar'
             size='80%'
             color={APP_COLORS.GRAY}
@@ -377,7 +377,7 @@ export default function Home() {
           <CTAButton
             handleClick={() => {
               setIsEdit(false)
-              handleClick()
+              setOpenModal(!openModal)
             }}
             label='Nuevo Gasto'
             size='80%'
