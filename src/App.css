@@ -33,43 +33,21 @@ body {
   box-shadow: 5px 5px 11px rgb(155, 155, 155);
   border-radius: 2vw;
   position: absolute;
-  top: 53%;
-  left: 50%;
-  transform: translate(-55%, -50%);
+  top: 5%;
+  left: 34%;
+  transform: translate(-50%, -50%);
   z-index: 10;
   width: 30%;
   height: fit-content !important;
   background-color: white;
   filter: none !important;
   padding: 0.8vw;
+  transform: scale(0.8);
 }
 
-.remove-modal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 5px 5px 11px rgb(155, 155, 155);
-  border-radius: 4vw;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  width: 80%;
-  height: fit-content !important;
-  background-color: white;
-  padding: 4vw 2vw;
-  text-align: center;
-  font-size: 3vw;
-}
-
-.remove-btns {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15vw;
-  margin-top: 6vw;
+.fill-section-container h3 {
+  margin: 0.5vw;
+  font-size: 1.2vw;
 }
 
 .fill-section {
@@ -84,6 +62,33 @@ body {
   flex-direction: row;
   justify-content: space-between;
   gap: 4vw;
+}
+
+.remove-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 5px 5px 11px rgb(155, 155, 155);
+  border-radius: 2vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 20%;
+  height: fit-content !important;
+  background-color: white;
+  padding: 2vw 3vw;
+  text-align: center;
+  font-size: 1vw;
+}
+
+.remove-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3vw;
 }
 
 /* ----LOGIN---- */
@@ -168,17 +173,28 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4vw;
+  padding: 1vw;
+  margin-bottom: 10vw;
 }
 
 .settings-title {
-  font-size: 1.6vw;
+  font-size: 1.4vw;
   margin: 1.5vw;
 }
 
+.settings-salary input {
+  font-size: 0.9vw !important;
+  padding: 0.5vw;
+}
+
+.settings-new-item input {
+  font-size: 0.9vw !important;
+  padding: 0.5vw;
+}
+
 .settings-module-title {
-  font-size: 1.4vw;
-  margin: 1vw;
+  font-size: 1vw;
+  margin: 0.2vw;
   align-self: flex-start;
   padding-left: 10vw;
 }
@@ -187,12 +203,19 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   width: 100%;
+}
+
+.div-settings-module input {
+  font-size: 0.9vw !important;
+  padding: 0.5vw;
 }
 
 .settings-container button {
   cursor: pointer;
   width: fit-content !important;
+  padding: 1vw 1.5vw !important;
 }
 
 .settings-list-item {
@@ -206,14 +229,32 @@ h2 {
 }
 
 .settings-list-item-text {
-  font-size: 1vw;
-  border-radius: 2vw;
+  font-size: 0.7vw;
+  border-radius: 1vw;
   background-color: #242F40;
   width: fit-content;
   color: white;
   margin: 1vw;
   cursor: pointer;
   font-weight: normal;
+}
+
+.save-div {
+  width: 100%;
+  height: fit-content;
+  padding: 0.8vw  ;
+  position: fixed;
+  bottom: 0;
+  background-color: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.save-div-btns {
+  display: flex;
+  flex-direction: row;
+  width: 30%;
 }
 
 .div-budget-module {
@@ -238,6 +279,7 @@ h2 {
 
 .svg-trash {
   filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
+  cursor: pointer;
 }
 
 .salary-div {
@@ -275,8 +317,9 @@ h2 {
 }
 
 .table-div {
-  width: 70%;
-  transform: translate(18%);
+  /* width: 70%; */
+  /* transform: translate(18%); */
+  margin: 0 12vw
 }
 
 .separator {
@@ -332,17 +375,50 @@ h2 {
     filter: none !important;
   }
 
+  .fill-section-container h3 {
+    margin: 3.5vw;
+    font-size: 4vw;
+  }
+
   .fill-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
-
+  
   .div-modal-btns {
     margin: 8vw 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .remove-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 5px 5px 11px rgb(155, 155, 155);
+    border-radius: 4vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 80%;
+    height: fit-content !important;
+    background-color: white;
+    padding: 4vw 2vw;
+    text-align: center;
+    font-size: 3vw;
+  }
+  
+  .remove-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15vw;
+    margin-top: 6vw;
   }
 
   .login-container {
@@ -428,11 +504,24 @@ h2 {
     display: flex;
     flex-direction: column;
     margin-bottom: 5vw;
+    padding: 4vw;
   }
 
   .settings-title {
     font-size: 5vw;
     margin: 2vw;
+  }
+
+  .settings-salary input {
+    font-size: 4vw !important;
+    padding: 1vw;
+    font-weight: normal;
+  }
+  
+  .settings-new-item input {
+    font-size: 4vw !important;
+    padding: 1vw;
+    font-weight: normal;
   }
 
   .settings-module-title {
@@ -447,6 +536,17 @@ h2 {
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
+  }
+
+  .div-settings-module input {
+    font-size: 4vw !important;
+    padding: 1vw;
+  }
+
+  .settings-container button {
+    cursor: pointer;
+    width: fit-content !important;
+    padding: 2vw 3.5vw !important
   }
 
   .settings-list-item {
@@ -487,6 +587,22 @@ h2 {
     font-size: 3.5vw;
   }
 
+  .save-div {
+    width: 100%;
+    height: fit-content;
+    padding: 5vw;
+    position: fixed;
+    bottom: 0;
+    background-color: #242F40;
+  }
+
+  .save-div-btns {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  
+
   .svg-trash {
     filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
   }
@@ -522,6 +638,7 @@ h2 {
   .table-div {
     width: 100%;
     transform: none;
+    margin: 0;
   }
 
   .separator {

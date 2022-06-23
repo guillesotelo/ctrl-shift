@@ -19,6 +19,7 @@ export default function Settings() {
     const [newCategory, setNewCategory] = useState(false)
     const [newSalary, setNewSalary] = useState(false)
     const [budget, setBudget] = useState({ total: 100 })
+    const [edited, setEdited] = useState(false)
 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -33,6 +34,7 @@ export default function Settings() {
     }
 
     const handleRemoveItem = (kind, index) => {
+        setEdited(true)
         const newItems = data[kind]
         newItems.splice(index, 1)
         const newData = { ...data }
@@ -60,10 +62,12 @@ export default function Settings() {
                 toast.success('Guardado con exito!')
                 setTimeout(() => pullSettings(), 1500)
             }
+            setEdited(false)
         } catch (err) { console.error(err) }
     }
 
     const updateBudget = (category, type) => {
+        setEdited(true)
         const newValue = Number(budget[category]) || 0
         if (type === '-' && newValue > 0 && budget.total < 100) {
             setBudget({ ...budget, [category]: newValue - 1, total: budget.total + 1 })
@@ -79,22 +83,25 @@ export default function Settings() {
             <h4 className='settings-title'>Configuracion de Movimientos</h4>
 
             <h4 className='settings-module-title' style={{ marginBottom: 0 }}>Saldo Mensual</h4>
-            <InputField
-                label=''
-                updateData={updateData}
-                placeholder='$ -'
-                name='newSalary'
-                type='text'
-                value={data.newSalary >= 0 ? data.newSalary : data.salary}
-            />
+            <div className='settings-salary'>
+                <InputField
+                    label=''
+                    updateData={updateData}
+                    placeholder='$ -'
+                    name='newSalary'
+                    type='text'
+                    value={data.newSalary >= 0 ? '$ ' + data.newSalary : '$ ' + data.salary}
+                />
+            </div>
 
             {newSalary &&
                 <CTAButton
                     handleClick={() => {
                         setData({ ...data, salary: data.newSalary })
                         setNewSalary(false)
+                        setEdited(true)
                     }}
-                    label='Guardar'
+                    label='Agregar'
                     size='25%'
                     color={APP_COLORS.YELLOW}
                     style={{ color: 'black', marginTop: '2vw' }}
@@ -113,44 +120,45 @@ export default function Settings() {
                         </div>
                     )
                 }
-                {newCategory ?
-                    <>
-                        <InputField
-                            label=''
-                            updateData={updateData}
-                            placeholder='Nombre...'
-                            name='newCategory'
-                            type='text'
-                            style={{ margin: '0 20vw' }}
-                        />
-                        <CTAButton
-                            handleClick={() => {
-                                if (data.newCategory) {
-                                    setData({ ...data, categories: data.categories.concat(data.newCategory) })
-                                    setNewAuthor(false)
-                                    setNewPayType(false)
-                                    setNewCategory(false)
-                                }
-                            }}
-                            label='Guardar'
-                            size='25%'
-                            color={APP_COLORS.YELLOW}
-                            style={{ color: 'black', marginTop: '2vw' }}
-                        />
-                    </>
-                    :
-                    <CTAButton
-                        handleClick={() => setNewCategory(true)}
-                        label='+'
-                        size='12%'
-                        color={APP_COLORS.YELLOW}
-                        style={{ color: 'black', fontWeight: 'bold', marginTop: '2vw' }}
-                    />
-                }
-
-                <div className='separator' style={{ width: '85%' }}></div>
-
             </div>
+            {newCategory ?
+                <div  className='settings-new-item'>
+                    <InputField
+                        label=''
+                        updateData={updateData}
+                        placeholder='Nombre...'
+                        name='newCategory'
+                        type='text'
+                        style={{ margin: '0 20vw' }}
+                    />
+                    <CTAButton
+                        handleClick={() => {
+                            if (data.newCategory) {
+                                setData({ ...data, categories: data.categories.concat(data.newCategory) })
+                                setNewAuthor(false)
+                                setNewPayType(false)
+                                setNewCategory(false)
+                                setEdited(true)
+                            }
+                        }}
+                        label='Agregar'
+                        size='25%'
+                        color={APP_COLORS.YELLOW}
+                        style={{ color: 'black', marginTop: '2vw' }}
+                    />
+                </div>
+                :
+                <CTAButton
+                    handleClick={() => setNewCategory(true)}
+                    label='+'
+                    size='12%'
+                    color={APP_COLORS.YELLOW}
+                    style={{ color: 'black', fontWeight: 'bold', marginTop: '2vw' }}
+                />
+            }
+
+            <div className='separator' style={{ width: '85%' }}></div>
+
 
             <h4 className='settings-module-title'>Presupuesto</h4>
             <div className='div-budget-module'>
@@ -176,9 +184,8 @@ export default function Settings() {
                         </div>
                     )
                 }
-
-
             </div>
+
             <div className='separator' style={{ width: '85%' }}></div>
 
             <h4 className='settings-module-title'>Autores</h4>
@@ -191,43 +198,44 @@ export default function Settings() {
                         </div>
                     )
                 }
-                {newAuthor ?
-                    <>
-                        <InputField
-                            label=''
-                            updateData={updateData}
-                            placeholder='Nombre...'
-                            name='newAuthor'
-                            type='text'
-                            style={{ margin: '0 20vw' }}
-                        />
-                        <CTAButton
-                            handleClick={() => {
-                                if (data.newAuthor) {
-                                    setData({ ...data, authors: data.authors.concat(data.newAuthor) })
-                                    setNewAuthor(false)
-                                    setNewPayType(false)
-                                    setNewCategory(false)
-                                }
-                            }}
-                            label='Guardar'
-                            size='25%'
-                            color={APP_COLORS.YELLOW}
-                            style={{ color: 'black', marginTop: '2vw' }}
-                        />
-                    </>
-                    :
-                    <CTAButton
-                        handleClick={() => setNewAuthor(true)}
-                        label='+'
-                        size='12%'
-                        color={APP_COLORS.YELLOW}
-                        style={{ color: 'black', fontWeight: 'bold', marginTop: '2vw' }}
-                    />
-                }
-
-                <div className='separator' style={{ width: '85%' }}></div>
             </div>
+            {newAuthor ?
+                <div  className='settings-new-item'>
+                    <InputField
+                        label=''
+                        updateData={updateData}
+                        placeholder='Nombre...'
+                        name='newAuthor'
+                        type='text'
+                        style={{ margin: '0 20vw' }}
+                    />
+                    <CTAButton
+                        handleClick={() => {
+                            if (data.newAuthor) {
+                                setData({ ...data, authors: data.authors.concat(data.newAuthor) })
+                                setNewAuthor(false)
+                                setNewPayType(false)
+                                setNewCategory(false)
+                                setEdited(true)
+                            }
+                        }}
+                        label='Agregar'
+                        size='25%'
+                        color={APP_COLORS.YELLOW}
+                        style={{ color: 'black', marginTop: '2vw' }}
+                    />
+                </div>
+                :
+                <CTAButton
+                    handleClick={() => setNewAuthor(true)}
+                    label='+'
+                    size='12%'
+                    color={APP_COLORS.YELLOW}
+                    style={{ color: 'black', fontWeight: 'bold', marginTop: '2vw' }}
+                />
+            }
+
+            <div className='separator' style={{ width: '85%' }}></div>
 
             <h4 className='settings-module-title'>Tipos de Pago</h4>
             <div className='div-settings-module'>
@@ -239,8 +247,9 @@ export default function Settings() {
                         </div>
                     )
                 }
+                            </div>
                 {newPayType ?
-                    <>
+                <div  className='settings-new-item'>
                         <InputField
                             label=''
                             updateData={updateData}
@@ -256,14 +265,15 @@ export default function Settings() {
                                     setNewAuthor(false)
                                     setNewPayType(false)
                                     setNewCategory(false)
+                                    setEdited(true)
                                 }
                             }}
-                            label='Guardar'
+                            label='Agregar'
                             size='25%'
                             color={APP_COLORS.YELLOW}
                             style={{ color: 'black', marginTop: '2vw' }}
                         />
-                    </>
+                    </div>
                     :
                     <CTAButton
                         handleClick={() => setNewPayType(true)}
@@ -274,17 +284,31 @@ export default function Settings() {
                     />
                 }
 
-                <div className='separator' style={{ width: '85%' }}></div>
-
-            </div>
-
-            <CTAButton
-                handleClick={handleSave}
-                label='Guardar Cambios'
-                color={APP_COLORS.YELLOW}
-                disabled={!Object.keys(data).length}
-                style={{ marginBottom: '8vw', color: 'black' }}
-            />
+            {edited &&
+                <div className='save-div'>
+                    <div className='save-div-btns'>
+                        <CTAButton
+                            handleClick={() => {
+                                pullSettings()
+                                setEdited(false)
+                            }}
+                            label='Descartar'
+                            color='#8c8c8c'
+                            size='fit-content'
+                            disabled={!Object.keys(data).length}
+                            style={{ marginTop: '8vw', color: 'black' }}
+                        />
+                        <CTAButton
+                            handleClick={handleSave}
+                            label='Guardar Cambios'
+                            color={APP_COLORS.YELLOW}
+                            size='fit-content'
+                            disabled={!Object.keys(data).length}
+                            style={{ marginTop: '8vw', color: 'black' }}
+                        />
+                    </div>
+                </div>
+            }
         </div>
     )
 }

@@ -36,6 +36,7 @@ function App() {
             <Route path="/settings"> 
               <Header/>
               <Settings/>
+              <Footer/>
             </Route>
           </Switch>
     )
