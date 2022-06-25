@@ -67,6 +67,7 @@ export default function Notes() {
       }
 
     const pullNotes = () => {
+        setData({ notes: [] })
         const { notes, id } = JSON.parse(localStorage.getItem('ledger'))
         if (notes) {
             const _notes = JSON.parse(notes)
@@ -142,18 +143,20 @@ export default function Notes() {
                     }
                 </div>
             }
-            {data.notes.length &&
+            {data.notes.length ?
                 <div className='note-list' style={{ filter: removeModal && 'blur(10px)' }}>
                     {data.notes.map((note, i) =>
                         <div key={i} className='note-container' onClick={() => setCheck(note)} style={{ borderColor: check === note ? '#CCA43B' : 'lightgray' }}>
                             <h4 className='note-name'>{note.name}</h4>
                             <textarea rows={5} cols={40} readOnly="readonly" className='note-details' defaultValue={note.details} />
                             {check === note && 
-                                <img style={{ transform: 'scale(0.6)' }} onClick={() => setRemoveModal(true)} className='svg-trash' src={TrashCan} alt="Trash Can" />
+                                <img style={{ transform: 'scale(0.6)' }} onClick={() => setRemoveModal(true)} className='note-svg-trash' src={TrashCan} alt="Trash Can" />
                             }
                         </div>
                     )}
                 </div>
+            : 
+            ''
             }
         </div>
     )

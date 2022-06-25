@@ -43,6 +43,7 @@ export default function Ledger() {
             const ledgerBook = await dispatch(saveLedger(data)).then(d => d.payload)
 
             if (ledgerBook && ledgerBook.data) {
+                localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(ledgerBook.data))
                 toast.success('Guardado con exito! \nRedirigiendo...')
 
@@ -57,6 +58,7 @@ export default function Ledger() {
             const loginLedger = await dispatch(logLedger(data)).then(d => d.payload)
 
             if (loginLedger) {
+                localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(loginLedger))
                 toast.success('Conectado con exito! \nRedirigiendo...')
 

@@ -333,6 +333,80 @@ h2 {
   justify-content: center;
 }
 
+.notes-container {
+  margin: 2vw;
+}
+
+.notes-container button {
+  width: fit-content !important;
+}
+
+.notes-container input {
+  max-height: fit-content !important;
+  font-weight: normal;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: normal;
+  border-radius: 1vw;
+  width: 40%;
+  align-self: center;
+}
+
+.notes-container textarea {
+  /* max-height: fit-content !important;
+  font-weight: normal;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: normal; */
+  width: 40%;
+  align-self: center;
+  border-radius: 1vw;
+}
+
+.new-note-container {}
+
+.note-list {
+  margin-top: 1vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.note-container {
+  border: 2px solid lightgray;
+  border-radius: 2vw;
+  margin: 1.5vw;
+  width: 40%;
+}
+
+.note-name {
+  font-size: 1vw !important;
+  font-weight: bold;
+  margin: 2vw 0 1vw 2vw
+}
+
+.note-details {
+  font-size: 1vw !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: normal;
+  border: none;
+  overflow: hidden;
+  height: max-content;
+  margin: 0 2vw 2vw 2vw;
+  resize: none;
+  height: 4em;
+  width: fit-content !important;
+}
+
+.note-details:focus {
+  outline: none !important;
+  border: none;
+  height: fit-content;
+}
+
+.note-svg-trash {
+  filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
+  cursor: pointer;
+}
+
 
 /* -----Tablet----- */
 @media only screen and (max-width: 768px) {}
@@ -701,5 +775,9 @@ h2 {
   .note-details:focus {
     outline: none !important;
     border: none;
+  }
+
+  .note-svg-trash {
+    filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
   }
 }
