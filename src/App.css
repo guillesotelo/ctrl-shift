@@ -242,7 +242,7 @@ h2 {
 .save-div {
   width: 100%;
   height: fit-content;
-  padding: 0.8vw  ;
+  padding: 0.8vw;
   position: fixed;
   bottom: 0;
   background-color: #E5E5E5;
@@ -278,7 +278,7 @@ h2 {
 }
 
 .svg-trash {
-  filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
+  filter: invert(14%) sepia(72%) saturate(4073%) hue-rotate(356deg) brightness(88%) contrast(100%);
   cursor: pointer;
 }
 
@@ -385,7 +385,7 @@ h2 {
     flex-direction: column;
     justify-content: center;
   }
-  
+
   .div-modal-btns {
     margin: 8vw 0;
     display: flex;
@@ -411,7 +411,7 @@ h2 {
     text-align: center;
     font-size: 3vw;
   }
-  
+
   .remove-btns {
     display: flex;
     flex-direction: row;
@@ -517,7 +517,7 @@ h2 {
     padding: 1vw;
     font-weight: normal;
   }
-  
+
   .settings-new-item input {
     font-size: 4vw !important;
     padding: 1vw;
@@ -600,7 +600,7 @@ h2 {
     align-items: center;
     justify-content: center;
   }
-  
+
   .save-div-btns {
     display: flex;
     flex-direction: row;
@@ -656,4 +656,50 @@ h2 {
     flex-direction: column;
   }
 
+  .notes-container {
+    margin: 8vw;
+  }
+
+  .notes-container button {
+    width: fit-content !important;
+  }
+
+  .notes-container input {
+    max-height: fit-content;
+    font-weight: normal;
+  }
+
+  .new-note-container {}
+
+  .note-list {
+    margin-top: 8vw;
+  }
+
+  .note-container {
+    border: 1px solid lightgray;
+    border-radius: 2vw;
+    margin: 4vw 0 1vw 0
+  }
+
+  .note-name {
+    font-size: 3.5vw !important;
+    font-weight: bold;
+    margin: 3vw 0 1vw 3vw
+  }
+
+  .note-details {
+    font-size: 3vw !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: normal;
+    border: none;
+    overflow: hidden;
+    height: max-content;
+    margin: 1vw 0 1vw 3vw;
+    resize: none;
+  }
+
+  .note-details:focus {
+    outline: none !important;
+    border: none;
+  }
 }

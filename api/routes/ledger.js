@@ -42,7 +42,8 @@ router.post('/create', async (req, res, next) => {
             email: newLedger.email,
             name: newLedger.name,
             settings: newLedger.settings,
-            pin: 'null'
+            pin: 'null',
+            notes: newLedger.notes || []
         })
     } catch(err) { console.log(err) }
 })
@@ -59,7 +60,8 @@ router.post('/update', async (req, res, next) => {
             email: newLedger.email,
             name: newLedger.name,
             settings: newLedger.settings,
-            pin: 'null'
+            pin: 'null',
+            notes: newLedger.notes || []
         })
     } catch(err) { console.log(err) }
 })

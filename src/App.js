@@ -9,6 +9,7 @@ import Ledger from './components/Ledger'
 import Account from './pages/Account'
 import Settings from './pages/Settings'
 import Footer from "./components/Footer";
+import Notes from "./pages/Notes";
 // import NotFound from './pages/NotFound'
  
 function App() {
@@ -37,6 +38,10 @@ function App() {
               <Header/>
               <Settings/>
               <Footer/>
+            </Route>
+            <Route path="/notes"> 
+              <Header/>
+              <Notes/>
             </Route>
           </Switch>
     )

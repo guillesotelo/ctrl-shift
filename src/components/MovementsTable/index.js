@@ -44,7 +44,7 @@ export default function MovementsTable(props) {
                                 key={i}
                                 className='table-row'
                                 onClick={() => handleCheck(i)}
-                                style={{ backgroundColor: check === i ? '#CCA43B' : i % 2 === 0 ? '#eaeaea' : 'white' }}>
+                                style={{ backgroundColor: check === i ? '#ffe49f' : i % 2 === 0 ? '#eaeaea' : 'white' }}>
                                 <h4 className='table-row-item'>{new Date(row.date).toLocaleDateString()}</h4>
                                 <h4 className='table-row-item'>{row.author || 'n/a'}</h4>
                                 <h4 className='table-row-item detail'>{row.detail || 'n/a'}</h4>
