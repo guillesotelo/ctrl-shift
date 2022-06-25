@@ -26,7 +26,8 @@ router.post('/', async (req, res, next) => {
             email: ledger.email,
             name: ledger.name,
             settings: ledger.settings,
-            pin: 'null'
+            pin: 'null',
+            notes: newLedger.notes || []
         })
 
     } catch(err) { console.log(err) }
