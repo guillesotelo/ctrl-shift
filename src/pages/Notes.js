@@ -6,12 +6,13 @@ import { APP_COLORS } from '../constants/colors'
 import { updateLedgerData } from '../store/reducers/ledger';
 import { ToastContainer, toast } from 'react-toastify';
 import TrashCan from '../assets/trash-can.svg'
+import EditPen from '../assets/edit-icon.svg'
 
 export default function Notes() {
     const [isEdit, setIsEdit] = useState(false)
     const [removeModal, setRemoveModal] = useState(false)
     const [data, setData] = useState({ notes: [] })
-    const [check, setCheck] = useState(-1)
+    const [check, setCheck] = useState(0)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -25,11 +26,12 @@ export default function Notes() {
     const handleSave = async () => {
         try {
             if (!data.name || !data.details) return toast.error('Chequea los campos')
-            const _notes = data.notes
+            const _notes = check ? data.notes.filter(n => n !== check) : data.notes
             const newNote = {
                 name: data.name,
                 details: data.details
             }
+
             _notes.unshift(newNote)
 
             const newLedger = await dispatch(updateLedgerData({
@@ -64,7 +66,7 @@ export default function Notes() {
             setIsEdit(false)
             setCheck(-1)
         } catch (err) { console.error(err) }
-      }
+    }
 
     const pullNotes = () => {
         setData({ notes: [] })
@@ -82,7 +84,7 @@ export default function Notes() {
             <ToastContainer autoClose={2000} />
             {removeModal &&
                 <div className='remove-modal'>
-                    <h3>Estas a punto de eliminar:<br/><br/>'{check.name}'</h3>
+                    <h3>Estas a punto de eliminar:<br /><br />'{check.name}'</h3>
                     <div className='remove-btns'>
                         <CTAButton
                             label='Cancelar'
@@ -122,6 +124,7 @@ export default function Notes() {
                         name='name'
                         type='text'
                         style={{ height: 'fit-content', textAlign: 'left' }}
+                        value={data.name}
                     />
                     <InputField
                         label=''
@@ -129,8 +132,9 @@ export default function Notes() {
                         placeholder='Detalles...'
                         name='details'
                         type='textarea'
+                        value={data.details}
                     />
-                    {(data.name || data.details) &&
+                    {((data.name || data.details || check) && isEdit) ?
                         <CTAButton
                             label='Guardar'
                             color={APP_COLORS.YELLOW}
@@ -140,6 +144,8 @@ export default function Notes() {
                             size='100%'
                             style={{ color: 'black', fontSize: '5vw' }}
                         />
+                        :
+                        ''
                     }
                 </div>
             }
@@ -149,14 +155,22 @@ export default function Notes() {
                         <div key={i} className='note-container' onClick={() => setCheck(note)} style={{ borderColor: check === note ? '#CCA43B' : 'lightgray' }}>
                             <h4 className='note-name'>{note.name}</h4>
                             <textarea rows={5} cols={40} readOnly="readonly" className='note-details' defaultValue={note.details} />
-                            {check === note && 
-                                <img style={{ transform: 'scale(0.6)' }} onClick={() => setRemoveModal(true)} className='note-svg-trash' src={TrashCan} alt="Trash Can" />
+                            {check === note &&
+                                <div className='note-svgs'>
+                                    <img style={{ transform: 'scale(0.6)' }} onClick={() => setRemoveModal(true)} className='note-svg-trash' src={TrashCan} alt="Trash Can" />
+                                    <img onClick={() => {
+                                        setIsEdit(true)
+                                        setCheck(note)
+                                        setData({...data, name: note.name, details: note.details})
+                                        }} 
+                                        className='note-svg-edit' src={EditPen} alt="Edit" />
+                                </div>
                             }
                         </div>
                     )}
                 </div>
-            : 
-            ''
+                :
+                ''
             }
         </div>
     )

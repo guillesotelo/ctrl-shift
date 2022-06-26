@@ -398,9 +398,22 @@ h2 {
 }
 
 .note-svg-trash {
-  filter: invert(73%) sepia(58%) saturate(3448%) hue-rotate(315deg) brightness(78%) contrast(107%)
+  filter: invert(73%) sepia(58%) saturate(3448%) hue-rotate(315deg) brightness(78%) contrast(107%);
+  cursor: pointer;
 }
 
+.note-svg-edit {
+  transform: scale(0.55);
+  cursor: pointer;
+}
+
+.note-svgs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  margin: 0 1.5vw 1vw;
+}
 
 /* -----Tablet----- */
 @media only screen and (max-width: 768px) {}
@@ -789,4 +802,16 @@ h2 {
   .note-svg-trash {
     filter: invert(73%) sepia(58%) saturate(3448%) hue-rotate(315deg) brightness(78%) contrast(107%);
   }
+
+  .note-svg-edit {
+    transform: scale(0.55);
+  }
+  
+  .note-svgs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+  }
+
 }
