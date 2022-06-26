@@ -16,11 +16,13 @@ export default function BarChart(props) {
             }
         }
     }
+    
+    const barHeight = window.innerHeight * 0.4
 
     return (
         <div className='barchart-container'>
             <h4 className='table-title'>{title || ''}</h4>
-            <Bar data={chartData} options={options}/>
+            <Bar data={chartData} height={barHeight} options={options}/>
         </div>
     )
 }

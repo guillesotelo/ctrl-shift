@@ -28,6 +28,7 @@ export default function Home() {
   const [allCategories, setAllCategories] = useState([])
   const [categoryChart, setCategoryChart] = useState({ labels: [], datasets: [] })
   const [typeChart, setTypeChart] = useState({ labels: [], datasets: [] })
+  const [authorChart, setAuthorChart] = useState({ labels: [], datasets: [] })
   const [budgetChart, setBudgetChart] = useState({ labels: [], datasets: [] })
   const [budgetChart2, setBudgetChart2] = useState({ labels: [], datasets: [] })
   const [openModal, setOpenModal] = useState(false)
@@ -89,6 +90,8 @@ export default function Home() {
   useEffect(() => {
     const categoryPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16799215).toString(16))
     const payTypePattern = allPayTypes.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
+    const authorPattern = allUsers.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
+
     const localLedger = JSON.parse(localStorage.getItem('ledger'))
     const { salary } = JSON.parse(localLedger.settings)
 
@@ -112,6 +115,14 @@ export default function Home() {
       datasets: [{
         data: allPayTypes.map(type => chartCalculator(arrData, type, 'pay_type')),
         backgroundColor: payTypePattern
+      }]
+    })
+
+    setAuthorChart({
+      labels: allUsers,
+      datasets: [{
+        data: allUsers.map(author => chartCalculator(arrData, author, 'author')),
+        backgroundColor: authorPattern
       }]
     })
 
@@ -415,12 +426,13 @@ export default function Home() {
           <div className='separator' style={{ width: '85%' }}></div>
           <BarChart chartData={categoryChart} title='Categorias' />
           <PolarChart chartData={typeChart} title='Tipos de Pago' />
+          <PolarChart chartData={authorChart} title='Autores' />
           <div className='separator' style={{ width: '85%' }}></div>
           {Object.keys(budget).length > 1 &&
             <>
               <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
-              <PieChart chartData={budgetChart2} title='Porcentaje total %' />
               <div className='separator' style={{ width: '85%' }}></div>
+              <PieChart chartData={budgetChart2} title='Porcentaje total %' />
             </>
           }
         </div>
