@@ -172,8 +172,8 @@ export default function Home() {
     try {
       const removed = await dispatch(removeMovement(arrData[check])).then(d => d.payload)
       if (removed) {
-        toast.success('Gasto borrado!')
-        setTimeout(() => getAllMovements(data), 2000)
+        toast.info('Gasto borrado!')
+        setTimeout(() => getAllMovements(data), 1000)
       }
       else toast.error('Error al borrar')
       setCheck(-1)
@@ -202,7 +202,7 @@ export default function Home() {
       if (saved) toast.success('Gasto guardado!')
       else toast.error('Error al guardar')
 
-      setTimeout(() => getAllMovements(data), 2000)
+      setTimeout(() => getAllMovements(data), 1000)
 
       setData({
         ...data,

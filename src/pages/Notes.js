@@ -60,7 +60,7 @@ export default function Notes() {
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success('Nota eliminada')
+                toast.info('Nota eliminada')
                 setTimeout(() => pullNotes(), 1500)
             }
             setIsEdit(false)

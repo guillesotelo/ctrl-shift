@@ -47,7 +47,7 @@ export default function Ledger() {
                 localStorage.setItem('ledger', JSON.stringify(ledgerBook.data))
                 toast.success('Guardado con exito! \nRedirigiendo...')
 
-                setTimeout(() => history.push('/home'), 3000)
+                setTimeout(() => history.push('/home'), 2000)
 
             } else toast.error('Error al guardar')
         } catch (err) { toast.error('Error al guardar') }
@@ -62,7 +62,7 @@ export default function Ledger() {
                 localStorage.setItem('ledger', JSON.stringify(loginLedger))
                 toast.success('Conectado con exito! \nRedirigiendo...')
 
-                setTimeout(() => history.push('/home'), 3000)
+                setTimeout(() => history.push('/home'), 2000)
 
             } else toast.error('Error de conexion')
         } catch (err) { toast.error('Error de conexion') }
@@ -71,7 +71,7 @@ export default function Ledger() {
     const handleDisconnect = () => {
         localStorage.removeItem('ledger')
         toast.success('Desconectado con exito! \nRedirigiendo...')
-        setTimeout(() => history.go(0), 2500)
+        setTimeout(() => history.go(0), 2000)
     }
 
     return (

@@ -278,7 +278,7 @@ h2 {
 }
 
 .svg-trash {
-  filter: invert(14%) sepia(72%) saturate(4073%) hue-rotate(356deg) brightness(88%) contrast(100%);
+  filter: invert(73%) sepia(58%) saturate(3448%) hue-rotate(315deg) brightness(78%) contrast(107%);
   cursor: pointer;
 }
 
@@ -689,7 +689,7 @@ h2 {
   }
 
   .svg-trash {
-    filter: invert(13%) sepia(75%) saturate(7039%) hue-rotate(3deg) brightness(108%) contrast(120%);
+    filter: invert(73%) sepia(58%) saturate(3448%) hue-rotate(315deg) brightness(78%) contrast(107%);
   }
 
   .salary-div {
@@ -774,6 +774,7 @@ h2 {
     border-radius: 2vw;
     margin: 4vw 0 1vw 0;
     width: 90%;
+    /* height: fit-content; */
   }
 
   .note-name {
@@ -788,15 +789,17 @@ h2 {
     font-weight: normal;
     border: none;
     overflow: hidden;
-    height: max-content;
+    /* height: max-content; */
     margin: 1vw 0 1vw 3vw;
     resize: none;
     width: 90% !important;
+    overflow-y: scroll;
   }
 
   .note-details:focus {
     outline: none !important;
     border: none;
+    height: fit-content !important
   }
 
   .note-svg-trash {

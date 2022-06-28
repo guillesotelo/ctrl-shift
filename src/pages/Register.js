@@ -28,7 +28,7 @@ export default function Register() {
                 const login = await dispatch(logIn(data)).then(data => data.payload)
                 if (login) {
                     localStorage.setItem('user', JSON.stringify(login))
-                    toast.success('Bienvenid@!')
+                    toast.info('Bienvenid@!')
                     setTimeout(() => history.push('/ledger'), 2000)
                 }
 
