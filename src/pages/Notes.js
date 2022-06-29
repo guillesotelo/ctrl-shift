@@ -109,6 +109,7 @@ export default function Notes() {
                     label='Nueva Nota'
                     color={APP_COLORS.YELLOW}
                     handleClick={() => {
+                        setCheck(0)
                         setIsEdit(true)
                     }}
                     size='100%'
@@ -152,7 +153,13 @@ export default function Notes() {
             {data.notes.length ?
                 <div className='note-list' style={{ filter: removeModal && 'blur(10px)' }}>
                     {data.notes.map((note, i) =>
-                        <div key={i} className='note-container' onClick={() => setCheck(note)} style={{ borderColor: check === note ? '#CCA43B' : 'lightgray' }}>
+                        <div key={i}
+                            className='note-container'
+                            onClick={() => {
+                                check !== note ? setCheck(note) : setCheck(0)
+                            }}
+                            style={{ borderColor: check === note ? '#CCA43B' : 'lightgray' }}
+                        >
                             <h4 className='note-name'>{note.name}</h4>
                             <textarea rows={5} cols={40} readOnly="readonly" className='note-details' defaultValue={note.details} />
                             {check === note &&
@@ -161,8 +168,8 @@ export default function Notes() {
                                     <img onClick={() => {
                                         setIsEdit(true)
                                         setCheck(note)
-                                        setData({...data, name: note.name, details: note.details})
-                                        }} 
+                                        setData({ ...data, name: note.name, details: note.details })
+                                    }}
                                         className='note-svg-edit' src={EditPen} alt="Edit" />
                                 </div>
                             }

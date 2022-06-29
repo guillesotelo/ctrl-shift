@@ -394,7 +394,7 @@ h2 {
 .note-details:focus {
   outline: none !important;
   border: none;
-  height: fit-content;
+  /* height: fit-content; */
 }
 
 .note-svg-trash {
@@ -774,7 +774,8 @@ h2 {
     border-radius: 2vw;
     margin: 4vw 0 1vw 0;
     width: 90%;
-    /* height: fit-content; */
+    min-height: 20vw;
+    max-height: fit-content;
   }
 
   .note-name {
@@ -788,18 +789,20 @@ h2 {
     font-family: 'Montserrat', sans-serif !important;
     font-weight: normal;
     border: none;
-    overflow: hidden;
+    /* overflow: hidden; */
     /* height: max-content; */
     margin: 1vw 0 1vw 3vw;
     resize: none;
     width: 90% !important;
     overflow-y: scroll;
+    max-height: fit-content;
   }
 
   .note-details:focus {
     outline: none !important;
     border: none;
-    height: fit-content !important
+    height: 20vw;
+    /* max-height: fit-content !important */
   }
 
   .note-svg-trash {

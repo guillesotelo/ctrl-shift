@@ -29,6 +29,7 @@
     font-size: 1vw !important;
     font-family: 'Montserrat', sans-serif !important;
     font-weight: normal;
+    resize: none;
 }
 
 .inputfield-field::placeholder {
@@ -67,6 +68,7 @@
         font-size: 3vw !important;
         font-family: 'Montserrat', sans-serif !important;
         font-weight: normal;
+        resize: none;
     }
 
     .inputfield-field::placeholder {
