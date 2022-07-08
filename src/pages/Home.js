@@ -13,10 +13,12 @@ import PolarChart from '../components/PolarChart'
 import TrashCan from '../assets/trash-can.svg'
 import EyeClosed from '../assets/eye-closed.svg'
 import { getMovements, saveMovement, editMovement, removeMovement } from '../store/reducers/movement'
+import { updateLedgerData } from '../store/reducers/ledger';
 import { APP_COLORS } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
+import SwitchBTN from '../components/SwitchBTN';
 
 export default function Home() {
   const [data, setData] = useState({})
@@ -39,6 +41,7 @@ export default function Home() {
   const [viewSalary, setViewSalary] = useState(false)
   const [budget, setBudget] = useState({})
   const [check, setCheck] = useState(-1)
+  const [sw, setSw] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -50,6 +53,9 @@ export default function Home() {
 
     setUser(localUser)
     setLedger(localLedger)
+
+    const { isMonthly } = JSON.parse(localLedger.settings)
+    if(isMonthly) setSw(isMonthly)
 
     const {
       authors,
@@ -84,21 +90,23 @@ export default function Home() {
 
   useEffect(() => {
     const debited = data.salary - arrData.reduce((item, current) => item + Number(current.amount), 0)
-    if(!isNaN(debited)) setSalary(debited)
+    if (!isNaN(debited)) setSalary(debited)
   }, [data.salary, arrData.length])
 
   useEffect(() => {
-    const categoryPattern = allCategories.map(_ => '#' + Math.floor(Math.random() * 16799215).toString(16))
-    const payTypePattern = allPayTypes.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
-    const authorPattern = allUsers.map(_ => '#' + Math.floor(Math.random() * 16777215).toString(16))
+    const categoryPattern = allCategories.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
+    const payTypePattern = allPayTypes.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
+    const authorPattern = allUsers.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
 
     const localLedger = JSON.parse(localStorage.getItem('ledger'))
-    const { salary } = JSON.parse(localLedger.settings)
+    const { salary, isMonthly } = JSON.parse(localLedger.settings)
 
     const budgetArr = allCategories.map(cat => {
       const num = chartCalculator(arrData, cat, 'category')
       return (Number(budget[cat]) * Number(salary) / 100) - num
     })
+
+    if(isMonthly) setSw(isMonthly)
 
     const budgetPattern = budgetArr.map(item => item > 0 ? '#A5DF6A' : '#DF736A')
 
@@ -142,13 +150,28 @@ export default function Home() {
       }]
     })
 
-  }, [data, allCategories, allPayTypes, arrData])
+  }, [data, allCategories, allPayTypes, arrData, openModal])
 
   const getAllMovements = async newData => {
     try {
       const movs = await dispatch(getMovements(newData)).then(d => d.payload)
-      if (movs) setArrData(movs.data)
+
+      if (movs) {
+        const localLedger = JSON.parse(localStorage.getItem('ledger'))
+        const { isMonthly } = JSON.parse(localLedger.settings)
+
+        if(isMonthly) setArrData(processMonthlyData(movs.data))
+        else setArrData(movs.data)
+      }
     } catch (err) { console.error(err) }
+  }
+
+  const processMonthlyData = allData => {
+    return allData.filter(item => {
+      const itemDate = new Date(item.date)
+      const now = new Date()
+      return now.getMonth() == itemDate.getMonth()
+    })
   }
 
   const pullSettings = () => {
@@ -196,30 +219,35 @@ export default function Home() {
   }
 
   const handleSave = async () => {
+    try {
+      if (checkDataOk(data)) {
+        let saved = {}
 
-    if (checkDataOk(data)) {
-      const saved = await isEdit ? dispatch(editMovement(data)).then(d => d.payload) : dispatch(saveMovement(data)).then(d => d.payload)
-      if (saved) toast.success('Gasto guardado!')
-      else toast.error('Error al guardar')
+        if (isEdit) saved = await dispatch(editMovement(data)).then(d => d.payload)
+        else saved = await dispatch(saveMovement(data)).then(d => d.payload)
 
-      setTimeout(() => getAllMovements(data), 1000)
+        if (saved && saved.status === 200) toast.success('Gasto guardado!')
+        else toast.error('Error al guardar')
 
-      setData({
-        ...data,
-        pay_type: allPayTypes[0],
-        category: allCategories[0],
-        author: allUsers[0],
-        amount: '',
-        detail: '',
-        date: new Date(),
-        ledger: ledger.id,
-        user: user.email
-      })
-      setOpenModal(false)
-      setIsEdit(false)
-      setCheck(-1)
-    }
-    else toast.error('Chequea los campos')
+        setTimeout(() => getAllMovements(data), 1000)
+
+        setData({
+          ...data,
+          pay_type: allPayTypes[0],
+          category: allCategories[0],
+          author: allUsers[0],
+          amount: '',
+          detail: '',
+          date: new Date(),
+          ledger: ledger.id,
+          user: user.email
+        })
+        setOpenModal(false)
+        setIsEdit(false)
+        setCheck(-1)
+      }
+      else toast.error('Chequea los campos')
+    } catch (err) { toast.error('Error al guardar') }
   }
 
   const handleCancel = () => {
@@ -270,12 +298,38 @@ export default function Home() {
     setData({ ...data, [key]: newData })
   }
 
+  const onChangeSw = async () => {
+    try {
+      const newSettings = JSON.parse(ledger.settings)
+      
+      const newLedger = await dispatch(updateLedgerData({
+        settings: JSON.stringify({ ...newSettings, isMonthly: !sw }),
+        id: ledger.id
+      })).then(data => data.payload)
+      
+      if (newLedger) {
+        localStorage.removeItem('ledger')
+        localStorage.setItem('ledger', JSON.stringify(newLedger.data))
+        toast.info(`${!sw ? 'Cambiado a Movimientos Mensuales' : 'Cambiado a Todos los Movimientos'}`)
+        setTimeout(() => {
+          pullSettings()
+          history.go(0)
+        }, 2000)
+        setSw(!sw)
+      }
+      
+    } catch (err) { 
+      console.error(err) 
+      toast.error('Error de conexion')
+    }
+  }
+
   return (
     <div className='home-container'>
       <ToastContainer autoClose={2000} />
       {removeModal &&
         <div className='remove-modal'>
-          <h3>Estas a punto de eliminar:<br/><br/>'{arrData[check].detail}' - ${arrData[check].amount}</h3>
+          <h3>Estas a punto de eliminar:<br /><br />'{arrData[check].detail}' - ${arrData[check].amount}</h3>
           <div className='remove-btns'>
             <CTAButton
               label='Cancelar'
@@ -415,13 +469,20 @@ export default function Home() {
           setCheck={setCheck}
           check={check}
         />
-        <CTAButton
-          handleClick={downloadCSV}
-          label='⇩ CSV'
-          size='fit-content'
-          color={APP_COLORS.BLUE}
-          style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
-        />
+        <div className='sub-table-btns'>
+          <SwitchBTN
+            sw={sw}
+            onChangeSw={onChangeSw}
+            label='Mensual'
+          />
+          <CTAButton
+            handleClick={downloadCSV}
+            label='⇩ Extracto'
+            size='fit-content'
+            color={APP_COLORS.BLUE}
+            style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
+          />
+        </div>
         <div className='div-charts'>
           <div className='separator' style={{ width: '85%' }}></div>
           <BarChart chartData={categoryChart} title='Categorias' />

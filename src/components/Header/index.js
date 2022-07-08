@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MenuIcon from '../../assets/menu-icon.svg'
 import UserGroup from '../../assets/user-group.svg'
 import Menu from '../Menu'
@@ -10,6 +10,13 @@ export default function Header() {
   const history = useHistory()
   const { name } = localStorage.getItem('ledger') ? JSON.parse(localStorage.getItem('ledger')) : {}
 
+  useEffect(() => {
+    window.addEventListener('mouseup', e => {
+      if (e.target != document.querySelector('#menu-icon')) setMenuClass('menu-hidden')
+      else toggleMenu()
+    })
+  }, [])
+
   const toggleMenu = () => {
     menuClass === 'menu-hidden' ? setMenuClass('menu-toggled') : setMenuClass('menu-hidden')
   }
@@ -18,18 +25,18 @@ export default function Header() {
     <>
       <div className='header-container'>
         <div onClick={() => history.push('/ledger')}>
-           <img style={{ transform: 'scale(1.2)' }} className='svg-menu' src={UserGroup} alt="User Group" />
+          <img style={{ transform: 'scale(1.2)' }} className='svg-menu' src={UserGroup} alt="User Group" />
         </div>
 
-        <div onClick={name ? () => history.push('/home') : () => {}}>
+        <div onClick={name ? () => history.push('/home') : () => { }}>
           <h4 className='user-group-title'>{name || ''}</h4>
-        </div>  
+        </div>
 
-        <div className='header-menu' onClick={() => toggleMenu()}>
-          <img className='svg-menu' src={MenuIcon} alt="Menu" />
+        <div className='header-menu'>
+          <img id='menu-icon' className='svg-menu' src={MenuIcon} alt="Menu" />
         </div>
       </div>
-      <Menu menuClass={menuClass} setMenuClass={setMenuClass}/>
+      <Menu menuClass={menuClass} setMenuClass={setMenuClass} />
     </>
   )
 }

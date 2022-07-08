@@ -24,6 +24,7 @@ body {
 
 .main-section button {
   width: fit-content !important;
+  background-color: #f20bc4;
 }
 
 .fill-section-container {
@@ -309,6 +310,7 @@ h2 {
 .svg-eye {
   height: 1.5vw;
   filter: invert(65%) sepia(60%) saturate(455%) hue-rotate(6deg) brightness(90%) contrast(89%);
+  cursor: pointer;
 }
 
 .salary {
@@ -413,6 +415,13 @@ h2 {
   align-items: center;
   width: fit-content;
   margin: 0 1.5vw 1vw;
+}
+
+.sub-table-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin: 0 1vw;
 }
 
 /* -----Tablet----- */
