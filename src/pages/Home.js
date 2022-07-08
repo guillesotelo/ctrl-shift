@@ -170,7 +170,7 @@ export default function Home() {
     return allData.filter(item => {
       const itemDate = new Date(item.date)
       const now = new Date()
-      return now.getMonth() == itemDate.getMonth()
+      return now.getMonth() === itemDate.getMonth()
     })
   }
 
