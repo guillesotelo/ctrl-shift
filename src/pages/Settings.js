@@ -45,7 +45,14 @@ export default function Settings() {
     const pullSettings = () => {
         const { settings, id } = JSON.parse(localStorage.getItem('ledger'))
         const _settings = JSON.parse(settings)
-        setData({ ..._settings, id })
+        setData({ 
+            ..._settings, 
+            id,
+            newAuthor: '',
+            newCategory: '',
+            newPayType: '',
+            newSalary: -1
+        })
         if (_settings.budget) setBudget(_settings.budget)
     }
 
@@ -122,7 +129,7 @@ export default function Settings() {
                 }
             </div>
             {newCategory ?
-                <div  className='settings-new-item'>
+                <div className='settings-new-item'>
                     <InputField
                         label=''
                         updateData={updateData}
@@ -133,13 +140,17 @@ export default function Settings() {
                     />
                     <CTAButton
                         handleClick={() => {
-                            if (data.newCategory) {
-                                setData({ ...data, categories: data.categories.concat(data.newCategory) })
+                            if (data.newCategory && data.newCategory !== '') {
+                                setData({ 
+                                    ...data, 
+                                    categories: data.categories.concat(data.newCategory),
+                                    newCategory: '' 
+                                })
                                 setNewAuthor(false)
                                 setNewPayType(false)
                                 setNewCategory(false)
                                 setEdited(true)
-                            }
+                            } else setNewCategory(false)
                         }}
                         label='Agregar'
                         size='25%'
@@ -169,21 +180,26 @@ export default function Settings() {
                             <CTAButton
                                 handleClick={() => updateBudget(cat, '-')}
                                 label='-'
-                                size='30%'
                                 color={APP_COLORS.YELLOW}
-                                style={{ color: 'black', fontWeight: 'bold' }}
+                                style={{ color: 'black', fontWeight: 'bold', width: 'auto' }}
+                                className='category-budger-setter'
                             />
-                            <h4 className='settings-budget-item-percent'>%{budget[cat] || 0}</h4>
+                            <h4 className='settings-budget-item-percent'>{budget[cat] || 0}%</h4>
+                            <h4 className='settings-budget-item-percent'>(${data.salary * budget[cat] / 100})</h4>
                             <CTAButton
                                 handleClick={() => updateBudget(cat, '+')}
                                 label='+'
-                                size='30%'
                                 color={APP_COLORS.YELLOW}
-                                style={{ color: 'black', fontWeight: 'bold' }}
+                                style={{ color: 'black', fontWeight: 'bold', width: 'auto' }}
+                                className='category-budger-setter'
                             />
                         </div>
                     )
                 }
+                <div className='settings-budget-rest' style={{ justifyContent: 'center' } }>
+                    <h4 className='settings-budget-item-text'>Restante:</h4>
+                    <h4 className='settings-budget-item-percent'>%{budget.total}</h4>
+                </div>
             </div>
 
             <div className='separator' style={{ width: '85%' }}></div>
@@ -200,7 +216,7 @@ export default function Settings() {
                 }
             </div>
             {newAuthor ?
-                <div  className='settings-new-item'>
+                <div className='settings-new-item'>
                     <InputField
                         label=''
                         updateData={updateData}
@@ -211,13 +227,17 @@ export default function Settings() {
                     />
                     <CTAButton
                         handleClick={() => {
-                            if (data.newAuthor) {
-                                setData({ ...data, authors: data.authors.concat(data.newAuthor) })
+                            if (data.newAuthor && data.newAuthor !== '') {
+                                setData({ 
+                                    ...data, 
+                                    authors: data.authors.concat(data.newAuthor),
+                                    newAuthor: ''
+                                })
                                 setNewAuthor(false)
                                 setNewPayType(false)
                                 setNewCategory(false)
                                 setEdited(true)
-                            }
+                            } else setNewAuthor(false)
                         }}
                         label='Agregar'
                         size='25%'
@@ -247,42 +267,46 @@ export default function Settings() {
                         </div>
                     )
                 }
-                            </div>
-                {newPayType ?
-                <div  className='settings-new-item'>
-                        <InputField
-                            label=''
-                            updateData={updateData}
-                            placeholder='Nombre...'
-                            name='newPayType'
-                            type='text'
-                            style={{ margin: '0 20vw' }}
-                        />
-                        <CTAButton
-                            handleClick={() => {
-                                if (data.newPayType) {
-                                    setData({ ...data, payTypes: data.payTypes.concat(data.newPayType) })
-                                    setNewAuthor(false)
-                                    setNewPayType(false)
-                                    setNewCategory(false)
-                                    setEdited(true)
-                                }
-                            }}
-                            label='Agregar'
-                            size='25%'
-                            color={APP_COLORS.YELLOW}
-                            style={{ color: 'black', marginTop: '2vw' }}
-                        />
-                    </div>
-                    :
-                    <CTAButton
-                        handleClick={() => setNewPayType(true)}
-                        label='+'
-                        size='12%'
-                        color={APP_COLORS.YELLOW}
-                        style={{ color: 'black', fontWeight: 'bold', marginTop: '2vw' }}
+            </div>
+            {newPayType ?
+                <div className='settings-new-item'>
+                    <InputField
+                        label=''
+                        updateData={updateData}
+                        placeholder='Nombre...'
+                        name='newPayType'
+                        type='text'
+                        style={{ margin: '0 20vw' }}
                     />
-                }
+                    <CTAButton
+                        handleClick={() => {
+                            if (data.newPayType && data.newPayType !== '') {
+                                setData({ 
+                                    ...data, 
+                                    payTypes: data.payTypes.concat(data.newPayType),
+                                    newPayType: ''
+                                })
+                                setNewAuthor(false)
+                                setNewPayType(false)
+                                setNewCategory(false)
+                                setEdited(true)
+                            } else setNewPayType(false)
+                        }}
+                        label='Agregar'
+                        size='25%'
+                        color={APP_COLORS.YELLOW}
+                        style={{ color: 'black', marginTop: '2vw' }}
+                    />
+                </div>
+                :
+                <CTAButton
+                    handleClick={() => setNewPayType(true)}
+                    label='+'
+                    size='12%'
+                    color={APP_COLORS.YELLOW}
+                    style={{ color: 'black', fontWeight: 'bold', marginTop: '2vw' }}
+                />
+            }
 
             {edited &&
                 <div className='save-div'>

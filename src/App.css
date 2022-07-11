@@ -665,16 +665,28 @@ h2 {
   }
 
   .settings-list-budget {
+    width: 100%;
+  }
+
+  .settings-budget-rest {
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: 4vw;
+    margin: 4vw 0 0 0;
+    font-size: 3.5vw;
   }
 
   .settings-budget-item-text {
-    width: 60%;
-    margin-left: 8vw;
-    font-size: 3.5vw;
+    margin: 0;
+    font-size: 3.8vw;
+    width: 35%;
+  }
+
+  .settings-budget-item-percent {
+    font-size: 3.2vw;
+    text-align: center;
+    width: 17%;
   }
 
   .save-div {
@@ -821,7 +833,7 @@ h2 {
   .note-svg-edit {
     transform: scale(0.55);
   }
-  
+
   .note-svgs {
     display: flex;
     flex-direction: row;

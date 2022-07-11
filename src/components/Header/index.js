@@ -13,7 +13,6 @@ export default function Header() {
   useEffect(() => {
     window.addEventListener('mouseup', e => {
       if (e.target != document.querySelector('#menu-icon')) setMenuClass('menu-hidden')
-      else toggleMenu()
     })
   }, [])
 
@@ -32,7 +31,7 @@ export default function Header() {
           <h4 className='user-group-title'>{name || ''}</h4>
         </div>
 
-        <div className='header-menu'>
+        <div className='header-menu' onClick={() => toggleMenu()}>
           <img id='menu-icon' className='svg-menu' src={MenuIcon} alt="Menu" />
         </div>
       </div>

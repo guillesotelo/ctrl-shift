@@ -20,7 +20,6 @@
     opacity: 0.8;
 }
 
-
 @media only screen and (max-width: 640px) {
     .cta-btn-container {
         display: flex;
@@ -35,5 +34,10 @@
         color: #E5E5E5;
         border: none;
         border-radius: 3vw;
+    }
+
+    .category-budger-setter {
+        width: 10%;
+        margin: 0 1vw;
     }
 }

@@ -206,7 +206,7 @@ export default function Home() {
 
   const checkDataOk = dataToCheck => {
     const num = dataToCheck.amount
-    if (isNaN(num) || num < 2 || num === 0 || !dataToCheck.detail) return false
+    if (isNaN(num) || num < 2 || num === 0) return false
     return true
   }
 
@@ -222,14 +222,16 @@ export default function Home() {
     try {
       if (checkDataOk(data)) {
         let saved = {}
+        const submitData = data
+        if(!submitData.detail) submitData.detail = '-'
 
-        if (isEdit) saved = await dispatch(editMovement(data)).then(d => d.payload)
-        else saved = await dispatch(saveMovement(data)).then(d => d.payload)
+        if (isEdit) saved = await dispatch(editMovement(submitData)).then(d => d.payload)
+        else saved = await dispatch(saveMovement(submitData)).then(d => d.payload)
 
         if (saved && saved.status === 200) toast.success('Gasto guardado!')
         else toast.error('Error al guardar')
 
-        setTimeout(() => getAllMovements(data), 1000)
+        setTimeout(() => getAllMovements(submitData), 1000)
 
         setData({
           ...data,
