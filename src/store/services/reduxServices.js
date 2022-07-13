@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const API_URL = process.env.NODE_ENV === 'development' ? '' : process.env.REACT_APP_API_URL
+
 const loginUser = async user => {
     try {
-        const res = await axios.post(`/api/user`, user)
+        const res = await axios.post(`${API_URL}/api/user`, user)
         const finalUser = res.data
         localStorage.setItem('user', JSON.stringify(finalUser))
         return finalUser
@@ -11,14 +13,14 @@ const loginUser = async user => {
 
 const registerUser = async data => {
     try {
-        const newUser = await axios.post(`/api/user/create`, data)
+        const newUser = await axios.post(`${API_URL}/api/user/create`, data)
         return newUser
     } catch (err) { console.log(err) }
 }
 
 const setUserVoid = async () => {
     try {
-        await axios.get(`/api/auth/logout`)
+        await axios.get(`${API_URL}/api/auth/logout`)
         localStorage.removeItem('user')
         return {}
     } catch (err) { console.log(err) }
@@ -26,56 +28,56 @@ const setUserVoid = async () => {
 
 const getAllMovements = async data => {
     try {
-        const movements = await axios.get(`/api/movement`, { params: data })
+        const movements = await axios.get(`${API_URL}/api/movement`, { params: data })
         return movements
     } catch (err) { console.log(err) }
 }
 
 const createMovement = async data => {
     try {
-        const movement = await axios.post(`/api/movement`, data)
+        const movement = await axios.post(`${API_URL}/api/movement`, data)
         return movement
     } catch (err) { console.log(err) }
 }
 
 const updateMovement = async data => {
     try {
-        const ledger = await axios.post(`/api/movement/update`, data)
+        const ledger = await axios.post(`${API_URL}/api/movement/update`, data)
         return ledger
     } catch (err) { console.log(err) }
 }
 
 const deleteMovement = async data => {
     try {
-        const deleted = await axios.post(`/api/movement/remove`, data)
+        const deleted = await axios.post(`${API_URL}/api/movement/remove`, data)
         return deleted
     } catch (err) { console.log(err) }
 }
 
 const createLedger = async data => {
     try {
-        const ledger = await axios.post(`/api/ledger/create`, data)
+        const ledger = await axios.post(`${API_URL}/api/ledger/create`, data)
         return ledger
     } catch (err) { console.log(err) }
 }
 
 const updateLedger = async data => {
     try {
-        const ledger = await axios.post(`/api/ledger/update`, data)
+        const ledger = await axios.post(`${API_URL}/api/ledger/update`, data)
         return ledger
     } catch (err) { console.log(err) }
 }
 
 const getAllLedgersByEmail = async email => {
     try {
-        const ledgers = await axios.get(`/api/ledger/all`, email)
+        const ledgers = await axios.get(`${API_URL}/api/ledger/all`, email)
         return ledgers
     } catch (err) { console.log(err) }
 }
 
 const loginLedger = async data => {
     try {
-        const res = await axios.post(`/api/ledger`, data)
+        const res = await axios.post(`${API_URL}/api/ledger`, data)
         return res.data
     } catch (error) { console.log(error) }
 }
