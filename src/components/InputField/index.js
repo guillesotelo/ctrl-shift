@@ -28,7 +28,7 @@ export default function InputField(props) {
 
     return (
         <div className='inputfield-container'>
-            <h4 style={{ color: APP_COLORS.GRAY }} className='inputfield-label'>{label || ''}</h4>
+            {label ? <h4 style={{ color: APP_COLORS.GRAY }} className='inputfield-label'>{label || ''}</h4> : ''}
             {type === 'textarea' ?
                 <textarea
                     className='inputfield-textarea'

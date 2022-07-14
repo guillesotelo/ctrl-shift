@@ -182,7 +182,7 @@ export default function Settings() {
                                 label='-'
                                 color={APP_COLORS.YELLOW}
                                 style={{ color: 'black', fontWeight: 'bold', width: 'auto' }}
-                                className='category-budger-setter'
+                                className='category-budget-setter'
                             />
                             <h4 className='settings-budget-item-percent'>{budget[cat] || 0}%</h4>
                             <h4 className='settings-budget-item-percent'>(${data.salary * budget[cat] / 100})</h4>
@@ -191,7 +191,7 @@ export default function Settings() {
                                 label='+'
                                 color={APP_COLORS.YELLOW}
                                 style={{ color: 'black', fontWeight: 'bold', width: 'auto' }}
-                                className='category-budger-setter'
+                                className='category-budget-setter'
                             />
                         </div>
                     )

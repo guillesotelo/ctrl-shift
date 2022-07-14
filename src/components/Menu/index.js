@@ -30,6 +30,7 @@ export default function Menu(props) {
           handleClick={handleAccount}
           size='100%'
           style={{ color: '#CCA43B', fontSize: '5vw' }}
+          className='cta-menu'
         />
         {
           name &&
@@ -53,6 +54,7 @@ export default function Menu(props) {
               }}
               size='100%'
               style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
+              className='cta-menu'
             />
             <CTAButton
               label='Notas'
@@ -63,6 +65,7 @@ export default function Menu(props) {
               }}
               size='100%'
               style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
+              className='cta-menu'
             />
           </>
         }
@@ -72,6 +75,7 @@ export default function Menu(props) {
           handleClick={handleLogOut}
           size='100%'
           style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
+          className='cta-menu'
         />
       </div>
       <h4 className='app-version'>{VERSION}</h4>

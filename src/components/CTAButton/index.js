@@ -16,6 +16,7 @@ export default function CTAButton(props) {
     const buttonStyle = {
         ...style,
         padding: '3vw',
+        width: size || 'auto',
         backgroundColor: color || APP_COLORS.BLUE,
         opacity: disabled ? 0.25 : 1
     }

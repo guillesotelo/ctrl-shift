@@ -9,7 +9,7 @@
 .cta-btn {
     font-size: 1.2vw !important;
     padding: 1vw 2vw !important;
-    margin: 1vw !important;
+    margin: 0vw !important;
     color: #E5E5E5;
     border: none;
     border-radius: 3vw;
@@ -18,6 +18,39 @@
 
 .cta-btn-container:hover {
     opacity: 0.8;
+}
+
+.category-budget-setter {
+    width: 5%;
+    margin: 0 1vw;
+}
+
+.cta-login {
+    margin: 2vw 0 2vw 0;
+}
+
+.cta-register {
+    margin: 2vw 0 4vw;
+}
+
+.cta-new-ledger {
+    margin: 2vw;
+}
+
+.cta-connect-ledger {
+    margin: 1vw 0 2vw 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.cta-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: 0.3s;
 }
 
 @media only screen and (max-width: 640px) {
@@ -34,10 +67,35 @@
         color: #E5E5E5;
         border: none;
         border-radius: 3vw;
+        margin: 0vw !important;
     }
 
-    .category-budger-setter {
+    .category-budget-setter {
         width: 10%;
         margin: 0 1vw;
+    }
+
+    .cta-login {
+        margin: 5vw 0 8vw 0;
+    }
+
+    .cta-register {
+        margin: 3vw 0 10vw;
+    }
+
+    .cta-new-ledger {
+        margin: 0 0 4vw 0
+    }
+
+    .cta-connect-ledger {
+        margin: 4vw 0 2vw 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .cta-menu {
+        margin: 2vw 0 3vw 0
     }
 }

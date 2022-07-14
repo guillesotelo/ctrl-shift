@@ -1,6 +1,6 @@
 .switch-container {
     padding: 0;
-    margin: 1.5vw 1vw;
+    margin: 1.5vw 1vw 0 0;
 }
 
 .switch-label {
@@ -52,7 +52,7 @@
 @media only screen and (max-width: 640px) {
     .switch-container {
         padding: 0;
-        margin: 2vw 2vw;
+        margin: 2vw 2vw 0 2vw;
     }
     
     .switch-label {

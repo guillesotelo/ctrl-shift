@@ -65,6 +65,7 @@ export default function Login() {
                     size='100%'
                     color={APP_COLORS.BLUE}
                     style={{ margin: '10vw', fontSize: '4vw' }}
+                    className='cta-login'
                 />
                 <h4 className='login-register-text'>No tienes cuenta? <button onClick={goToRegister} className='login-register-link'>Registrate</button></h4>
             </div>

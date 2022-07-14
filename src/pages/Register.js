@@ -40,10 +40,10 @@ export default function Register() {
         <div className='login-container'>
             <ToastContainer autoClose={2000} />
             <div className='logo-register-container'>
-                <img className='logo-img' src={Logo} alt="Ctrol Shiflt" />
+                <img className='logo-img-register' src={Logo} alt="Ctrol Shiflt" />
             </div>
             <div className='login-section'>
-                <h4 className='hi-login'>Primera vez por aqui?</h4>
+                <h4 className='hi-login'>Primera vez por aquí?</h4>
                 <InputField
                     label=''
                     updateData={updateData}
@@ -86,6 +86,7 @@ export default function Register() {
                     size='100%'
                     color={APP_COLORS.BLUE}
                     style={{ marginTop: '6vw', fontSize: '4vw' }}
+                    className='cta-register'
                 />
                 <CTAButton
                     label='Volver'

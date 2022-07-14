@@ -23,7 +23,7 @@ export default function Ledger() {
 
     useEffect(() => {
         const { email } = JSON.parse(localStorage.getItem('user'))
-        
+
         const _settings = {
             authors: ['Yo'],
             payTypes: ['Efectivo', 'Debito/Transf.', 'TC'],
@@ -77,10 +77,16 @@ export default function Ledger() {
     return (
         <div className='user-group-container'>
             <ToastContainer autoClose={2000} />
-            <h4 className='group-text'>Para comenzar a utilizar CtrlShift, debes crear un <b>Libro Contable</b>,
-                donde se guardaran todos tus movimientos.<br />
-                Luego, otras personas podran participar de tu Libro, conectandose con el <b>nombre</b> y <b>PIN</b>.<br /><br />
-                Tambien puedes conectarte con un <b>Libro</b> existente.</h4>
+            {
+                ledger && ledger.name ?
+                    <h4 className='group-text'>Para que otras personas puedan participar de tu Libro, compárteles el <b>nombre</b> y <b>PIN</b>.<br /><br />
+                        También puedes conectarte con otro <b>Libro</b> existente.</h4>
+                    :
+                    <h4 className='group-text'>Para comenzar a utilizar CtrlShift, debes crear un <b>Libro Contable</b>,
+                        donde se guardarán todos tus movimientos.<br />
+                        Luego, otras personas podran participar de tu Libro, conectándose con el <b>nombre</b> y <b>PIN</b>.<br /><br />
+                        También puedes conectarte con un <b>Libro</b> existente.</h4>
+            }
             {
                 ledger && ledger.name ?
                     <div className='div-ledger-connected'>
@@ -102,6 +108,7 @@ export default function Ledger() {
                                 setConnect(false)
                             }}
                             style={{ marginBottom: '4vw', color: 'black' }}
+                            className='cta-new-ledger'
                         />
                         <CTAButton
                             label='Conectar existente'
@@ -135,6 +142,7 @@ export default function Ledger() {
                                     color='#242F40'
                                     handleClick={handleSaveLedger}
                                     style={{ margin: '1vw', color: '#CCA43B' }}
+                                    className='cta-connect-ledger'
                                 />
                             </div>
                         }
@@ -162,6 +170,7 @@ export default function Ledger() {
                                     color='#242F40'
                                     handleClick={handleConnect}
                                     style={{ margin: '1vw', color: '#CCA43B' }}
+                                    className='cta-connect-ledger'
                                 />
                             </div>
                         }

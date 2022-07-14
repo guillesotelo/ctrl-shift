@@ -1,6 +1,7 @@
 .inputfield-container {
     display: flex;
     flex-direction: column;
+    margin: 1vw 0;
 }
 
 .inputfield-label {
@@ -40,11 +41,12 @@
     .inputfield-container {
         display: flex;
         flex-direction: column;
+        margin: 2vw 0;
     }
 
     .inputfield-label {
         font-size: 4vw;
-        margin: 4vw 0 1vw 0;
+        margin: 4vw 0;
         text-align: center;
     }
 
