@@ -117,7 +117,7 @@ export default function Notes() {
                 />
             }
             {isEdit &&
-                <div className='new-note-container'>
+                <div className='new-note-container' style={{ filter: removeModal && 'blur(10px)' }}>
                     <InputField
                         label=''
                         updateData={updateData}
