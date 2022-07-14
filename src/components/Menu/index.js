@@ -7,7 +7,8 @@ import './styles.css'
 export default function Menu(props) {
   const { menuClass, setMenuClass } = props
   const history = useHistory()
-  const { name } = localStorage.getItem('ledger') ? JSON.parse(localStorage.getItem('ledger')) : {}
+  const { name } = localStorage.getItem('ledger') && 
+  localStorage.getItem('ledger') !== null ? JSON.parse(localStorage.getItem('ledger')) : {}
 
   const handleLogOut = () => {
     setMenuClass('menu-hidden')

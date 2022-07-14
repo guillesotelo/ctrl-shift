@@ -67,7 +67,7 @@ export default function Login() {
                     style={{ margin: '10vw', fontSize: '4vw' }}
                     className='cta-login'
                 />
-                <h4 className='login-register-text'>No tienes cuenta? <button onClick={goToRegister} className='login-register-link'>Registrate</button></h4>
+                <h4 className='login-register-text'>No tienes cuenta? <button onClick={goToRegister} className='login-register-link'>Regístrate</button></h4>
             </div>
         </div>
     )
