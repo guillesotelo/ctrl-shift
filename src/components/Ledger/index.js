@@ -42,9 +42,9 @@ export default function Ledger() {
         try {
             const ledgerBook = await dispatch(saveLedger(data)).then(d => d.payload)
 
-            if (ledgerBook && ledgerBook.data) {
+            if (ledgerBook) {
                 localStorage.removeItem('ledger')
-                localStorage.setItem('ledger', JSON.stringify(ledgerBook.data))
+                localStorage.setItem('ledger', JSON.stringify(ledgerBook))
                 toast.success('Guardado con exito! \nRedirigiendo...')
 
                 setTimeout(() => history.push('/home'), 2000)

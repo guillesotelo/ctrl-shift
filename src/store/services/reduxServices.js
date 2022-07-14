@@ -64,8 +64,12 @@ const deleteMovement = async data => {
 
 const createLedger = async data => {
     try {
-        const ledger = await axios.post(`${API_URL}/api/ledger/create`, data)
-        return ledger
+        const res = await axios.post(`${API_URL}/api/ledger/create`, data)
+        const user = JSON.parse(localStorage.getItem('user'))
+        const updatedUser = await updateUser({ user, newData: { defaultLedger: JSON.stringify(res.data) }})
+        localStorage.removeItem('user')
+        localStorage.setItem('user', JSON.stringify(updatedUser.data))
+        return res.data
     } catch (err) { console.log(err) }
 }
 
