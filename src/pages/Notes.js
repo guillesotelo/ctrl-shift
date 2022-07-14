@@ -133,6 +133,7 @@ export default function Notes() {
                         placeholder='Detalles...'
                         name='details'
                         type='textarea'
+                        rows={8}
                         value={data.details}
                     />
                     {((data.name || data.details || check) && isEdit) ?
@@ -153,17 +154,32 @@ export default function Notes() {
             {data.notes.length ?
                 <div className='note-list' style={{ filter: removeModal && 'blur(10px)' }}>
                     {data.notes.map((note, i) =>
-                        <div key={i} className='note-container' onClick={() => setCheck(note)} style={{ borderColor: check === note ? '#CCA43B' : 'lightgray' }}>
+                        <div
+                            key={i}
+                            className='note-container'
+                            style={{ borderColor: check === note ? '#CCA43B' : 'lightgray' }}
+                            onClick={() => check === note ? setCheck({}) : setCheck(note)}
+                            >
                             <h4 className='note-name'>{note.name}</h4>
-                            <textarea rows={5} cols={40} readOnly="readonly" className='note-details' defaultValue={note.details} />
+                            <textarea
+                                rows={8}
+                                cols={40}
+                                readOnly="readonly"
+                                className='note-details'
+                                defaultValue={note.details}
+                            />
                             {check === note &&
                                 <div className='note-svgs'>
-                                    <img style={{ transform: 'scale(0.6)' }} onClick={() => setRemoveModal(true)} className='note-svg-trash' src={TrashCan} alt="Trash Can" />
+                                    <img
+                                        style={{ transform: 'scale(0.6)' }}
+                                        onClick={() => setRemoveModal(true)}
+                                        className='note-svg-trash'
+                                        src={TrashCan} alt="Trash Can"
+                                    />
                                     <img onClick={() => {
                                         setIsEdit(true)
-                                        setCheck(note)
-                                        setData({...data, name: note.name, details: note.details})
-                                        }} 
+                                        setData({ ...data, name: note.name, details: note.details })
+                                    }}
                                         className='note-svg-edit' src={EditPen} alt="Edit" />
                                 </div>
                             }
