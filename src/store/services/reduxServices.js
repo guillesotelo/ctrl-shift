@@ -7,7 +7,7 @@ const loginUser = async user => {
         const res = await axios.post(`${API_URL}/api/user`, user)
         const finalUser = res.data
         localStorage.setItem('user', JSON.stringify(finalUser))
-        if(finalUser.defaultLedger) localStorage.setItem('ledger', finalUser.defaultLedger)
+        if(finalUser.defaultLedger !== null) localStorage.setItem('ledger', finalUser.defaultLedger)
         return finalUser
     } catch (error) { console.log(error) }
 }
