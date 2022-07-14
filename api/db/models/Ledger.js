@@ -18,7 +18,8 @@ const ledgerSchema = new mongoose.Schema({
         type: String
     },
     notes: {
-        type: String
+        type: String,
+        default: '[]'
     }
 })
 

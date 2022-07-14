@@ -234,6 +234,11 @@ h2 {
   width: fit-content;
   color: white;
   margin: 0.5vw;
+  transition: 0.3s;
+}
+
+.settings-list-item:hover {
+  opacity: 0.8;
 }
 
 .settings-list-item-text {
@@ -671,6 +676,11 @@ h2 {
     width: fit-content;
     color: white;
     margin: 2vw;
+    transition: 0.3s;
+  }
+
+  .settings-list-item:hover {
+    opacity: 0.8;
   }
 
   .settings-list-item-text {

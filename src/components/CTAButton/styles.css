@@ -23,18 +23,37 @@
 .category-budget-setter {
     width: 5%;
     margin: 0 1vw;
+    transition: 0.3s;
+}
+
+.category-budget-setter:hover {
+    opacity: 0.8;
 }
 
 .cta-login {
     margin: 2vw 0 2vw 0;
+    transition: 0.3s;
+}
+
+.cta-login:hover {
+    opacity: 0.8;
 }
 
 .cta-register {
     margin: 2vw 0 4vw;
+    transition: 0.3s;
+}
+.cta-register:hover {
+    opacity: 0.8;
 }
 
 .cta-new-ledger {
     margin: 2vw;
+    transition: 0.3s;
+}
+
+.cta-new-ledger:hover {
+    opacity: 0.8;
 }
 
 .cta-connect-ledger {
@@ -43,6 +62,11 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    transition: 0.3s;
+}
+
+.cta-connect-ledger {
+    opacity: 0.8;
 }
 
 .cta-menu {

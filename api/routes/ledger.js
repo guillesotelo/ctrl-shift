@@ -44,7 +44,7 @@ router.post('/create', async (req, res, next) => {
             name: newLedger.name,
             settings: newLedger.settings,
             pin: 'null',
-            notes: newLedger.notes || []
+            notes: newLedger.notes
         })
     } catch(err) { console.log(err) }
 })

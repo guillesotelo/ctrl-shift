@@ -20,20 +20,26 @@ export default function Register() {
 
     const onRegister = async () => {
         try {
-            if (!data.password2 || !data.password || data.password2 !== data.password) {
-                return toast.error('Chequea los datos')
-            }
+            if (!checkData()) return toast.error('Chequea los datos')
+            if (data.password.length < 4) return toast.error('La contraseña debe tener al menos 4 caracteres')
+
             const newUser = await dispatch(createUser(data)).then(data => data.payload)
             if (newUser) {
                 const login = await dispatch(logIn(data)).then(data => data.payload)
                 if (login) {
                     localStorage.setItem('user', JSON.stringify(login))
-                    toast.info('Bienvenid@!')
+                    toast.info(`Bienvenid@, ${login.username}!`)
                     setTimeout(() => history.push('/ledger'), 2000)
                 }
 
             } else return toast.error('Error en el registro')
         } catch (err) { console.error(err) }
+    }
+
+    const checkData = () => {
+        if (!data.password2 || !data.password || data.password2 !== data.password) return false
+        if (!data.email.includes('@') || !data.email.includes('.')) return false
+        return true
     }
 
     return (
@@ -74,7 +80,7 @@ export default function Register() {
                 <InputField
                     label=''
                     updateData={updateData}
-                    placeholder='Reingresa contrasenia'
+                    placeholder='Reingresa la contraseña'
                     name='password2'
                     type='password'
                     style={{ fontWeight: 'normal', fontSize: '4vw' }}
