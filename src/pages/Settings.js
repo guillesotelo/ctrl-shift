@@ -76,11 +76,20 @@ export default function Settings() {
     const updateBudget = (category, type) => {
         setEdited(true)
         const newValue = Number(budget[category]) || 0
+        
         if (type === '-' && newValue > 0 && budget.total < 100) {
-            setBudget({ ...budget, [category]: newValue - 1, total: budget.total + 1 })
+            setBudget({ 
+                ...budget, 
+                [category]: newValue <= 1 ? newValue - 0.1 : newValue - 1, 
+                total: newValue <= 1 ? budget.total + 0.1 : budget.total + 1 
+            })
         }
         if (type === '+' && newValue < 100 && budget.total > 0) {
-            setBudget({ ...budget, [category]: newValue + 1, total: budget.total - 1 })
+            setBudget({ 
+                ...budget, 
+                [category]: newValue < 1 ? newValue + 0.1 : newValue + 1, 
+                total: newValue < 1 ? budget.total - 0.1 : budget.total - 1 
+            })
         }
     }
 
@@ -184,8 +193,8 @@ export default function Settings() {
                                 style={{ color: 'black', fontWeight: 'bold', width: 'auto' }}
                                 className='category-budget-setter'
                             />
-                            <h4 className='settings-budget-item-percent'>{budget[cat] || 0}%</h4>
-                            <h4 className='settings-budget-item-percent'>(${data.salary * budget[cat] / 100})</h4>
+                            <h4 className='settings-budget-item-percent'>{budget[cat].toFixed(1) || 0}%</h4>
+                            <h4 className='settings-budget-item-percent'>(${(data.salary * budget[cat].toFixed(1) / 100).toFixed(0)}))</h4>
                             <CTAButton
                                 handleClick={() => updateBudget(cat, '+')}
                                 label='+'
@@ -198,7 +207,7 @@ export default function Settings() {
                 }
                 <div className='settings-budget-rest' style={{ justifyContent: 'center' } }>
                     <h4 className='settings-budget-item-text'>Restante:</h4>
-                    <h4 className='settings-budget-item-percent'>%{budget.total}</h4>
+                    <h4 className='settings-budget-item-percent'>%{budget.total.toFixed(1)}</h4>
                 </div>
             </div>
 

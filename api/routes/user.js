@@ -15,7 +15,12 @@ router.post('/', async (req, res, next) => {
 
         const token = generateToken(user)
 
-        res.status(200).json({ username: user.username, email, token })
+        res.status(200).json({ 
+            username: user.username, 
+            email, 
+            token,
+            defaultLedger: user.defaultLedger || null
+         })
 
     } catch (err) { console.log(err) }
 })
@@ -27,6 +32,24 @@ router.post('/create', async (req, res, next) => {
         if (!user) return res.status(400).send('Bad request')
         res.status(201).send(`User created successfully`)
     } catch (err) { console.log(err) }
+})
+
+//Update User Data
+router.post('/update', async (req, res, next) => {
+    try {
+        const { user, newData } = req.body
+        const newUser = await User.findOneAndUpdate( 
+            { username: user.username, email: user.email }, newData, { new: true } )
+        if(!newUser) return res.status(404).send('Error updating User.')
+
+        res.status(200).json({ 
+            id: newUser.id,
+            email: newUser.email,
+            username: newUser.username,
+            defaultLedger: newUser.defaultLedger,
+            token: generateToken(newUser)
+        })
+    } catch(err) { console.log(err) }
 })
 
 //Logout

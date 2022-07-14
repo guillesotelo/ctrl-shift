@@ -22,9 +22,9 @@ export default function Login() {
         try {
             const login = await dispatch(logIn(data)).then(data => data.payload)
             if (login) {
-                localStorage.setItem('user', JSON.stringify(login))
+                const hasLedger = login.defaultLedger
                 toast.info(`Bienvenid@, ${login.username}!`)
-                setTimeout(() => history.push('/ledger'), 2000)
+                setTimeout(() => history.push(`${hasLedger ? '/home' : '/ledger'}`), 2000)
             } else toast.error('Credenciales incorrectas')
         } catch (_) { toast.error('Credenciales incorrectas') }
     }

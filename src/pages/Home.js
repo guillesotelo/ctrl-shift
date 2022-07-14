@@ -103,7 +103,7 @@ export default function Home() {
 
     const budgetArr = allCategories.map(cat => {
       const num = chartCalculator(arrData, cat, 'category')
-      return (Number(budget[cat]) * Number(salary) / 100) - num
+      return (Number(budget[cat].toFixed(1)) * Number(salary) / 100) - num
     })
 
     if(isMonthly) setSw(isMonthly)

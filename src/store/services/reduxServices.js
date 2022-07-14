@@ -7,6 +7,7 @@ const loginUser = async user => {
         const res = await axios.post(`${API_URL}/api/user`, user)
         const finalUser = res.data
         localStorage.setItem('user', JSON.stringify(finalUser))
+        localStorage.setItem('ledger', finalUser.defaultLedger)
         return finalUser
     } catch (error) { console.log(error) }
 }
@@ -15,6 +16,13 @@ const registerUser = async data => {
     try {
         const newUser = await axios.post(`${API_URL}/api/user/create`, data)
         return newUser
+    } catch (err) { console.log(err) }
+}
+
+const updateUser = async data => {
+    try {
+        const user = await axios.post(`${API_URL}/api/user/update`, data)
+        return user
     } catch (err) { console.log(err) }
 }
 
@@ -78,6 +86,10 @@ const getAllLedgersByEmail = async email => {
 const loginLedger = async data => {
     try {
         const res = await axios.post(`${API_URL}/api/ledger`, data)
+        const user = JSON.parse(localStorage.getItem('user'))
+        const updatedUser = await updateUser({ user, newData: { defaultLedger: JSON.stringify(res.data) }})
+        localStorage.removeItem('user')
+        localStorage.setItem('user', JSON.stringify(updatedUser.data))
         return res.data
     } catch (error) { console.log(error) }
 }
