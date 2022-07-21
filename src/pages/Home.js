@@ -55,7 +55,7 @@ export default function Home() {
     setLedger(localLedger)
 
     const { isMonthly } = JSON.parse(localLedger.settings)
-    if(isMonthly) setSw(isMonthly)
+    if (isMonthly) setSw(isMonthly)
 
     const {
       authors,
@@ -94,6 +94,10 @@ export default function Home() {
   }, [data.salary, arrData.length])
 
   useEffect(() => {
+    renderCharts()
+  }, [data, allCategories, allPayTypes, arrData, openModal])
+
+  const renderCharts = () => {
     const categoryPattern = allCategories.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
     const payTypePattern = allPayTypes.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
     const authorPattern = allUsers.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
@@ -106,7 +110,7 @@ export default function Home() {
       return (Number(budget[cat]).toFixed(1) * Number(salary) / 100) - num
     })
 
-    if(isMonthly) setSw(isMonthly)
+    if (isMonthly) setSw(isMonthly)
 
     const budgetPattern = budgetArr.map(item => item > 0 ? '#A5DF6A' : '#DF736A')
 
@@ -149,19 +153,18 @@ export default function Home() {
         backgroundColor: categoryPattern
       }]
     })
-
-  }, [data, allCategories, allPayTypes, arrData, openModal])
+  }
 
   const getAllMovements = async newData => {
     try {
       const movs = await dispatch(getMovements(newData)).then(d => d.payload)
 
       if (movs) {
+        let filteredMovs = movs.data
         const localLedger = JSON.parse(localStorage.getItem('ledger'))
         const { isMonthly } = JSON.parse(localLedger.settings)
-
-        if(isMonthly) setArrData(processMonthlyData(movs.data))
-        else setArrData(movs.data)
+        if (isMonthly) setArrData(processMonthlyData(filteredMovs))
+        else setArrData(filteredMovs)
       }
     } catch (err) { console.error(err) }
   }
@@ -223,7 +226,7 @@ export default function Home() {
       if (checkDataOk(data)) {
         let saved = {}
         const submitData = data
-        if(!submitData.detail) submitData.detail = '-'
+        if (!submitData.detail) submitData.detail = '-'
 
         if (isEdit) saved = await dispatch(editMovement(submitData)).then(d => d.payload)
         else saved = await dispatch(saveMovement(submitData)).then(d => d.payload)
@@ -247,6 +250,7 @@ export default function Home() {
         setOpenModal(false)
         setIsEdit(false)
         setCheck(-1)
+        renderCharts()
       }
       else toast.error('Chequea los campos')
     } catch (err) { toast.error('Error al guardar') }
@@ -297,18 +301,35 @@ export default function Home() {
   }
 
   const updateData = (key, newData) => {
-    setData({ ...data, [key]: newData })
+    if (key === 'search') {
+      const filteredMovs = arrData.filter(mov =>
+        mov.detail.includes(newData) ||
+        mov.pay_type.includes(newData) ||
+        mov.author.includes(newData) ||
+        mov.category.includes(newData)
+      )
+      if (newData) setArrData(filteredMovs)
+      else {
+        const newData = {
+          ...data,
+          ledger: ledger.id || -1,
+          user: ledger.email
+        }
+        getAllMovements(newData)
+      }
+    }
+    else setData({ ...data, [key]: newData })
   }
 
   const onChangeSw = async () => {
     try {
       const newSettings = JSON.parse(ledger.settings)
-      
+
       const newLedger = await dispatch(updateLedgerData({
         settings: JSON.stringify({ ...newSettings, isMonthly: !sw }),
         id: ledger.id
       })).then(data => data.payload)
-      
+
       if (newLedger) {
         localStorage.removeItem('ledger')
         localStorage.setItem('ledger', JSON.stringify(newLedger.data))
@@ -319,9 +340,9 @@ export default function Home() {
         }, 2000)
         setSw(!sw)
       }
-      
-    } catch (err) { 
-      console.error(err) 
+
+    } catch (err) {
+      console.error(err)
       toast.error('Error de conexion')
     }
   }
@@ -485,11 +506,16 @@ export default function Home() {
             style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
           />
         </div>
+        <div className='search-container'>
+          <InputField
+            label=''
+            updateData={updateData}
+            placeholder='Buscar movimiento...'
+            type='text'
+            name='search'
+          />
+        </div>
         <div className='div-charts'>
-          <div className='separator' style={{ width: '85%' }}></div>
-          <BarChart chartData={categoryChart} title='Categorias' />
-          <PolarChart chartData={typeChart} title='Tipos de Pago' />
-          <PolarChart chartData={authorChart} title='Autores' />
           <div className='separator' style={{ width: '85%' }}></div>
           {Object.keys(budget).length > 1 &&
             <>
@@ -498,6 +524,12 @@ export default function Home() {
               <PieChart chartData={budgetChart2} title='Porcentaje total %' />
             </>
           }
+          <div className='separator' style={{ width: '85%' }}></div>
+          <BarChart chartData={categoryChart} title='Categorias' />
+          <div className='separator' style={{ width: '85%' }}></div>
+          <PolarChart chartData={typeChart} title='Tipos de Pago' />
+          <div className='separator' style={{ width: '85%' }}></div>
+          <PolarChart chartData={authorChart} title='Autores' />
         </div>
       </div>
     </div>

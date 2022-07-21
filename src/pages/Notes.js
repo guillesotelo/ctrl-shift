@@ -137,15 +137,27 @@ export default function Notes() {
                         value={data.details}
                     />
                     {((data.name || data.details || check) && isEdit) ?
-                        <CTAButton
-                            label='Guardar'
-                            color={APP_COLORS.YELLOW}
-                            handleClick={() => {
-                                handleSave()
-                            }}
-                            size='100%'
-                            style={{ color: 'black', fontSize: '5vw' }}
-                        />
+                        <div className='new-note-btns'>
+                            <CTAButton
+                                label='Descartar'
+                                color={APP_COLORS.LIGHT}
+                                handleClick={() => {
+                                    setCheck(0)
+                                    setIsEdit(false)
+                                }}
+                                size='100%'
+                                style={{ color: 'black', fontSize: '5vw' }}
+                            />
+                            <CTAButton
+                                label='Guardar'
+                                color={APP_COLORS.YELLOW}
+                                handleClick={() => {
+                                    handleSave()
+                                }}
+                                size='100%'
+                                style={{ color: 'black', fontSize: '5vw' }}
+                            />
+                        </div>
                         :
                         ''
                     }
@@ -159,7 +171,7 @@ export default function Notes() {
                             className='note-container'
                             style={{ borderColor: check === note ? '#CCA43B' : 'lightgray' }}
                             onClick={() => check === note ? setCheck({}) : setCheck(note)}
-                            >
+                        >
                             <h4 className='note-name'>{note.name}</h4>
                             <textarea
                                 rows={8}

@@ -12,10 +12,17 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: notGoogleUser()
     },
     defaultLedger: {
         type: String
+    },
+    picture: {
+        type: String
+    },
+    isGoogleUser: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -34,6 +41,10 @@ userSchema.pre('save', function (next) {
         })
     } else return next()
 })
+
+function notGoogleUser() { 
+    return !this.isGoogleUser 
+}
 
 userSchema.methods.comparePassword = function (password) {
     return bcrypt.compare(password, this.password).then(res => res)

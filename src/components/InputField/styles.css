@@ -11,20 +11,20 @@
 }
 
 .inputfield-field {
-    border: 3px solid #cca43b;
+    border: 2px solid #cca43b;
     background-color: #e5e5e5;
     font-weight: normal;
-    border-radius: 3vw;
+    border-radius: 1vw;
     padding: 1vw;
     text-align: center;
     font-size: 1vw !important;
 }
 
 .inputfield-textarea {
-    border: 3px solid #cca43b;
+    border: 2px solid #cca43b;
     background-color: #e5e5e5;
     font-weight: normal;
-    border-radius: 3vw;
+    border-radius: 2vw;
     padding: 1vw;
     /* text-align: center; */
     font-size: 1vw !important;
@@ -34,7 +34,8 @@
 }
 
 .inputfield-field::placeholder {
-    font-size: 1vw
+    font-size: 1vw;
+    font-weight: normal;
 }
 
 @media only screen and (max-width: 640px) {
@@ -51,22 +52,21 @@
     }
 
     .inputfield-field {
-        border: 3px solid #cca43b;
+        border: 1.5px solid #cca43b;
         background-color: #e5e5e5;
         font-weight: bolder;
-        border-radius: 3vw;
+        border-radius: 2vw;
         padding: 2vw;
         text-align: center;
         font-size: 3vw !important;
     }
 
     .inputfield-textarea {
-        border: 3px solid #cca43b;
+        border: 1.5px solid #cca43b;
         background-color: #e5e5e5;
         font-weight: bolder;
-        border-radius: 3vw;
+        border-radius: 1vw;
         padding: 2vw;
-        /* text-align: center; */
         font-size: 3vw !important;
         font-family: 'Montserrat', sans-serif !important;
         font-weight: normal;
@@ -74,6 +74,7 @@
     }
 
     .inputfield-field::placeholder {
-        font-size: 3vw
+        font-size: 3vw;
+        font-weight: normal;
     }
 }

@@ -1,11 +1,16 @@
 const express = require("express")
 const morgan = require("morgan")
 const path = require("path");
+const cors = require('cors')
 
 const { connection } = require("./api/db")
 const routes = require("./api/routes")
 const app = express()
 
+app.use(cors({
+  origin: '*',
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}))
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

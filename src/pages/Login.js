@@ -4,9 +4,10 @@ import { useDispatch } from "react-redux";
 import CTAButton from '../components/CTAButton'
 import InputField from '../components/InputField'
 import Logo from '../assets/logo.png'
-import { logIn } from '../store/reducers/user'
+import { logIn, googleAuth, createUser } from '../store/reducers/user'
 import { APP_COLORS } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
+import { GoogleLogin } from '@react-oauth/google';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
@@ -17,17 +18,34 @@ export default function Login() {
     const updateData = (key, newData) => {
         setData({ ...data, [key]: newData })
     }
-
-    const onLogin = async () => {
+    
+    const onLogin = async googleData => {
         try {
-            const login = await dispatch(logIn(data)).then(data => data.payload)
-            if (login) {
+            let login = {}
+            if (googleData && googleData.credential) {
+                const userData = await dispatch(googleAuth(googleData)).then(data => data.payload)
+                const gData = {
+                    isGoogleUser: true,
+                    email: userData.email,
+                    username: userData.name,
+                    picture: userData.picture
+                }
+                login = await dispatch(logIn(gData)).then(data => data.payload)
+
+                if(!login.username) {
+                    const newUser = await dispatch(createUser(gData)).then(data => data.payload)
+                    if (newUser) login = await dispatch(logIn(gData)).then(data => data.payload)        
+                }
+            } else login = await dispatch(logIn(data)).then(data => data.payload)
+            if (login.username) {
                 const hasLedger = login.defaultLedger
                 toast.info(`Bienvenid@, ${login.username}!`)
                 setTimeout(() => history.push(`${hasLedger ? '/home' : '/ledger'}`), 2000)
             } else toast.error('Credenciales incorrectas')
-        } catch (_) { toast.error('Credenciales incorrectas') }
+        } catch (_) { toast.error('Error al iniciar sesión') }
     }
+
+    const handleFailure = () => toast.error('Error al iniciar sesión')
 
     const goToRegister = e => {
         e.preventDefault()
@@ -67,7 +85,16 @@ export default function Login() {
                     style={{ margin: '10vw', fontSize: '4vw' }}
                     className='cta-login'
                 />
-                <h4 className='login-register-text'>No tienes cuenta? <button onClick={goToRegister} className='login-register-link'>Regístrate</button></h4>
+                {/* <GoogleLogin
+                    onSuccess={googleData => onLogin(googleData)}
+                    onError={handleFailure}
+                    useOneTap
+                    // auto_select
+                    size='large'
+                    text='continue_with'
+                    shape='circle'
+                /> */}
+                <h4 className='login-register-text'>No tienes cuenta en Google? <button onClick={goToRegister} className='login-register-link'>Regístrate</button></h4>
             </div>
         </div>
     )

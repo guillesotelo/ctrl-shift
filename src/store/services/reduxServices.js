@@ -12,6 +12,13 @@ const loginUser = async user => {
     } catch (error) { console.log(error) }
 }
 
+const googleLogin = async user => {
+    try {
+        const res = await axios.post(`${API_URL}/api/user/auth/google`, user)
+        return res.data
+    } catch (error) { console.log(error) }
+}
+
 const registerUser = async data => {
     try {
         const newUser = await axios.post(`${API_URL}/api/user/create`, data)
@@ -101,6 +108,7 @@ const loginLedger = async data => {
 export {
     loginUser,
     registerUser,
+    googleLogin,
     setUserVoid,
     getAllMovements,
     createMovement,

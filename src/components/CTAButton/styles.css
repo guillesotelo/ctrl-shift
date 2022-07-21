@@ -12,7 +12,7 @@
     margin: 0vw !important;
     color: #E5E5E5;
     border: none;
-    border-radius: 3vw;
+    border-radius: 1vw;
     cursor: pointer;
 }
 
@@ -65,7 +65,7 @@
     transition: 0.3s;
 }
 
-.cta-connect-ledger {
+.cta-connect-ledger:hover {
     opacity: 0.8;
 }
 
@@ -90,7 +90,7 @@
         padding: 2.5vw 5vw !important;
         color: #E5E5E5;
         border: none;
-        border-radius: 3vw;
+        border-radius: 2vw;
         margin: 0vw !important;
     }
 
