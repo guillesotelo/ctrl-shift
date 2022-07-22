@@ -36,6 +36,7 @@ export default function Home() {
   const [openModal, setOpenModal] = useState(false)
   const [removeModal, setRemoveModal] = useState(false)
   const [dateClicked, setDateClicked] = useState(false)
+  const [lastData, setLastData] = useState({})
   const [isEdit, setIsEdit] = useState(false)
   const [salary, setSalary] = useState(0)
   const [viewSalary, setViewSalary] = useState(false)
@@ -73,6 +74,7 @@ export default function Home() {
       pay_type: payTypes[0],
       author: authors[0],
       amount: 0,
+      detail: '',
       date: new Date(),
       category: categories[0],
       ledger: localLedger.id || -1,
@@ -165,16 +167,19 @@ export default function Home() {
         const { isMonthly } = JSON.parse(localLedger.settings)
         if (isMonthly) setArrData(processMonthlyData(filteredMovs))
         else setArrData(filteredMovs)
+        setLastData(movs.data[0])
       }
     } catch (err) { console.error(err) }
   }
 
   const processMonthlyData = allData => {
-    return allData.filter(item => {
-      const itemDate = new Date(item.date)
-      const now = new Date()
-      return now.getMonth() === itemDate.getMonth()
-    })
+    if(allData) {
+      return allData.filter(item => {
+        const itemDate = new Date(item.date)
+        const now = new Date()
+        return now.getMonth() === itemDate.getMonth()
+      })
+    } else return []
   }
 
   const pullSettings = () => {
@@ -250,9 +255,12 @@ export default function Home() {
         setOpenModal(false)
         setIsEdit(false)
         setCheck(-1)
-        renderCharts()
+
+        setBudgetChart({ labels: [], datasets: [] })
+        setCategoryChart({ labels: [], datasets: [] })
+        setTimeout(() => renderCharts(), 500)
       }
-      else toast.error('Chequea los campos')
+      else toast.error('Revisa los campos')
     } catch (err) { toast.error('Error al guardar') }
   }
 
@@ -272,41 +280,43 @@ export default function Home() {
   }
 
   const downloadCSV = () => {
-    const csvData = arrData.map(mov => {
-      return {
-        'Fecha': (new Date(mov.date)).toLocaleDateString(),
-        'Detalle': mov.detail,
-        'Categoria': mov.category,
-        'Tipo de Pago': mov.pay_type,
-        'Usuario': mov.user,
-        'Monto': mov.amount
-      }
-    }
-    )
-    const options = {
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: `Movimientos del Libro "${ledger.name}"`,
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-      filename: `Extracto de ${ledger.name}`
-    }
-    const csvExporter = new ExportToCsv(options);
+    if (arrData.length) {
+      const csvData = arrData.map(mov => {
+        return {
+          'Fecha': (new Date(mov.date)).toLocaleDateString(),
+          'Detalle': mov.detail,
+          'Categoria': mov.category,
+          'Tipo de Pago': mov.pay_type,
+          'Usuario': mov.user,
+          'Monto': mov.amount
+        }
+      })
 
-    csvExporter.generateCsv(csvData);
+      const options = {
+        fieldSeparator: ',',
+        quoteStrings: '"',
+        decimalSeparator: '.',
+        showLabels: true,
+        showTitle: true,
+        title: `Movimientos del Libro "${ledger.name}"`,
+        useTextFile: false,
+        useBom: true,
+        useKeysAsHeaders: true,
+        filename: `Extracto de ${ledger.name}`
+      }
+      const csvExporter = new ExportToCsv(options);
+
+      csvExporter.generateCsv(csvData);
+    } else toast.info('No hay movimientos para extraer')
   }
 
   const updateData = (key, newData) => {
     if (key === 'search') {
       const filteredMovs = arrData.filter(mov =>
-        mov.detail.includes(newData) ||
-        mov.pay_type.includes(newData) ||
-        mov.author.includes(newData) ||
-        mov.category.includes(newData)
+        mov.detail.toLowercase().includes(newData) ||
+        mov.pay_type.toLowercase().includes(newData) ||
+        mov.author.toLowercase().includes(newData) ||
+        mov.category.toLowercase().includes(newData)
       )
       if (newData) setArrData(filteredMovs)
       else {
@@ -343,7 +353,7 @@ export default function Home() {
 
     } catch (err) {
       console.error(err)
-      toast.error('Error de conexion')
+      toast.error('Error de conexión')
     }
   }
 
@@ -415,21 +425,21 @@ export default function Home() {
               label='Autor'
               name='author'
               updateData={updateData}
-              value={data.author}
+              value={lastData && lastData.author || data.author}
             />
             <DropdownBTN
               options={allPayTypes}
               label='Tipo de pago'
               name='pay_type'
               updateData={updateData}
-              value={data.pay_type}
+              value={lastData && lastData.pay_type || data.pay_type}
             />
             <DropdownBTN
               options={allCategories}
               label='Categoria'
               name='category'
               updateData={updateData}
-              value={data.category}
+              value={lastData && lastData.category || data.category}
             />
             <div className='div-modal-btns'>
               <CTAButton

@@ -22,12 +22,12 @@ export default function Ledger() {
     const ledger = JSON.parse(localStorage.getItem('ledger'))
 
     useEffect(() => {
-        const { email } = JSON.parse(localStorage.getItem('user'))
+        const { email, username } = JSON.parse(localStorage.getItem('user'))
 
         const _settings = {
-            authors: ['Yo'],
-            payTypes: ['Efectivo', 'Debito/Transf.', 'TC'],
-            categories: ['Varios', 'Gasto Fijo', 'Mercado', 'Luxury', 'Auto'],
+            authors: [`${username}`],
+            payTypes: ['Efectivo', 'Débito', 'TC', 'Transferencia'],
+            categories: ['Varios', 'Mercado', 'Lujos', 'Gasto Fijo', 'Electro/Deco', 'Vestimenta'],
             salary: 0
         }
 
@@ -45,7 +45,7 @@ export default function Ledger() {
             if (ledgerBook) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(ledgerBook))
-                toast.success('Guardado con exito! \nRedirigiendo...')
+                toast.success('Guardado con éxito! \nRedirigiendo...')
 
                 setTimeout(() => history.push('/home'), 2000)
 
@@ -60,17 +60,17 @@ export default function Ledger() {
             if (loginLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(loginLedger))
-                toast.success('Conectado con exito! \nRedirigiendo...')
+                toast.success('Conectado con éxito! \nRedirigiendo...')
 
                 setTimeout(() => history.push('/home'), 2000)
 
-            } else toast.error('Error de conexion')
-        } catch (err) { toast.error('Error de conexion') }
+            } else toast.error('Error de conexión')
+        } catch (err) { toast.error('Error de conexión') }
     }
 
     const handleDisconnect = () => {
         localStorage.removeItem('ledger')
-        toast.success('Desconectado con exito! \nRedirigiendo...')
+        toast.success('Desconectado con éxito! \nRedirigiendo...')
         setTimeout(() => history.go(0), 2000)
     }
 
@@ -127,6 +127,7 @@ export default function Ledger() {
                                     placeholder='Nombre del Libro'
                                     name='name'
                                     type='text'
+                                    autoComplete='new-password'
                                     style={{ marginTop: '1vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
                                 />
                                 <InputField
@@ -134,7 +135,8 @@ export default function Ledger() {
                                     updateData={updateData}
                                     placeholder='PIN'
                                     name='pin'
-                                    type='number'
+                                    type='password'
+                                    autoComplete='new-password'
                                     style={{ marginBottom: '1vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
                                 />
                                 <CTAButton
@@ -155,6 +157,7 @@ export default function Ledger() {
                                     placeholder='Nombre del Libro'
                                     name='name'
                                     type='text'
+                                    autoComplete='new-password'
                                     style={{ marginTop: '1vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
                                 />
                                 <InputField
@@ -162,7 +165,8 @@ export default function Ledger() {
                                     updateData={updateData}
                                     placeholder='PIN'
                                     name='pin'
-                                    type='number'
+                                    type='password'
+                                    autoComplete='new-password'
                                     style={{ marginBottom: '1vw', alignSelf: 'center', fontWeight: 'normal', width: '45%' }}
                                 />
                                 <CTAButton

@@ -75,7 +75,6 @@ export default function Login() {
                     name='password'
                     type='password'
                     style={{ fontWeight: 'normal', fontSize: '4vw' }}
-                    autoComplete='false'
                 />
                 <CTAButton
                     label='Entrar'

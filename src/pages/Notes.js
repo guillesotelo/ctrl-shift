@@ -25,7 +25,7 @@ export default function Notes() {
 
     const handleSave = async () => {
         try {
-            if (!data.name || !data.details) return toast.error('Chequea los campos')
+            if (!data.name || !data.details) return toast.error('Revisa los campos')
             const _notes = check ? data.notes.filter(n => n !== check) : data.notes
             const newNote = {
                 name: data.name,
@@ -42,7 +42,7 @@ export default function Notes() {
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success('Guardado con exito!')
+                toast.success('Guardado con éxito!')
                 setTimeout(() => pullNotes(), 1500)
             }
             setIsEdit(false)

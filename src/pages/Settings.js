@@ -66,7 +66,7 @@ export default function Settings() {
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success('Guardado con exito!')
+                toast.success('Guardado con éxito!')
                 setTimeout(() => pullSettings(), 1500)
             }
             setEdited(false)

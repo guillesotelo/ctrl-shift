@@ -42,7 +42,7 @@ export default function InputField(props) {
                 :
                 <input
                     className='inputfield-field'
-                    autoComplete={autoComplete || 'true'}
+                    autoComplete={autoComplete}
                     onChange={handleChange}
                     placeholder={placeholder || ''}
                     type={type || 'text'}

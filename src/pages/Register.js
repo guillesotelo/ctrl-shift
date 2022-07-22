@@ -20,7 +20,7 @@ export default function Register() {
 
     const onRegister = async () => {
         try {
-            if (!checkData()) return toast.error('Chequea los datos')
+            if (!checkData()) return toast.error('Revisa los datos')
             if (data.password.length < 4) return toast.error('La contraseña debe tener al menos 4 caracteres')
 
             const newUser = await dispatch(createUser(data)).then(data => data.payload)
@@ -57,7 +57,7 @@ export default function Register() {
                     name='username'
                     type='text'
                     style={{ fontWeight: 'normal', fontSize: '4vw' }}
-                    autoComplete='false'
+                    autoComplete='new-password'
                 />
                 <InputField
                     label=''
@@ -66,7 +66,7 @@ export default function Register() {
                     name='email'
                     type='email'
                     style={{ fontWeight: 'normal', fontSize: '4vw' }}
-                    autoComplete='false'
+                    autoComplete='new-password'
                 />
                 <InputField
                     label=''
@@ -75,7 +75,7 @@ export default function Register() {
                     name='password'
                     type='password'
                     style={{ fontWeight: 'normal', fontSize: '4vw' }}
-                    autoComplete='false'
+                    autoComplete='new-password'
                 />
                 <InputField
                     label=''
@@ -84,7 +84,7 @@ export default function Register() {
                     name='password2'
                     type='password'
                     style={{ fontWeight: 'normal', fontSize: '4vw' }}
-                    autoComplete='false'
+                    autoComplete='new-password'
                 />
                 <CTAButton
                     label='Registrarme'
