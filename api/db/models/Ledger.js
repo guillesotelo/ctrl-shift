@@ -20,6 +20,10 @@ const ledgerSchema = new mongoose.Schema({
     notes: {
         type: String,
         default: '[]'
+    },
+    isEncrypted: {
+        type: Boolean,
+        default: false
     }
 })
 

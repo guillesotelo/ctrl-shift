@@ -3,6 +3,7 @@ const router = express.Router()
 const { Movement } = require('../db/models')
 const { encrypt, decrypt } = require('../helpers')
 
+//Get all Movements by Ledger
 router.get('/', async (req, res, next) => {
     try {
         const { ledger } = req.query
@@ -12,7 +13,7 @@ router.get('/', async (req, res, next) => {
 
             const decryptedMovs = movements.map(mov => {
                 if (mov.isEncrypted) {
-                    const movData = { ...mov }
+                    const movData = mov
 
                     movData.date = mov.date
                     movData.author = decrypt(mov.author)
@@ -31,10 +32,12 @@ router.get('/', async (req, res, next) => {
     } catch (err) { console.log(err) }
 })
 
+//Create new Movement
 router.post('/', async (req, res, next) => {
     try {
         const movData = {
-            ...req.body,
+            date: req.body.date,
+            ledger: req.body.ledger,
             author: encrypt(req.body.author),
             detail: encrypt(req.body.detail),
             amount: encrypt(req.body.amount),
@@ -49,6 +52,7 @@ router.post('/', async (req, res, next) => {
     } catch (err) { console.log(err) }
 })
 
+//Update Movement by ID
 router.post('/update', async (req, res, next) => {
     try {
         const { _id } = req.body
@@ -61,9 +65,6 @@ router.post('/update', async (req, res, next) => {
                 movData.isEncrypted = true
             }
         }
-
-        console.log("NEW DATA movData", movData)
-
         const updated = await Movement.findByIdAndUpdate(_id, movData, { useFindAndModify: false })
         if (!updated) return res.status(404).send('Error updating Movement.')
 
@@ -71,6 +72,7 @@ router.post('/update', async (req, res, next) => {
     } catch (err) { console.log(err) }
 })
 
+//Remove Mocement by ID
 router.post('/remove', async (req, res, next) => {
     try {
         const { _id } = req.body

@@ -46,8 +46,6 @@ export default function Home() {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  console.log("arrData", arrData)
-
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('user'))
     const localLedger = JSON.parse(localStorage.getItem('ledger'))
@@ -170,7 +168,7 @@ export default function Home() {
         if (isMonthly) setArrData(processMonthlyData(filteredMovs))
         else setArrData(filteredMovs)
         
-        setLastData(movs.data[0])
+        setLastData(movs.data[0] || {})
       }
     } catch (err) { console.error(err) }
   }

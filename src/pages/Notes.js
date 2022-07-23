@@ -11,8 +11,8 @@ import EditPen from '../assets/edit-icon.svg'
 export default function Notes() {
     const [isEdit, setIsEdit] = useState(false)
     const [removeModal, setRemoveModal] = useState(false)
-    const [data, setData] = useState({ notes: [] })
-    const [check, setCheck] = useState(0)
+    const [data, setData] = useState({ name: '', details: '', notes: [] })
+    const [check, setCheck] = useState({})
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export default function Notes() {
     const handleSave = async () => {
         try {
             if (!data.name || !data.details) return toast.error('Revisa los campos')
-            const _notes = check ? data.notes.filter(n => n !== check) : data.notes
+            const _notes = check.name ? data.notes.filter(note => note !== check) : data.notes
             const newNote = {
                 name: data.name,
                 details: data.details
@@ -69,13 +69,13 @@ export default function Notes() {
     }
 
     const pullNotes = () => {
-        setData({ notes: [] })
+        setData({...data, notes: []})
         const { notes, id } = JSON.parse(localStorage.getItem('ledger'))
         if (notes) {
             const _notes = JSON.parse(notes)
-            setData({ notes: _notes, id })
+            setData({ ...data, notes: _notes, id })
         } else {
-            setData({ notes: [], id })
+            setData({ ...data, notes: [], id })
         }
     }
 
@@ -109,6 +109,7 @@ export default function Notes() {
                     label='Nueva Nota'
                     color={APP_COLORS.YELLOW}
                     handleClick={() => {
+                        setData({...data, name: '', details: ''})
                         setCheck(0)
                         setIsEdit(true)
                     }}
@@ -170,7 +171,7 @@ export default function Notes() {
                             key={i}
                             className='note-container'
                             style={{ borderColor: check === note ? '#CCA43B' : 'lightgray' }}
-                            onClick={() => check === note ? setCheck({}) : setCheck(note)}
+                            onClick={() => setCheck(note)}
                         >
                             <h4 className='note-name'>{note.name}</h4>
                             <textarea
@@ -180,7 +181,7 @@ export default function Notes() {
                                 className='note-details'
                                 defaultValue={note.details}
                             />
-                            {check === note &&
+                            {check === note && 
                                 <div className='note-svgs'>
                                     <img
                                         style={{ transform: 'scale(0.6)' }}
