@@ -57,8 +57,8 @@ const createMovement = async data => {
 
 const updateMovement = async data => {
     try {
-        const ledger = await axios.post(`${API_URL}/api/movement/update`, data)
-        return ledger
+        const movement = await axios.post(`${API_URL}/api/movement/update`, data)
+        return movement
     } catch (err) { console.log(err) }
 }
 

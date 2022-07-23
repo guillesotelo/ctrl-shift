@@ -11,19 +11,18 @@ router.get('/', async (req, res, next) => {
             if (!movements) return res.status(404).send('No movements found.')
 
             const decryptedMovs = movements.map(mov => {
-                // console.log(mov)
                 if (mov.isEncrypted) {
-                    // console.log("detail decryptred", decrypt(mov.detail))
-                    return {
-                        ...mov,
-                        date: mov.date,
-                        author: decrypt(mov.author),
-                        detail: decrypt(mov.detail),
-                        amount: decrypt(mov.amount),
-                        category: decrypt(mov.category),
-                        pay_type: decrypt(mov.pay_type),
-                        user: decrypt(mov.user)
-                    }
+                    const movData = { ...mov }
+
+                    movData.date = mov.date
+                    movData.author = decrypt(mov.author)
+                    movData.detail = decrypt(mov.detail)
+                    movData.amount = decrypt(mov.amount)
+                    movData.category = decrypt(mov.category)
+                    movData.pay_type = decrypt(mov.pay_type)
+                    movData.user = decrypt(mov.user)
+
+                    return movData
                 } else return mov
             })
 
@@ -53,7 +52,7 @@ router.post('/', async (req, res, next) => {
 router.post('/update', async (req, res, next) => {
     try {
         const { _id } = req.body
-        const movData = { ...req.body }
+        let movData = { ...req.body }
 
         for (let key in movData) {
             const toEncrypt = ['author', 'detail', 'amount', 'category', 'pay_type', 'user']
@@ -62,6 +61,8 @@ router.post('/update', async (req, res, next) => {
                 movData.isEncrypted = true
             }
         }
+
+        console.log("NEW DATA movData", movData)
 
         const updated = await Movement.findByIdAndUpdate(_id, movData, { useFindAndModify: false })
         if (!updated) return res.status(404).send('Error updating Movement.')

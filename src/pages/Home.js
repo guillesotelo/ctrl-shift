@@ -46,6 +46,8 @@ export default function Home() {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  console.log("arrData", arrData)
+
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('user'))
     const localLedger = JSON.parse(localStorage.getItem('ledger'))
@@ -167,6 +169,7 @@ export default function Home() {
         const { isMonthly } = JSON.parse(localLedger.settings)
         if (isMonthly) setArrData(processMonthlyData(filteredMovs))
         else setArrData(filteredMovs)
+        
         setLastData(movs.data[0])
       }
     } catch (err) { console.error(err) }
@@ -425,21 +428,21 @@ export default function Home() {
               label='Autor'
               name='author'
               updateData={updateData}
-              value={lastData && lastData.author || data.author}
+              value={data.author}
             />
             <DropdownBTN
               options={allPayTypes}
               label='Tipo de pago'
               name='pay_type'
               updateData={updateData}
-              value={lastData && lastData.pay_type || data.pay_type}
+              value={data.pay_type}
             />
             <DropdownBTN
               options={allCategories}
               label='Categoria'
               name='category'
               updateData={updateData}
-              value={lastData && lastData.category || data.category}
+              value={data.category}
             />
             <div className='div-modal-btns'>
               <CTAButton
@@ -474,6 +477,14 @@ export default function Home() {
           }
           <CTAButton
             handleClick={() => {
+              if(lastData.category) {
+                setData({
+                  ...data,
+                  author: lastData.author,
+                  pay_type: lastData.pay_type,
+                  category: lastData.category
+                })
+              }
               setIsEdit(false)
               setOpenModal(!openModal)
             }}
