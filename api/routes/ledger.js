@@ -29,8 +29,8 @@ router.post('/', async (req, res, next) => {
                 id: ledger.id,
                 email: ledger.email,
                 name: ledger.name,
-                settings: decrypt(ledger.settings),
-                notes: decrypt(ledger.notes)
+                settings: ledger.settings.includes('authors') ? ledger.settings : decrypt(ledger.settings),
+                notes: ledger.notes === '[]' ? ledger.notes : decrypt(ledger.notes)
             })
         } else {
             res.status(200).json({
@@ -91,8 +91,8 @@ router.post('/update', async (req, res, next) => {
                 id: newLedger.id,
                 email: newLedger.email,
                 name: newLedger.name,
-                settings: decrypt(newLedger.settings),
-                notes: decrypt(newLedger.notes)
+                settings: newLedger.settings.includes('authors') ? newLedger.settings : decrypt(newLedger.settings),
+                notes: newLedger.notes === '[]' ? newLedger.notes : decrypt(newLedger.notes)
             })
         } else {
             res.status(200).json({
