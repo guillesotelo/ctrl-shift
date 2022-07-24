@@ -240,7 +240,7 @@ export default function Home() {
         if (saved && saved.status === 200) toast.success('Gasto guardado!')
         else toast.error('Error al guardar')
 
-        setTimeout(() => getAllMovements(submitData), 1000)
+        setTimeout(() => getAllMovements(submitData), 500)
 
         setData({
           ...data,
@@ -259,7 +259,7 @@ export default function Home() {
 
         setBudgetChart({ labels: [], datasets: [] })
         setCategoryChart({ labels: [], datasets: [] })
-        setTimeout(() => renderCharts(), 500)
+        setTimeout(() => renderCharts(), 1000)
       }
       else toast.error('Revisa los campos')
     } catch (err) { toast.error('Error al guardar') }
@@ -314,10 +314,10 @@ export default function Home() {
   const updateData = (key, newData) => {
     if (key === 'search') {
       const filteredMovs = arrData.filter(mov =>
-        mov.detail.toLowercase().includes(newData) ||
-        mov.pay_type.toLowercase().includes(newData) ||
-        mov.author.toLowercase().includes(newData) ||
-        mov.category.toLowercase().includes(newData)
+        mov.detail.toLowerCase().includes(newData.toLowerCase()) ||
+        mov.pay_type.toLowerCase().includes(newData.toLowerCase()) ||
+        mov.author.toLowerCase().includes(newData.toLowerCase()) ||
+        mov.category.toLowerCase().includes(newData.toLowerCase())
       )
       if (newData) setArrData(filteredMovs)
       else {
