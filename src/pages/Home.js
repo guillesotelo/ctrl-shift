@@ -96,7 +96,7 @@ export default function Home() {
   }, [data.salary, arrData.length])
 
   useEffect(() => {
-    renderCharts()
+    if (!data.search) renderCharts()
   }, [data, allCategories, allPayTypes, arrData])
 
   const renderCharts = () => {
@@ -170,14 +170,14 @@ export default function Home() {
         const { isMonthly } = JSON.parse(localLedger.settings)
         if (isMonthly) setArrData(processMonthlyData(filteredMovs))
         else setArrData(filteredMovs)
-        
+
         setLastData(movs.data[0] || {})
       }
     } catch (err) { console.error(err) }
   }
 
   const processMonthlyData = allData => {
-    if(allData) {
+    if (allData) {
       return allData.filter(item => {
         const itemDate = new Date(item.date)
         const now = new Date()
@@ -322,7 +322,10 @@ export default function Home() {
         mov.author.toLowerCase().includes(newData.toLowerCase()) ||
         mov.category.toLowerCase().includes(newData.toLowerCase())
       )
-      if (newData) setArrData(filteredMovs)
+      if (newData) {
+        setData({ ...data, [key]: newData })
+        setArrData(filteredMovs)
+      }
       else {
         const newData = {
           ...data,
@@ -478,7 +481,7 @@ export default function Home() {
           }
           <CTAButton
             handleClick={() => {
-              if(lastData.category) {
+              if (lastData.category) {
                 setData({
                   ...data,
                   author: lastData.author,
@@ -537,22 +540,25 @@ export default function Home() {
             name='search'
           />
         </div>
-        <div className='div-charts'>
-          <div className='separator' style={{ width: '85%' }}></div>
-          {Object.keys(budget).length > 1 &&
-            <>
-              <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
-              <div className='separator' style={{ width: '85%' }}></div>
-              <PieChart chartData={budgetChart2} title='Porcentaje total %' />
-            </>
-          }
-          <div className='separator' style={{ width: '85%' }}></div>
-          <BarChart chartData={categoryChart} title='Categorias' />
-          <div className='separator' style={{ width: '85%' }}></div>
-          <PolarChart chartData={typeChart} title='Tipos de Pago' />
-          <div className='separator' style={{ width: '85%' }}></div>
-          <PolarChart chartData={authorChart} title='Autores' />
-        </div>
+        {
+          arrData.length ? <div className='div-charts'>
+            <div className='separator' style={{ width: '85%' }}></div>
+            {Object.keys(budget).length > 1 &&
+              <>
+                <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
+                <div className='separator' style={{ width: '85%' }}></div>
+                <PieChart chartData={budgetChart2} title='Porcentaje total %' />
+              </>
+            }
+            <div className='separator' style={{ width: '85%' }}></div>
+            <BarChart chartData={categoryChart} title='Categorias' />
+            <div className='separator' style={{ width: '85%' }}></div>
+            <PolarChart chartData={typeChart} title='Tipos de Pago' />
+            <div className='separator' style={{ width: '85%' }}></div>
+            <PolarChart chartData={authorChart} title='Autores' />
+          </div>
+            : ''
+        }
       </div>
     </div>
   )
