@@ -97,7 +97,7 @@ export default function Home() {
 
   useEffect(() => {
     renderCharts()
-  }, [data, allCategories, allPayTypes, arrData, openModal])
+  }, [arrData])
 
   const renderCharts = () => {
     const categoryPattern = allCategories.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
