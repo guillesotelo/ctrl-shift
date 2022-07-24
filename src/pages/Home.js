@@ -97,9 +97,12 @@ export default function Home() {
 
   useEffect(() => {
     renderCharts()
-  }, [arrData])
+  }, [data, allCategories, allPayTypes, arrData])
 
   const renderCharts = () => {
+    setCategoryChart({ labels: [], datasets: [] })
+    setBudgetChart({ labels: [], datasets: [] })
+
     const categoryPattern = allCategories.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
     const payTypePattern = allPayTypes.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
     const authorPattern = allUsers.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
