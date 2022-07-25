@@ -240,22 +240,7 @@ export default function Home() {
         if (saved && saved.status === 200) toast.success('Gasto guardado!')
         else toast.error('Error al guardar')
 
-        setTimeout(() => getAllMovements(submitData), 500)
-
-        setData({
-          ...data,
-          pay_type: allPayTypes[0],
-          category: allCategories[0],
-          author: allUsers[0],
-          amount: '',
-          detail: '',
-          date: new Date(),
-          ledger: ledger.id,
-          user: user.email
-        })
-        setOpenModal(false)
-        setIsEdit(false)
-        setCheck(-1)
+        setTimeout(() => history.go(0), 1500)
       }
       else toast.error('Revisa los campos')
     } catch (err) { toast.error('Error al guardar') }
