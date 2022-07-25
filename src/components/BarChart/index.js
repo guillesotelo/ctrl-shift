@@ -14,15 +14,17 @@ export default function BarChart(props) {
             legend: {
                 display: false
             }
-        }
+        },
+        responsive: false
     }
     
     const barHeight = window.innerHeight * 0.4
+    const barWidth = window.innerWidth * 0.85
 
     return (
         <div className='barchart-container'>
             <h4 className='table-title'>{title || ''}</h4>
-            <Bar data={chartData} height={barHeight} options={options}/>
+            <Bar data={chartData} height={barHeight} width={barWidth} options={options}/>
         </div>
     )
 }
