@@ -18,8 +18,8 @@ export default function BarChart(props) {
         responsive: false
     }
     
-    const barHeight = window.innerHeight * 0.4
-    const barWidth = window.innerWidth * 0.85
+    const barHeight = window.outerHeight * 0.4
+    const barWidth = window.outerWidth * 0.85
 
     return (
         <div className='barchart-container'>
