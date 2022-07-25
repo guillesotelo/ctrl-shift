@@ -15,8 +15,7 @@ export default function BarChart(props) {
                 display: false
             }
         },
-        responsive: false,
-        maintainAspectRatio:false
+        responsive: false
     }
     
     const barHeight = window.innerHeight * 0.4

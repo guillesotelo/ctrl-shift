@@ -97,7 +97,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!data.search) renderCharts()
-  }, [data, allCategories, allPayTypes, arrData])
+  }, [allCategories, allPayTypes, arrData])
 
   const renderCharts = () => {
     const categoryPattern = allCategories.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
@@ -240,24 +240,7 @@ export default function Home() {
         if (saved && saved.status === 200) toast.success('Gasto guardado!')
         else toast.error('Error al guardar')
 
-        setTimeout(() => getAllMovements(submitData), 250)
-
-        setData({
-          ...data,
-          pay_type: allPayTypes[0],
-          category: allCategories[0],
-          author: allUsers[0],
-          amount: '',
-          detail: '',
-          date: new Date(),
-          ledger: ledger.id,
-          user: user.email
-        })
-        setOpenModal(false)
-        setIsEdit(false)
-        setCheck(-1)
-
-        setTimeout(() => renderCharts(), 500)
+        setTimeout(() => history.go(0), 1500)
       }
       else toast.error('Revisa los campos')
     } catch (err) { toast.error('Error al guardar') }
