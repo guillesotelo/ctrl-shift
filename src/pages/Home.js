@@ -100,9 +100,6 @@ export default function Home() {
   }, [data, allCategories, allPayTypes, arrData])
 
   const renderCharts = () => {
-    setCategoryChart({ labels: [], datasets: [] })
-    setBudgetChart({ labels: [], datasets: [] })
-
     const categoryPattern = allCategories.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
     const payTypePattern = allPayTypes.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
     const authorPattern = allUsers.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
@@ -243,7 +240,7 @@ export default function Home() {
         if (saved && saved.status === 200) toast.success('Gasto guardado!')
         else toast.error('Error al guardar')
 
-        setTimeout(() => getAllMovements(submitData), 500)
+        setTimeout(() => getAllMovements(submitData), 250)
 
         setData({
           ...data,
@@ -260,9 +257,7 @@ export default function Home() {
         setIsEdit(false)
         setCheck(-1)
 
-        setBudgetChart({ labels: [], datasets: [] })
-        setCategoryChart({ labels: [], datasets: [] })
-        setTimeout(() => renderCharts(), 1000)
+        setTimeout(() => renderCharts(), 500)
       }
       else toast.error('Revisa los campos')
     } catch (err) { toast.error('Error al guardar') }
@@ -541,7 +536,7 @@ export default function Home() {
           />
         </div>
         {
-          arrData.length ? <div className='div-charts'>
+          arrData.length || data.search ? <div className='div-charts'>
             <div className='separator' style={{ width: '85%' }}></div>
             {Object.keys(budget).length > 1 &&
               <>
