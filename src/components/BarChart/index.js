@@ -14,8 +14,7 @@ export default function BarChart(props) {
             legend: {
                 display: false
             }
-        },
-        responsive: false
+        }
     }
     
     const barHeight = window.outerHeight * 0.4
