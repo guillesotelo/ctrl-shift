@@ -10,7 +10,8 @@ export default function CTAButton(props) {
         style, 
         handleClick, 
         disabled,
-        className
+        className,
+        btnClass
     } = props
 
     const buttonStyle = {
@@ -23,7 +24,7 @@ export default function CTAButton(props) {
 
     return (
         <div className={className || 'cta-btn-container'}>
-            <button onClick={handleClick} style={buttonStyle} className='cta-btn' disabled={disabled || false}>
+            <button className={btnClass || 'cta-btn'} onClick={handleClick} style={buttonStyle} disabled={disabled || false}>
                 {label || ''}
             </button>
         </div>

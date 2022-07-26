@@ -919,4 +919,110 @@ h2 {
     margin: 4vw 0 0 3vw;
   }
 
+  /* -----TASKS----- */
+  .tasks-container {
+    padding: 6vw 8vw;
+  }
+
+  .task-no-tasks {
+    font-size: 4vw;
+    font-weight: normal;
+    text-align: center;
+    margin: 40vw 0;
+  }
+
+  .new-task-btn-container {
+    transition: 0.3s;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 10vw 10vw;
+    background-color: transparent !important;
+  }
+
+  .new-task-btn {
+    font-size: 7vw !important;
+    padding: 5vw 7.2vw !important;
+    color: #E5E5E5;
+    border: none;
+    border-radius: 2vw;
+    margin: 0vw !important;
+  }
+
+  .task-modal {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    box-shadow: 5px 5px 11px rgb(155, 155, 155);
+    border-radius: 2vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 70%;
+    height: fit-content !important;
+    background-color: white;
+    padding: 6vw;
+    text-align: center;
+    font-size: 1vw;
+  }
+
+  .task-modal-title {
+    font-size: 4vw;
+    margin: 0 0 2vw 0;
+  }
+
+  .task-modal-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 5vw;
+    margin-top: 4vw;
+  }
+
+  .task-title-input {
+    width: 100%;
+  }
+
+  .task-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 3vw;
+  }
+
+  .task-div-checked {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 3vw;
+    opacity: 0.3;
+    text-decoration: line-through;
+  }
+
+  .task-check {
+    border: 1px solid black;
+    padding: 1.5vw 2vw;
+    border-radius: 4vw;
+    width: fit-content;
+  }
+
+  .task-check-checked {
+    border: 1px solid black;
+    padding: 1.5vw 2vw;
+    border-radius: 4vw;
+    background-color: green;
+  }
+
+  .task-name {
+    justify-self: flex-start;
+    width: 60%;
+  }
+
+  .task-date {
+    text-align: center;
+    width: 20%;
+  }
 }

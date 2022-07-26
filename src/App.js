@@ -10,6 +10,7 @@ import Account from './pages/Account'
 import Settings from './pages/Settings'
 import Footer from "./components/Footer";
 import Notes from "./pages/Notes";
+import Tasks from "./pages/Tasks";
 // import NotFound from './pages/NotFound'
  
 function App() {
@@ -42,6 +43,10 @@ function App() {
             <Route path="/notes"> 
               <Header/>
               <Notes/>
+            </Route>
+            <Route path="/tasks"> 
+              <Header/>
+              <Tasks/>
             </Route>
           </Switch>
     )

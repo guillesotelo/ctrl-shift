@@ -68,6 +68,17 @@ export default function Menu(props) {
               style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
               className='cta-menu'
             />
+            <CTAButton
+              label='Tareas'
+              color='#242F40'
+              handleClick={() => {
+                setMenuClass('menu-hidden')
+                history.push('/tasks')
+              }}
+              size='100%'
+              style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
+              className='cta-menu'
+            />
           </>
         }
         <CTAButton

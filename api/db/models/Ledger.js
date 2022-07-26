@@ -21,6 +21,10 @@ const ledgerSchema = new mongoose.Schema({
         type: String,
         default: '[]'
     },
+    tasks: {
+        type: String,
+        default: '[]'
+    },
     isEncrypted: {
         type: Boolean,
         default: false

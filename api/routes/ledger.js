@@ -30,7 +30,8 @@ router.post('/', async (req, res, next) => {
                 email: ledger.email,
                 name: ledger.name,
                 settings: ledger.settings.includes('authors') ? ledger.settings : decrypt(ledger.settings),
-                notes: ledger.notes === '[]' ? ledger.notes : decrypt(ledger.notes)
+                notes: ledger.notes === '[]' ? ledger.notes : decrypt(ledger.notes),
+                tasks: ledger.tasks === '[]' ? ledger.tasks : decrypt(ledger.tasks)
             })
         } else {
             res.status(200).json({
@@ -38,7 +39,8 @@ router.post('/', async (req, res, next) => {
                 email: ledger.email,
                 name: ledger.name,
                 settings: ledger.settings,
-                notes: ledger.notes || []
+                notes: ledger.notes || [],
+                tasks: ledger.tasks || []
             })
         }
     } catch (err) { console.log(err) }
@@ -53,6 +55,7 @@ router.post('/create', async (req, res, next) => {
             pin: req.body.pin,
             settings: encrypt(req.body.settings),
             notes: encrypt('[]'),
+            tasks: encrypt('[]'),
             isEncrypted: true
         }
         const newLedger = await Ledger.create(ledgerData)
@@ -63,7 +66,8 @@ router.post('/create', async (req, res, next) => {
             email: newLedger.email,
             name: newLedger.name,
             settings: decrypt(newLedger.settings),
-            notes: decrypt(newLedger.notes)
+            notes: decrypt(newLedger.notes),
+            tasks: decrypt(newLedger.tasks)
         })
     } catch (err) { console.log(err) }
 })
@@ -76,7 +80,7 @@ router.post('/update', async (req, res, next) => {
         let ledgerData = { ...req.body }
 
         for (let key in ledgerData) {
-            const toEncrypt = ['settings', 'notes']
+            const toEncrypt = ['settings', 'notes', 'tasks']
             if (toEncrypt.includes(key)) {
                 ledgerData[key] = encrypt(ledgerData[key])
                 ledgerData.isEncrypted = true
@@ -92,7 +96,8 @@ router.post('/update', async (req, res, next) => {
                 email: newLedger.email,
                 name: newLedger.name,
                 settings: newLedger.settings.includes('authors') ? newLedger.settings : decrypt(newLedger.settings),
-                notes: newLedger.notes === '[]' ? newLedger.notes : decrypt(newLedger.notes)
+                notes: newLedger.notes === '[]' ? newLedger.notes : decrypt(newLedger.notes),
+                tasks: newLedger.tasks === '[]' ? newLedger.tasks : decrypt(newLedger.tasks)
             })
         } else {
             res.status(200).json({
@@ -100,7 +105,8 @@ router.post('/update', async (req, res, next) => {
                 email: newLedger.email,
                 name: newLedger.name,
                 settings: newLedger.settings,
-                notes: newLedger.notes || []
+                notes: newLedger.notes || [],
+                tasks: newLedger.tasks || []
             })
         }
     } catch (err) { console.log(err) }
