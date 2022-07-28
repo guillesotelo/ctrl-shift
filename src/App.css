@@ -999,21 +999,27 @@ h2 {
     align-items: center;
     font-size: 3vw;
     opacity: 0.3;
-    text-decoration: line-through;
+    /* text-decoration: line-through; */
   }
 
   .task-check {
-    border: 1px solid black;
-    padding: 1.5vw 2vw;
-    border-radius: 4vw;
-    width: fit-content;
+    border: 1px solid rgb(82, 82, 82);
+    height: 6vw;
+    width: 6vw;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 6vw;
+    color: rgb(74, 74, 74);
   }
 
   .task-check-checked {
-    border: 1px solid black;
-    padding: 1.5vw 2vw;
-    border-radius: 4vw;
+    text-align: center;
+    line-height: 6.5vw;
+    height: 6.5vw;
+    width: 6.5vw;
+    border-radius: 50%;
     background-color: green;
+    color: white;
   }
 
   .task-name {

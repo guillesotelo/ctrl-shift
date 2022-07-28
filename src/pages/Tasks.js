@@ -31,9 +31,9 @@ export default function Tasks() {
         setLedgerId(id)
 
         if (tasks) {
-            const _tasks = JSON.parse(tasks).sort((a, b) => {
-                return new Date(b.date).getTime() - new Date(a.date).getTime()
-            })
+            const _tasks = JSON.parse(tasks).sort((a, b) =>
+                new Date(b.date).getTime() - new Date(a.date).getTime()
+            )
             setTaskArr(_tasks)
         } else {
             setTaskArr([])
@@ -43,7 +43,7 @@ export default function Tasks() {
     const handleSave = async () => {
         try {
             if (!data.name) return toast.error('Revisa los campos')
-            const _tasks = check.name ? data.tasks.filter(task => task !== check) : taskArr
+            const _tasks = check.name ? taskArr.filter(task => task !== check) : taskArr
             const newTask = {
                 name: data.name,
                 details: data.details,
@@ -64,6 +64,11 @@ export default function Tasks() {
                 toast.success('Tarea guardada con éxito!')
                 setTimeout(() => pullTasks(), 1500)
             }
+            setData({
+                name: '',
+                details: '',
+                date: new Date()
+            })
             setIsEdit(false)
         } catch (err) { console.error(err) }
     }
@@ -89,7 +94,7 @@ export default function Tasks() {
                 setOpenModal(false)
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                // toast.success('')
+                toast.success(`${task.isChecked ? 'Tarea Activada!' : 'Tarea Finalizada!'}`)
                 setTimeout(() => pullTasks(), 200)
             }
 
@@ -119,8 +124,13 @@ export default function Tasks() {
     const parseDate = date => {
         const taskDate = new Date(date)
         const now = new Date()
+        const dayBeforeYest = new Date().setDate(now.getDate() - 3)
+        const dayBefore = new Date().setDate(now.getDate() - 2)
         const yesterday = new Date().setDate(now.getDate() - 1)
         const tomorrow = new Date().setDate(now.getDate() + 1)
+        const dayAfter = new Date().setDate(now.getDate() + 2)
+        const afterDayAfter = new Date().setDate(now.getDate() + 3)
+        const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
         let parsed = taskDate.toLocaleDateString()
         let color = 'black'
 
@@ -128,24 +138,35 @@ export default function Tasks() {
             color = 'green'
             parsed = 'Hoy'
         }
-        else if (taskDate.getDate() < now.getDate()) {
-            color = 'red'
-        }
         else if (taskDate.getDay() === new Date(yesterday).getDay()) {
             parsed = 'Ayer'
-            color = 'green'
+            color = 'red'
         }
         else if (taskDate.getDay() === new Date(tomorrow).getDay()) {
             color = 'green'
             parsed = 'Mañana'
         }
-
+        else if (taskDate.getDay() === new Date(dayAfter).getDay() ||
+        taskDate.getDay() === new Date(afterDayAfter).getDay()
+        ) {
+            color = 'green'
+            parsed = days[taskDate.getDay()]
+        }
+        else if (taskDate.getDay() === new Date(dayBefore).getDay() ||
+        taskDate.getDay() === new Date(dayBeforeYest).getDay()
+        ) {
+            color = 'red'
+            parsed = days[taskDate.getDay()]
+        }
+        else if (taskDate.getTime() < now.getTime()) {
+            color = 'red'
+        }
         return { parsed, color }
     }
 
     return (
         <div className='tasks-container'>
-            <ToastContainer autoClose={2000} />
+            <ToastContainer autoClose={1000} />
             {openModal ?
                 <div className='task-modal'>
                     <h3 style={{ color: APP_COLORS.GRAY }} className='task-modal-title'>{isEdit ? 'Editar Tarea' : 'Nueva Tarea'}</h3>
@@ -157,7 +178,7 @@ export default function Tasks() {
                         type='text'
                         className='task-title-input'
                         style={{ height: 'fit-content', textAlign: 'left' }}
-                        value={isEdit ? check.name : data.name}
+                        value={data.name}
                     />
                     <InputField
                         label=''
@@ -166,7 +187,7 @@ export default function Tasks() {
                         name='details'
                         type='textarea'
                         style={{ height: 'fit-content', textAlign: 'left', marginBottom: '2vw' }}
-                        value={isEdit ? check.details : data.details}
+                        value={data.details}
                     />
                     <CTAButton
                         handleClick={() => setDateClicked(!dateClicked)}
@@ -194,15 +215,17 @@ export default function Tasks() {
                                     details: '',
                                     date: new Date()
                                 })
+                                setIsEdit(false)
                                 setOpenModal(false)
                             }}
                             label='Cancelar'
                             size='100%'
                             color={APP_COLORS.GRAY}
                         />
-                        <div onClick={() => handleRemove()}>
+                        {isEdit ? <div onClick={() => handleRemove()}>
                             <img style={{ transform: 'scale(0.7)' }} className='svg-trash' src={TrashCan} alt="Trash Can" />
                         </div>
+                            : ''}
                         <CTAButton
                             handleClick={() => handleSave()}
                             label='Guardar'
@@ -224,6 +247,10 @@ export default function Tasks() {
                                 onClick={() => {
                                     setIsEdit(true)
                                     setCheck(task)
+                                    setData({
+                                        ...task,
+                                        date: new Date(task.date)
+                                    })
                                     setOpenModal(true)
                                 }}>{task.name}</h4>
                             <h4
@@ -232,6 +259,10 @@ export default function Tasks() {
                                 onClick={() => {
                                     setIsEdit(true)
                                     setCheck(task)
+                                    setData({
+                                        ...task,
+                                        date: new Date(task.date)
+                                    })
                                     setOpenModal(true)
                                 }}>
                                 {parseDate(task.date).parsed}
