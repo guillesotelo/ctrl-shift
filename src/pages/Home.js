@@ -24,6 +24,7 @@ export default function Home() {
   const [data, setData] = useState({})
   const [user, setUser] = useState({})
   const [ledger, setLedger] = useState('')
+  const [settings, setSettings] = useState('')
   const [arrData, setArrData] = useState([])
   const [allUsers, setAllUsers] = useState([])
   const [allPayTypes, setAllPayTypes] = useState([])
@@ -42,9 +43,12 @@ export default function Home() {
   const [viewSalary, setViewSalary] = useState(false)
   const [budget, setBudget] = useState({})
   const [check, setCheck] = useState(-1)
+  const [month, setMonth] = useState(new Date().getMonth())
   const [sw, setSw] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
+
+  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('user'))
@@ -98,6 +102,10 @@ export default function Home() {
   useEffect(() => {
     if (!data.search) renderCharts()
   }, [data, allCategories, allPayTypes, arrData])
+
+  useEffect(() => {
+    getAllMovements(data)
+  }, [month])
 
   const renderCharts = () => {
     const categoryPattern = allCategories.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
@@ -164,7 +172,9 @@ export default function Home() {
       if (movs) {
         let filteredMovs = movs.data
         const localLedger = JSON.parse(localStorage.getItem('ledger'))
-        const { isMonthly } = JSON.parse(localLedger.settings)
+        const localSettings = JSON.parse(localLedger.settings)
+        setSettings(localSettings)
+        const { isMonthly } = localSettings
         if (isMonthly) setArrData(processMonthlyData(filteredMovs))
         else setArrData(filteredMovs)
 
@@ -177,8 +187,7 @@ export default function Home() {
     if (allData) {
       return allData.filter(item => {
         const itemDate = new Date(item.date)
-        const now = new Date()
-        return now.getMonth() === itemDate.getMonth()
+        return month === itemDate.getMonth()
       })
     } else return []
   }
@@ -459,7 +468,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-      }{
+      }
+      {
         <div className='main-section' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
           <CTAButton
             handleClick={handleEdit}
@@ -503,10 +513,20 @@ export default function Home() {
         }
       </div>
 
+      {settings.isMonthly ?
+        <div className='home-month-tab'>
+          <h4 className='month-arrow-left' onClick={() => setMonth(month-1)}>{`◀`}</h4>
+          <h4 className='month-before'>{months[month - 1]}</h4>
+          <h4 className='actual-month'>{months[month]}</h4>
+          <h4 className='month-after'>{months[month + 1]}</h4>
+          <h4 className='month-arrow-right' onClick={() => setMonth(month+1)}>{`▶`}</h4>
+        </div>
+        : ''}
+
       <div style={{ filter: (openModal || removeModal) && 'blur(10px)' }} className='table-div'>
         <MovementsTable
           tableData={arrData}
-          tableTitle='Movimientos'
+          tableTitle={`Movimientos (${arrData.length})`}
           setIsEdit={setIsEdit}
           isEdit={isEdit}
           setCheck={setCheck}
@@ -538,14 +558,15 @@ export default function Home() {
         {
           arrData.length || data.search ? <div className='div-charts'>
             <div className='separator' style={{ width: '85%' }}></div>
-            {Object.keys(budget).length > 1 &&
+            {Object.keys(budget).length > 1 && settings.isMonthly ? 
               <>
                 <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
                 <div className='separator' style={{ width: '85%' }}></div>
                 <PieChart chartData={budgetChart2} title='Porcentaje total %' />
+                <div className='separator' style={{ width: '85%' }}></div>
               </>
+              : ''
             }
-            <div className='separator' style={{ width: '85%' }}></div>
             <BarChart chartData={categoryChart} title='Categorias' />
             <div className='separator' style={{ width: '85%' }}></div>
             <PolarChart chartData={typeChart} title='Tipos de Pago' />
