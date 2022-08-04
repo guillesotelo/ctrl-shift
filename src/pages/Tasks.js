@@ -7,6 +7,7 @@ import InputField from '../components/InputField'
 import { APP_COLORS } from '../constants/colors'
 import { updateLedgerData } from '../store/reducers/ledger';
 import { ToastContainer, toast } from 'react-toastify';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 export default function Tasks() {
     const [taskArr, setTaskArr] = useState([])
@@ -30,14 +31,8 @@ export default function Tasks() {
         const { tasks, id } = JSON.parse(localStorage.getItem('ledger'))
         setLedgerId(id)
 
-        if (tasks) {
-            const _tasks = JSON.parse(tasks).sort((a, b) =>
-                new Date(b.date).getTime() - new Date(a.date).getTime()
-            )
-            setTaskArr(_tasks)
-        } else {
-            setTaskArr([])
-        }
+        if (tasks) setTaskArr(JSON.parse(tasks))
+        else setTaskArr([])
     }
 
     const handleSave = async () => {
@@ -73,17 +68,35 @@ export default function Tasks() {
         } catch (err) { console.error(err) }
     }
 
-    const checkTask = async task => {
+    const saveTaskOrder = async newOrder => {
         try {
-            const _tasks = taskArr.filter(t => t !== task)
-            const newTask = {
-                name: task.name,
-                details: task.details,
-                date: task.date,
-                isChecked: !task.isChecked
-            }
+            if (newOrder !== taskArr) {
+                const newLedger = await dispatch(updateLedgerData({
+                    tasks: JSON.stringify(newOrder),
+                    id: ledgerId
+                })).then(data => data.payload)
 
-            _tasks.unshift(newTask)
+                if (newLedger) {
+                    setOpenModal(false)
+                    localStorage.removeItem('ledger')
+                    localStorage.setItem('ledger', JSON.stringify(newLedger.data))
+                    setTimeout(() => pullTasks(), 200)
+                }
+            }
+        } catch (err) { console.error(err) }
+    }
+
+    const checkTask = async checked => {
+        try {
+            const newTask = {
+                name: checked.name,
+                details: checked.details,
+                date: checked.date,
+                isChecked: !checked.isChecked
+            }
+            const _tasks = taskArr.map(task => {
+                return task === checked ? newTask : task
+            })
 
             const newLedger = await dispatch(updateLedgerData({
                 tasks: JSON.stringify(_tasks),
@@ -94,7 +107,7 @@ export default function Tasks() {
                 setOpenModal(false)
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success(`${task.isChecked ? 'Tarea Activada!' : 'Tarea Finalizada!'}`)
+                toast.success(`${checked.isChecked ? 'Tarea Activada!' : 'Tarea Finalizada!'}`)
                 setTimeout(() => pullTasks(), 200)
             }
 
@@ -147,13 +160,13 @@ export default function Tasks() {
             parsed = 'Mañana'
         }
         else if (taskDate.getDay() === new Date(dayAfter).getDay() ||
-        taskDate.getDay() === new Date(afterDayAfter).getDay()
+            taskDate.getDay() === new Date(afterDayAfter).getDay()
         ) {
             color = 'green'
             parsed = days[taskDate.getDay()]
         }
         else if (taskDate.getDay() === new Date(dayBefore).getDay() ||
-        taskDate.getDay() === new Date(dayBeforeYest).getDay()
+            taskDate.getDay() === new Date(dayBeforeYest).getDay()
         ) {
             color = 'red'
             parsed = days[taskDate.getDay()]
@@ -163,6 +176,33 @@ export default function Tasks() {
         }
         return { parsed, color }
     }
+
+    const reorder = (list, startIndex, endIndex) => {
+        const result = Array.from(list)
+        const [removed] = result.splice(startIndex, 1)
+        result.splice(endIndex, 0, removed)
+        return result
+    }
+
+    const onDragEnd = result => {
+        if (!result.destination) return
+
+        const items = reorder(
+            taskArr,
+            result.source.index,
+            result.destination.index
+        )
+        setTaskArr(items)
+        saveTaskOrder(items)
+    }
+
+    const getItemStyle = (isDragging, draggableStyle) => ({
+        userSelect: "none",
+        // padding: taskArr.length * 2,
+        // margin: `0 0 ${taskArr.length}px 0`,
+        background: isDragging ? "white" : "",
+        ...draggableStyle
+    })
 
     return (
         <div className='tasks-container'>
@@ -239,36 +279,62 @@ export default function Tasks() {
             }
             {taskArr.length ?
                 <div className='task-list' style={{ filter: openModal && 'blur(10px)' }}>
-                    {taskArr.map((task, i) =>
-                        <div className={`${task.isChecked ? 'task-div-checked' : 'task-div'}`} key={i} style={{ borderBottom: i === taskArr.length - 1 ? 'none' : '1px solid lightgray' }}>
-                            <h4 className={`${task.isChecked ? 'task-check-checked' : 'task-check'}`} onClick={() => checkTask(task)}>✓</h4>
-                            <h4
-                                className='task-name'
-                                onClick={() => {
-                                    setIsEdit(true)
-                                    setCheck(task)
-                                    setData({
-                                        ...task,
-                                        date: new Date(task.date)
-                                    })
-                                    setOpenModal(true)
-                                }}>{task.name}</h4>
-                            <h4
-                                className='task-date'
-                                style={{ color: parseDate(task.date).color }}
-                                onClick={() => {
-                                    setIsEdit(true)
-                                    setCheck(task)
-                                    setData({
-                                        ...task,
-                                        date: new Date(task.date)
-                                    })
-                                    setOpenModal(true)
-                                }}>
-                                {parseDate(task.date).parsed}
-                            </h4>
-                        </div>
-                    )}
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="droppable">
+                            {(provided, snapshot) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {taskArr.map((task, i) => (
+                                        <Draggable key={i} draggableId={String(i)} index={i}>
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    style={getItemStyle(
+                                                        snapshot.isDragging,
+                                                        provided.draggableProps.style
+                                                    )}
+                                                >
+                                                    <div className={`${task.isChecked ? 'task-div-checked' : 'task-div'}`} key={i} style={{ borderBottom: i === taskArr.length - 1 ? 'none' : '1px solid lightgray' }}>
+                                                        <h4 className={`${task.isChecked ? 'task-check-checked' : 'task-check'}`} onClick={() => checkTask(task)}>✓</h4>
+                                                        <h4
+                                                            className='task-name'
+                                                            onClick={() => {
+                                                                setIsEdit(true)
+                                                                setCheck(task)
+                                                                setData({
+                                                                    ...task,
+                                                                    date: new Date(task.date)
+                                                                })
+                                                                setOpenModal(true)
+                                                            }}>{task.name}</h4>
+                                                        <h4
+                                                            className='task-date'
+                                                            style={{ color: parseDate(task.date).color }}
+                                                            onClick={() => {
+                                                                setIsEdit(true)
+                                                                setCheck(task)
+                                                                setData({
+                                                                    ...task,
+                                                                    date: new Date(task.date)
+                                                                })
+                                                                setOpenModal(true)
+                                                            }}>
+                                                            {parseDate(task.date).parsed}
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </div>
                 :
                 <h4 className='task-no-tasks' style={{ filter: openModal && 'blur(10px)' }}>
