@@ -1033,6 +1033,10 @@ h2 {
     width: 20%;
   }
 
+  .time-picker-btn {
+    margin: 2vw 0
+  }
+
 
   /* -----HOME-MONTH-TAB----- */
   .home-month-tab {

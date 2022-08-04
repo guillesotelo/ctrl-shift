@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import DatePicker from 'react-datepicker'
 import TrashCan from '../assets/trash-can.svg'
+import ScheduleIcon from '../assets/schedule-icon.svg'
 import CTAButton from '../components/CTAButton'
 import InputField from '../components/InputField'
 import { APP_COLORS } from '../constants/colors'
@@ -11,12 +12,13 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 export default function Tasks() {
     const [taskArr, setTaskArr] = useState([])
-    const [data, setData] = useState({ date: new Date(), name: '', details: '' })
+    const [data, setData] = useState({ date: '', name: '', details: '' })
     const [ledgerId, setLedgerId] = useState('')
     const [openModal, setOpenModal] = useState(false)
     const [check, setCheck] = useState({})
     const [isEdit, setIsEdit] = useState(false)
     const [dateClicked, setDateClicked] = useState(false)
+    const [timeClicked, setTimeClicked] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -38,14 +40,16 @@ export default function Tasks() {
     const handleSave = async () => {
         try {
             if (!data.name) return toast.error('Revisa los campos')
-            const _tasks = check.name ? taskArr.filter(task => task !== check) : taskArr
             const newTask = {
                 name: data.name,
                 details: data.details,
-                date: data.date
+                date: data.date,
+                hasTime: data.hasTime || false
             }
 
-            _tasks.unshift(newTask)
+            const _tasks = taskArr.map(task => {
+                return task === check ? newTask : task
+            })
 
             const newLedger = await dispatch(updateLedgerData({
                 tasks: JSON.stringify(_tasks),
@@ -62,7 +66,7 @@ export default function Tasks() {
             setData({
                 name: '',
                 details: '',
-                date: new Date()
+                date: ''
             })
             setIsEdit(false)
         } catch (err) { console.error(err) }
@@ -92,6 +96,7 @@ export default function Tasks() {
                 name: checked.name,
                 details: checked.details,
                 date: checked.date,
+                hasTime: checked.hasTime || false,
                 isChecked: !checked.isChecked
             }
             const _tasks = taskArr.map(task => {
@@ -107,7 +112,7 @@ export default function Tasks() {
                 setOpenModal(false)
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success(`${checked.isChecked ? 'Tarea Activada!' : 'Tarea Finalizada!'}`)
+                toast.success(`${checked.isChecked ? 'Tarea re-activada!' : 'Tarea finalizada!'}`)
                 setTimeout(() => pullTasks(), 200)
             }
 
@@ -147,26 +152,26 @@ export default function Tasks() {
         let parsed = taskDate.toLocaleDateString()
         let color = 'black'
 
-        if (taskDate.getDay() === now.getDay()) {
+        if (taskDate.getDay() === now.getDay() && taskDate.getDate() === now.getDate()) {
             color = 'green'
             parsed = 'Hoy'
         }
-        else if (taskDate.getDay() === new Date(yesterday).getDay()) {
+        else if (taskDate.getDay() === new Date(yesterday).getDay() && taskDate.getDate() === new Date(yesterday).getDate()) {
             parsed = 'Ayer'
             color = 'red'
         }
-        else if (taskDate.getDay() === new Date(tomorrow).getDay()) {
+        else if (taskDate.getDay() === new Date(tomorrow).getDay() && taskDate.getDate() === new Date(tomorrow).getDate()) {
             color = 'green'
             parsed = 'Mañana'
         }
-        else if (taskDate.getDay() === new Date(dayAfter).getDay() ||
-            taskDate.getDay() === new Date(afterDayAfter).getDay()
+        else if ((taskDate.getDay() === new Date(dayAfter).getDay() && taskDate.getDate() === new Date(dayAfter).getDate()) ||
+            (taskDate.getDay() === new Date(afterDayAfter).getDay() && taskDate.getDate() === new Date(afterDayAfter).getDate())
         ) {
             color = 'green'
             parsed = days[taskDate.getDay()]
         }
-        else if (taskDate.getDay() === new Date(dayBefore).getDay() ||
-            taskDate.getDay() === new Date(dayBeforeYest).getDay()
+        else if ((taskDate.getDay() === new Date(dayBefore).getDay() && taskDate.getDate() === new Date(dayBefore).getDate()) ||
+            (taskDate.getDay() === new Date(dayBeforeYest).getDay() && taskDate.getDate() === new Date(dayBeforeYest).getDate())
         ) {
             color = 'red'
             parsed = days[taskDate.getDay()]
@@ -198,8 +203,6 @@ export default function Tasks() {
 
     const getItemStyle = (isDragging, draggableStyle) => ({
         userSelect: "none",
-        // padding: taskArr.length * 2,
-        // margin: `0 0 ${taskArr.length}px 0`,
         background: isDragging ? "white" : "",
         ...draggableStyle
     })
@@ -230,21 +233,53 @@ export default function Tasks() {
                         value={data.details}
                     />
                     <CTAButton
-                        handleClick={() => setDateClicked(!dateClicked)}
-                        label={'Fecha ' + data.date.toLocaleDateString()}
+                        handleClick={() => {
+                            setTimeClicked(false)
+                            setDateClicked(!dateClicked)
+                        }}
+                        label={data.date instanceof Date && isFinite(data.date) ? data.date.toLocaleDateString() : 'Agregar Fecha'}
                         size='100%'
                         color={APP_COLORS.BLUE}
                     />
                     {dateClicked &&
                         <DatePicker
-                            selected={data.date || ''}
+                            selected={data.date instanceof Date && isFinite(data.date) ? data.date : new Date()}
                             onChange={date => {
                                 updateData('date', date)
-                                setTimeout(() => setDateClicked(false), 200)
-                            }
-                            }
+                                setTimeout(() => {
+                                    setDateClicked(false)
+                                    setTimeClicked(false)
+                                }, 200)
+                            }}
                             dateFormat="dd/MM/YYY"
                             inline
+                        />
+                    }
+                    {data.date instanceof Date && isFinite(data.date) && !timeClicked &&
+                        <CTAButton
+                            handleClick={() => {
+                                setDateClicked(false)
+                                setTimeClicked(!timeClicked)
+                            }}
+                            label={data.hasTime ? data.date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Agregar Hora'}
+                            size='100%'
+                            color={APP_COLORS.BLUE}
+                            className='time-picker-btn'
+                        />}
+                    {data.date instanceof Date && isFinite(data.date) && timeClicked &&
+                        <DatePicker
+                            selected={data.date instanceof Date && isFinite(data.date) ? data.date : new Date()}
+                            onChange={date => {
+                                setData({ ...data, date, hasTime: true })
+                                setTimeout(() => {
+                                    setDateClicked(false)
+                                    setTimeClicked(false)
+                                }, 200)
+                            }}
+                            dateFormat="h:mm aa"
+                            inline
+                            showTimeSelect
+                            showTimeSelectOnly
                         />
                     }
                     <div className='task-modal-btns'>
@@ -253,10 +288,12 @@ export default function Tasks() {
                                 setData({
                                     name: '',
                                     details: '',
-                                    date: new Date()
+                                    date: ''
                                 })
                                 setIsEdit(false)
                                 setOpenModal(false)
+                                setDateClicked(false)
+                                setTimeClicked(false)
                             }}
                             label='Cancelar'
                             size='100%'
@@ -311,7 +348,7 @@ export default function Tasks() {
                                                                 })
                                                                 setOpenModal(true)
                                                             }}>{task.name}</h4>
-                                                        <h4
+                                                        {task.date ? <h4
                                                             className='task-date'
                                                             style={{ color: parseDate(task.date).color }}
                                                             onClick={() => {
@@ -325,6 +362,24 @@ export default function Tasks() {
                                                             }}>
                                                             {parseDate(task.date).parsed}
                                                         </h4>
+                                                            :
+                                                            <img
+                                                                style={{ transform: 'scale(0.3)' }}
+                                                                className='task-date'
+                                                                src={ScheduleIcon}
+                                                                alt="Schedule"
+                                                                onClick={() => {
+                                                                    setIsEdit(true)
+                                                                    setCheck(task)
+                                                                    setData({
+                                                                        ...task,
+                                                                        date: new Date(task.date)
+                                                                    })
+                                                                    setDateClicked(true)
+                                                                    setOpenModal(true)
+                                                                }}
+                                                            />
+                                                        }
                                                     </div>
                                                 </div>
                                             )}
@@ -347,11 +402,12 @@ export default function Tasks() {
                 color={APP_COLORS.YELLOW}
                 handleClick={() => {
                     setData({
-                        date: new Date(),
+                        date: '',
                         name: '',
                         details: ''
                     })
                     setOpenModal(true)
+                    setDateClicked(false)
                 }}
                 style={{ color: 'black', borderRadius: '10vw', fontSize: '4vw' }}
                 className='new-task-btn-container'
