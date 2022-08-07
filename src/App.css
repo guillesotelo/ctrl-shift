@@ -1034,7 +1034,34 @@ h2 {
   }
 
   .time-picker-btn {
-    margin: 2vw 0
+    padding: 0
+  }
+
+  .task-date-btn {}
+
+  .time-picker-btn {
+    font-size: 4vw !important;
+    padding: 1vw 2vw !important;
+    color: #E5E5E5;
+    border: none;
+    border-radius: 2vw;
+    margin: 0vw !important;
+  }
+
+  .svg-watch {
+    filter: invert(99%) sepia(66%) saturate(143%) hue-rotate(161deg) brightness(121%) contrast(100%);
+    padding: 0;
+    margin: 0;
+    align-self: center;
+  }
+
+  .task-schedule-btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+    height: min-content;
   }
 
 
@@ -1054,11 +1081,11 @@ h2 {
   }
 
   .month-arrow-left {
-    color: #CCA43B;
+    color: #d0d0d0;
   }
 
   .month-before {
-    background: -webkit-linear-gradient(0deg,#eee, #333);
+    background: -webkit-linear-gradient(0deg, #eee, #333);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #242F40;
@@ -1066,18 +1093,18 @@ h2 {
 
   .actual-month {
     /* text-decoration: underline; */
-    border-bottom: 1px solid rgb(102, 102, 102);
+    border-bottom: 2px solid #CCA43B;
     color: #242F40;
   }
 
   .month-after {
-    background: -webkit-linear-gradient(180deg,#eee, #333);
+    background: -webkit-linear-gradient(180deg, #eee, #333);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
+    -webkit-text-fill-color: transparent;
     color: #242F40;
   }
 
   .month-arrow-right {
-    color: #CCA43B;
+    color: #d0d0d0;
   }
 }

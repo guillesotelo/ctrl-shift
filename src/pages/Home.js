@@ -516,9 +516,9 @@ export default function Home() {
       {settings.isMonthly ?
         <div className='home-month-tab'>
           <h4 className='month-arrow-left' onClick={() => setMonth(month-1)}>{`◀`}</h4>
-          <h4 className='month-before'>{months[month - 1]}</h4>
+          <h4 className='month-before' onClick={() => setMonth(month-1)}>{months[month - 1]}</h4>
           <h4 className='actual-month'>{months[month]}</h4>
-          <h4 className='month-after'>{months[month + 1]}</h4>
+          <h4 className='month-after' onClick={() => setMonth(month+1)}>{months[month + 1]}</h4>
           <h4 className='month-arrow-right' onClick={() => setMonth(month+1)}>{`▶`}</h4>
         </div>
         : ''}
