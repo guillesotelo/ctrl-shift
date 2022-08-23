@@ -97,6 +97,7 @@ const getAllLedgersByEmail = async email => {
 const loginLedger = async data => {
     try {
         const res = await axios.post(`${API_URL}/api/ledger`, data)
+        if(!res || !res.data) return false
         const user = JSON.parse(localStorage.getItem('user'))
         const updatedUser = await updateUser({ user, newData: { defaultLedger: JSON.stringify(res.data) }})
         localStorage.removeItem('user')

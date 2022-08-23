@@ -293,6 +293,7 @@ export default function Home() {
         return {
           'Fecha': (new Date(mov.date)).toLocaleDateString(),
           'Detalle': mov.detail,
+          'Autor': mov.author,
           'Categoria': mov.category,
           'Tipo de Pago': mov.pay_type,
           'Usuario': mov.user,

@@ -133,16 +133,12 @@
         width: 15%;
         text-align: center;
         font-weight: normal;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
     }
     
     .detail {
-        white-space: nowrap;
-        margin: 0;
-        width: 15%;
-        text-align: center;
-        font-weight: normal;
-        text-overflow: ellipsis;
-        overflow: hidden;
         cursor: pointer;
     }
 

@@ -921,7 +921,18 @@ h2 {
 
   /* -----TASKS----- */
   .tasks-container {
-    padding: 6vw 8vw;
+    padding: 0vw 6vw 30vw 6vw;
+  }
+
+  .task-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 5vw;
+  }
+
+  .task-tab-title {
+    transition: 0.4s;
   }
 
   .task-no-tasks {
@@ -990,7 +1001,8 @@ h2 {
     justify-content: space-between;
     align-items: center;
     font-size: 3vw;
-    padding: 1vw 0
+    padding: 1vw 0;
+    transition: 0.3s;
   }
 
   .task-div-checked {
@@ -1000,6 +1012,7 @@ h2 {
     align-items: center;
     font-size: 3vw;
     opacity: 0.3;
+    transition: 0.3s;
     /* text-decoration: line-through; */
   }
 
@@ -1011,6 +1024,7 @@ h2 {
     text-align: center;
     line-height: 6vw;
     color: rgb(74, 74, 74);
+    margin: 4vw
   }
 
   .task-check-checked {

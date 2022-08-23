@@ -14,6 +14,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 export default function Tasks() {
     const [taskArr, setTaskArr] = useState([])
+    const [allTasks, setAllTasks] = useState([])
     const [data, setData] = useState({ date: '', name: '', details: '' })
     const [ledgerId, setLedgerId] = useState('')
     const [openModal, setOpenModal] = useState(false)
@@ -21,12 +22,13 @@ export default function Tasks() {
     const [isEdit, setIsEdit] = useState(false)
     const [dateClicked, setDateClicked] = useState(false)
     const [timeClicked, setTimeClicked] = useState(false)
+    const [tab, setTab] = useState('unfinished')
     const dispatch = useDispatch()
     registerLocale("es", es)
-    
+
     useEffect(() => {
         pullTasks()
-    }, [])
+    }, [tab])
 
     const updateData = (key, newData) => {
         setData({ ...data, [key]: newData })
@@ -36,7 +38,11 @@ export default function Tasks() {
         const { tasks, id } = JSON.parse(localStorage.getItem('ledger'))
         setLedgerId(id)
 
-        if (tasks) setTaskArr(JSON.parse(tasks))
+        if (tasks) {
+            setAllTasks(JSON.parse(tasks))
+            const _tasks = tab === 'finished' ? JSON.parse(tasks).filter(t => t.isChecked) : JSON.parse(tasks).filter(t => !t.isChecked)
+            setTaskArr(_tasks)
+        }
         else setTaskArr([])
     }
 
@@ -51,14 +57,14 @@ export default function Tasks() {
             }
 
             let isNew = true
-            const _tasks = taskArr.map(task => {
-                if(task === check) {
+            const _tasks = allTasks.map(task => {
+                if (compareTasks(task, check)) {
                     isNew = false
                     return newTask
                 } else return task
             })
 
-            if(isNew) _tasks.unshift(newTask)
+            if (isNew) _tasks.unshift(newTask)
 
             const newLedger = await dispatch(updateLedgerData({
                 tasks: JSON.stringify(_tasks),
@@ -83,7 +89,7 @@ export default function Tasks() {
 
     const saveTaskOrder = async newOrder => {
         try {
-            if (newOrder !== taskArr) {
+            if (newOrder !== allTasks) {
                 const newLedger = await dispatch(updateLedgerData({
                     tasks: JSON.stringify(newOrder),
                     id: ledgerId
@@ -99,6 +105,11 @@ export default function Tasks() {
         } catch (err) { console.error(err) }
     }
 
+    const compareTasks = (a, b) => {
+        if(a.name === b.name && a.details === b.details && a.date === b.date) return true
+        else return false
+    }
+
     const checkTask = async checked => {
         try {
             const newTask = {
@@ -108,8 +119,8 @@ export default function Tasks() {
                 hasTime: checked.hasTime || false,
                 isChecked: !checked.isChecked
             }
-            const _tasks = taskArr.map(task => {
-                return task === checked ? newTask : task
+            const _tasks = allTasks.map(task => {
+                return compareTasks(task, checked) ? newTask : task
             })
 
             const newLedger = await dispatch(updateLedgerData({
@@ -130,7 +141,7 @@ export default function Tasks() {
 
     const handleRemove = async () => {
         try {
-            const _tasks = taskArr.filter(t => t !== check)
+            const _tasks = allTasks.filter(t => !compareTasks(t, check))
 
             const newLedger = await dispatch(updateLedgerData({
                 tasks: JSON.stringify(_tasks),
@@ -158,33 +169,33 @@ export default function Tasks() {
         const dayAfter = new Date().setDate(now.getDate() + 2)
         const afterDayAfter = new Date().setDate(now.getDate() + 3)
         const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-        let parsed = `${withTime ? taskDate.toLocaleDateString() + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute:'2-digit' }) : taskDate.toLocaleDateString()}`
+        let parsed = `${withTime ? taskDate.toLocaleDateString() + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : taskDate.toLocaleDateString()}`
         let color = 'black'
 
         if (taskDate.getDay() === now.getDay() && taskDate.getDate() === now.getDate()) {
             color = 'green'
-            parsed = `${withTime ? 'Hoy' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute:'2-digit' }) : 'Hoy'}`
+            parsed = `${withTime ? 'Hoy' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Hoy'}`
         }
         else if (taskDate.getDay() === new Date(yesterday).getDay() && taskDate.getDate() === new Date(yesterday).getDate()) {
             color = 'red'
             parsed = 'Ayer'
-            parsed = `${withTime ? 'Ayer' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute:'2-digit' }) : 'Ayer'}`
+            parsed = `${withTime ? 'Ayer' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Ayer'}`
         }
         else if (taskDate.getDay() === new Date(tomorrow).getDay() && taskDate.getDate() === new Date(tomorrow).getDate()) {
             color = 'green'
-            parsed = `${withTime ? 'Mañana' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute:'2-digit' }) : 'Mañana'}`
+            parsed = `${withTime ? 'Mañana' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Mañana'}`
         }
         else if ((taskDate.getDay() === new Date(dayAfter).getDay() && taskDate.getDate() === new Date(dayAfter).getDate()) ||
             (taskDate.getDay() === new Date(afterDayAfter).getDay() && taskDate.getDate() === new Date(afterDayAfter).getDate())
         ) {
             color = 'green'
-            parsed = `${withTime ? days[taskDate.getDay()] + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute:'2-digit' }) : days[taskDate.getDay()]}`
+            parsed = `${withTime ? days[taskDate.getDay()] + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : days[taskDate.getDay()]}`
         }
         else if ((taskDate.getDay() === new Date(dayBefore).getDay() && taskDate.getDate() === new Date(dayBefore).getDate()) ||
             (taskDate.getDay() === new Date(dayBeforeYest).getDay() && taskDate.getDate() === new Date(dayBeforeYest).getDate())
         ) {
             color = 'red'
-            parsed = `${withTime ? days[taskDate.getDay()] + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute:'2-digit' }) : days[taskDate.getDay()]}`
+            parsed = `${withTime ? days[taskDate.getDay()] + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : days[taskDate.getDay()]}`
         }
         else if (taskDate.getTime() < now.getTime()) {
             color = 'red'
@@ -203,11 +214,11 @@ export default function Tasks() {
         if (!result.destination) return
 
         const items = reorder(
-            taskArr,
+            allTasks,
             result.source.index,
             result.destination.index
         )
-        setTaskArr(items)
+        setAllTasks(items)
         saveTaskOrder(items)
     }
 
@@ -330,6 +341,11 @@ export default function Tasks() {
                 </div>
                 : ''
             }
+            <div className='task-tabs'>
+                <h4 onClick={() => setTab('unfinished')} className='task-tab-title' style={{ borderBottom: tab === 'unfinished' ? '2px solid #CCA43B' : '' }}>Sin finalizar</h4>
+                <h4>|</h4>
+                <h4 onClick={() => setTab('finished')} className='task-tab-title' style={{ borderBottom: tab === 'finished' ? '2px solid #CCA43B' : '' }}>Finalizadas</h4>
+            </div>
             {taskArr.length ?
                 <div className='task-list' style={{ filter: openModal && 'blur(10px)' }}>
                     <DragDropContext onDragEnd={onDragEnd}>
@@ -360,7 +376,7 @@ export default function Tasks() {
                                                                 setCheck(task)
                                                                 setData({
                                                                     ...task,
-                                                                    date: data.date instanceof Date && isFinite(data.date) ? new Date(task.date) : ''
+                                                                    date: task.date ? new Date(task.date) : ''
                                                                 })
                                                                 setOpenModal(true)
                                                             }}>{task.name}</h4>
@@ -372,7 +388,7 @@ export default function Tasks() {
                                                                 setCheck(task)
                                                                 setData({
                                                                     ...task,
-                                                                    date: data.date instanceof Date && isFinite(data.date) ? new Date(task.date) : ''
+                                                                    date: task.date ? new Date(task.date) : ''
                                                                 })
                                                                 setOpenModal(true)
                                                             }}>
@@ -389,7 +405,7 @@ export default function Tasks() {
                                                                     setCheck(task)
                                                                     setData({
                                                                         ...task,
-                                                                        date: data.date instanceof Date && isFinite(data.date) ? new Date(task.date) : ''
+                                                                        date: task.date ? new Date(task.date) : ''
                                                                     })
                                                                     setDateClicked(true)
                                                                     setOpenModal(true)
