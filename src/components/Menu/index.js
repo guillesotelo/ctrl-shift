@@ -27,7 +27,7 @@ export default function Menu(props) {
       <div className='menu-items'>
         <CTAButton
           label='Mi cuenta'
-          color='#242F40'
+          color='#263d42'
           handleClick={handleAccount}
           size='100%'
           style={{ color: '#CCA43B', fontSize: '5vw' }}
@@ -38,7 +38,7 @@ export default function Menu(props) {
           <>
             <CTAButton
               label='Movimientos'
-              color='#242F40'
+              color='#263d42'
               handleClick={() => {
                 setMenuClass('menu-hidden')
                 history.push('/home')
@@ -48,7 +48,7 @@ export default function Menu(props) {
             />
             <CTAButton
               label='Ajustes'
-              color='#242F40'
+              color='#263d42'
               handleClick={() => {
                 setMenuClass('menu-hidden')
                 history.push('/settings')
@@ -59,7 +59,7 @@ export default function Menu(props) {
             />
             <CTAButton
               label='Notas'
-              color='#242F40'
+              color='#263d42'
               handleClick={() => {
                 setMenuClass('menu-hidden')
                 history.push('/notes')
@@ -70,7 +70,7 @@ export default function Menu(props) {
             />
             <CTAButton
               label='Tareas'
-              color='#242F40'
+              color='#263d42'
               handleClick={() => {
                 setMenuClass('menu-hidden')
                 history.push('/tasks')
@@ -83,7 +83,7 @@ export default function Menu(props) {
         }
         <CTAButton
           label='Cerrar sesion'
-          color='#242F40'
+          color='#263d42'
           handleClick={handleLogOut}
           size='100%'
           style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}

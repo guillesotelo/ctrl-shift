@@ -94,7 +94,7 @@ export default function Notes() {
                         />
                         <CTAButton
                             label='Confirmar'
-                            color={APP_COLORS.BLUE}
+                            color={APP_COLORS.SPACE}
                             handleClick={() => {
                                 setRemoveModal(false)
                                 handleRemoveItem()

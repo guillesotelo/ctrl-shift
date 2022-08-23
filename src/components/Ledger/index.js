@@ -112,7 +112,7 @@ export default function Ledger() {
                         />
                         <CTAButton
                             label='Conectar existente'
-                            color='#242F40'
+                            color='#263d42'
                             handleClick={() => {
                                 setConnect(!connect)
                                 setNewLedger(false)
@@ -141,7 +141,7 @@ export default function Ledger() {
                                 />
                                 <CTAButton
                                     label='Guardar'
-                                    color='#242F40'
+                                    color='#263d42'
                                     handleClick={handleSaveLedger}
                                     style={{ margin: '1vw', color: '#CCA43B' }}
                                     className='cta-connect-ledger'
@@ -171,7 +171,7 @@ export default function Ledger() {
                                 />
                                 <CTAButton
                                     label='Conectar'
-                                    color='#242F40'
+                                    color='#263d42'
                                     handleClick={handleConnect}
                                     style={{ margin: '1vw', color: '#CCA43B' }}
                                     className='cta-connect-ledger'

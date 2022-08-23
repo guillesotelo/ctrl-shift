@@ -1,6 +1,7 @@
 .polarchart-container {
-    margin-top: 2vw;
-    width: 38%;
+    /* margin-top: 2vw; */
+    width: 25vw;
+    height: 25vw;
 }
 
 @media only screen and (max-width: 640px) {

@@ -14,7 +14,7 @@ import TrashCan from '../assets/trash-can.svg'
 import EyeClosed from '../assets/eye-closed.svg'
 import { getMovements, saveMovement, editMovement, removeMovement } from '../store/reducers/movement'
 import { updateLedgerData } from '../store/reducers/ledger';
-import { APP_COLORS } from '../constants/colors'
+import { APP_COLORS, PALETTE } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
@@ -107,10 +107,16 @@ export default function Home() {
     getAllMovements(data)
   }, [month])
 
+  const randomColors = array => {
+    return array.map(value => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
+  }
+
   const renderCharts = () => {
-    const categoryPattern = allCategories.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
-    const payTypePattern = allPayTypes.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
-    const authorPattern = allUsers.map(_ => '#000000'.replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16) }))
+    const categoryPattern = allCategories.map(_ => randomColors(PALETTE)[0])
+    const payTypePattern = allPayTypes.map(_ => randomColors(PALETTE)[0])
+    const authorPattern = allUsers.map(_ => randomColors(PALETTE)[0])
 
     const localLedger = JSON.parse(localStorage.getItem('ledger'))
     const { salary, isMonthly } = JSON.parse(localLedger.settings)
@@ -384,7 +390,7 @@ export default function Home() {
             />
             <CTAButton
               label='Confirmar'
-              color={APP_COLORS.BLUE}
+              color={APP_COLORS.SPACE}
               handleClick={() => {
                 setRemoveModal(false)
                 handleRemoveItem()
@@ -402,7 +408,7 @@ export default function Home() {
               handleClick={() => setDateClicked(!dateClicked)}
               label={data.date.toLocaleDateString()}
               size='100%'
-              color={APP_COLORS.BLUE}
+              color={APP_COLORS.SPACE}
             />
             {dateClicked &&
               <DatePicker
@@ -515,12 +521,12 @@ export default function Home() {
       </div>
 
       {settings.isMonthly ?
-        <div className='home-month-tab'>
-          <h4 className='month-arrow-left' onClick={() => setMonth(month-1)}>{`◀`}</h4>
-          <h4 className='month-before' onClick={() => setMonth(month-1)}>{months[month - 1]}</h4>
+        <div className='home-month-tab' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
+          <h4 className='month-arrow-left' onClick={() => setMonth(month - 1)}>{`◀`}</h4>
+          <h4 className='month-before' onClick={() => setMonth(month - 1)}>{months[month - 1]}</h4>
           <h4 className='actual-month'>{months[month]}</h4>
-          <h4 className='month-after' onClick={() => setMonth(month+1)}>{months[month + 1]}</h4>
-          <h4 className='month-arrow-right' onClick={() => setMonth(month+1)}>{`▶`}</h4>
+          <h4 className='month-after' onClick={() => setMonth(month + 1)}>{months[month + 1]}</h4>
+          <h4 className='month-arrow-right' onClick={() => setMonth(month + 1)}>{`▶`}</h4>
         </div>
         : ''}
 
@@ -543,7 +549,7 @@ export default function Home() {
             handleClick={downloadCSV}
             label='⇩ Extracto'
             size='fit-content'
-            color={APP_COLORS.BLUE}
+            color={APP_COLORS.SPACE}
             style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
           />
         </div>
@@ -559,7 +565,7 @@ export default function Home() {
         {
           arrData.length || data.search ? <div className='div-charts'>
             <div className='separator' style={{ width: '85%' }}></div>
-            {Object.keys(budget).length > 1 && settings.isMonthly ? 
+            {Object.keys(budget).length > 1 && settings.isMonthly ?
               <>
                 <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
                 <div className='separator' style={{ width: '85%' }}></div>

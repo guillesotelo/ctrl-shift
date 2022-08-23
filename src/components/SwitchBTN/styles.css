@@ -29,7 +29,7 @@
     align-self: center;
     border: 1px solid rgb(58, 90, 150);
     border-radius: 1.5vw;
-    background-color: #242F40;
+    background-color: #263d42;
     transition: 0.4s;
     color: rgb(214, 214, 214);
     line-height: 2.5vw;
@@ -81,7 +81,7 @@
         align-self: center;
         border: 1px solid rgb(58, 90, 150);
         border-radius: 1.5vw;
-        background-color: #242F40;
+        background-color: #263d42;
         transition: 0.4s;
         color: rgb(214, 214, 214);
         line-height: 8vw;

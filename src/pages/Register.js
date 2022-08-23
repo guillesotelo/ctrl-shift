@@ -90,7 +90,7 @@ export default function Register() {
                     label='Registrarme'
                     handleClick={onRegister}
                     size='100%'
-                    color={APP_COLORS.BLUE}
+                    color={APP_COLORS.SPACE}
                     style={{ marginTop: '6vw', fontSize: '4vw' }}
                     className='cta-register'
                 />

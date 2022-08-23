@@ -15,7 +15,7 @@
     flex-direction: row;
     font-size: 1vw;
     justify-content: space-between;
-    border: 3px solid #242F40;
+    border: 3px solid #263d42;
     border-top-left-radius: 1vw;
     border-top-right-radius: 1vw;
     padding: 0.5vw;
@@ -34,9 +34,9 @@
     font-size: 1vw;
     justify-content: space-between;
     align-items: center;
-    border-right: 2px solid #242F40;
-    border-left: 2px solid #242F40;
-    border-bottom: 2px solid #242F40;
+    border-right: 2px solid #263d42;
+    border-left: 2px solid #263d42;
+    border-bottom: 2px solid #263d42;
     padding: 0.3vw;
     height: fit-content;
 }
@@ -72,7 +72,7 @@
 }
 
 .table-lazy-btn {
-    border: 1px solid #242F40;
+    border: 1px solid #263d42;
     border-top: none;
     border-bottom-left-radius: 1vw;
     border-bottom-right-radius: 1vw;
@@ -80,6 +80,10 @@
     padding: 0.8vw;
     color: rgb(79, 79, 79);
     cursor: pointer;
+    transition: 0.3s;
+}
+.table-lazy-btn:hover {
+    opacity: 0.7;
 }
 
 @media only screen and (max-width: 640px) {
@@ -101,7 +105,7 @@
         flex-direction: row;
         font-size: 2.5vw;
         justify-content: space-between;
-        border: 1px solid #242F40;
+        border: 1px solid #263d42;
         border-top-left-radius: 2vw;
         border-top-right-radius: 2vw;
         padding: 1vw;
@@ -120,8 +124,8 @@
         font-size: 2.5vw;
         justify-content: space-between;
         align-items: center;
-        border-right: 1px solid #242F40;
-        border-left: 1px solid #242F40;
+        border-right: 1px solid #263d42;
+        border-left: 1px solid #263d42;
         border-bottom: 1px solid #c0c0c0;
         padding: 1vw;
         height: fit-content;
@@ -152,7 +156,7 @@
     }
 
     .table-lazy-btn {
-        border: 1px solid #242F40;
+        border: 1px solid #263d42;
         border-top: none;
         border-bottom-left-radius: 2vw;
         border-bottom-right-radius: 2vw;

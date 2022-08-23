@@ -24,7 +24,8 @@
     border: 2px solid #cca43b;
     background-color: #e5e5e5;
     font-weight: normal;
-    border-radius: 2vw;
+    border-radius: 1vw;
+    margin: 0 !important;
     padding: 1vw;
     /* text-align: center; */
     font-size: 1vw !important;

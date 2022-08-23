@@ -18,7 +18,7 @@ export default function CTAButton(props) {
         ...style,
         padding: '3vw',
         width: size || 'auto',
-        backgroundColor: color || APP_COLORS.BLUE,
+        backgroundColor: color || APP_COLORS.SPACE,
         opacity: disabled ? 0.25 : 1
     }
 

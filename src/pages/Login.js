@@ -80,7 +80,7 @@ export default function Login() {
                     label='Entrar'
                     handleClick={onLogin}
                     size='100%'
-                    color={APP_COLORS.BLUE}
+                    color={APP_COLORS.SPACE}
                     style={{ margin: '10vw', fontSize: '4vw' }}
                     className='cta-login'
                 />

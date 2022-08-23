@@ -261,7 +261,7 @@ export default function Tasks() {
                                     setDateClicked(!dateClicked)
                                 }}
                                 label={data.date instanceof Date && isFinite(data.date) ? data.date.toLocaleDateString() : 'Agregar Fecha'}
-                                color={APP_COLORS.BLUE}
+                                color={APP_COLORS.SPACE}
                                 className='task-date-btn'
                             />
                         }
@@ -287,7 +287,7 @@ export default function Tasks() {
                                     setTimeClicked(!timeClicked)
                                 }}
                                 label={data.hasTime ? data.date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : <img style={{ transform: 'scale(0.7)' }} className='svg-watch' src={WatchIcon} alt="Add Time Schedule" />}
-                                color={APP_COLORS.BLUE}
+                                color={APP_COLORS.SPACE}
                                 className='time-picker-container'
                                 btnClass={data.hasTime ? '' : 'time-picker-btn'}
                             />}
