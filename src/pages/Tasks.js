@@ -26,6 +26,8 @@ export default function Tasks() {
     const dispatch = useDispatch()
     registerLocale("es", es)
 
+    console.log("allTasks", allTasks)
+
     useEffect(() => {
         pullTasks()
     }, [tab])

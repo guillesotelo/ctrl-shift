@@ -14,6 +14,13 @@ export default function BarChart(props) {
             legend: {
                 display: false
             }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    autoSkip: false
+                }
+            }
         }
     }
     

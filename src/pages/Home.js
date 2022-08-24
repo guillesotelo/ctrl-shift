@@ -30,6 +30,7 @@ export default function Home() {
   const [allPayTypes, setAllPayTypes] = useState([])
   const [allCategories, setAllCategories] = useState([])
   const [categoryChart, setCategoryChart] = useState({ labels: [], datasets: [] })
+  const [balanceChart, setBalanceChart] = useState({ labels: [], datasets: [] })
   const [typeChart, setTypeChart] = useState({ labels: [], datasets: [] })
   const [authorChart, setAuthorChart] = useState({ labels: [], datasets: [] })
   const [budgetChart, setBudgetChart] = useState({ labels: [], datasets: [] })
@@ -129,12 +130,24 @@ export default function Home() {
     if (isMonthly) setSw(isMonthly)
 
     const budgetPattern = budgetArr.map(item => item > 0 ? '#A5DF6A' : '#DF736A')
+    const balancePattern = months.map(month => {
+      if(balanceCalculator(arrData, month) > 0) return '#A5DF6A'
+      else return '#DF736A'
+    })
 
     setCategoryChart({
       labels: allCategories,
       datasets: [{
         data: allCategories.map(cat => chartCalculator(arrData, cat, 'category')),
         backgroundColor: categoryPattern
+      }]
+    })
+
+    setBalanceChart({
+      labels: months,
+      datasets: [{
+        data: months.map(month => balanceCalculator(arrData, month)),
+        backgroundColor: balancePattern
       }]
     })
 
@@ -240,6 +253,17 @@ export default function Home() {
       if (mov[type] === col) sum += parseInt(mov.amount)
     })
     return sum
+  }
+
+  const balanceCalculator = (data, period) => {
+    let monthSalary = salary
+    data.forEach(mov => {
+      if (new Date(mov.date).getMonth() === months.indexOf(period)) {
+        monthSalary -= mov.amount
+      }
+    })
+    if(monthSalary === salary) return 0
+    else return monthSalary
   }
 
   const handleSave = async () => {
@@ -570,6 +594,13 @@ export default function Home() {
                 <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
                 <div className='separator' style={{ width: '85%' }}></div>
                 <PieChart chartData={budgetChart2} title='Porcentaje total %' />
+                <div className='separator' style={{ width: '85%' }}></div>
+              </>
+              : ''
+            }
+            {!settings.isMonthly ?
+              <>
+                <BarChart chartData={balanceChart} title='Balance Anual' />
                 <div className='separator' style={{ width: '85%' }}></div>
               </>
               : ''
