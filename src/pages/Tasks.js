@@ -26,7 +26,7 @@ export default function Tasks() {
     const dispatch = useDispatch()
     registerLocale("es", es)
 
-    console.log("allTasks", allTasks)
+    // console.log("allTasks", allTasks)
 
     useEffect(() => {
         pullTasks()
@@ -92,12 +92,14 @@ export default function Tasks() {
     const saveTaskOrder = async newOrder => {
         try {
             if (newOrder !== allTasks) {
+                console.log("YES", newOrder)
                 const newLedger = await dispatch(updateLedgerData({
                     tasks: JSON.stringify(newOrder),
                     id: ledgerId
                 })).then(data => data.payload)
 
                 if (newLedger) {
+                    console.log("newLedger", newLedger)
                     setOpenModal(false)
                     localStorage.removeItem('ledger')
                     localStorage.setItem('ledger', JSON.stringify(newLedger.data))
@@ -220,8 +222,8 @@ export default function Tasks() {
             result.source.index,
             result.destination.index
         )
-        setAllTasks(items)
         saveTaskOrder(items)
+        setAllTasks(items)
     }
 
     const getItemStyle = (isDragging, draggableStyle) => ({
