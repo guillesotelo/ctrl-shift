@@ -16,7 +16,7 @@
     font-weight: normal;
     border-radius: 1vw;
     padding: 1vw;
-    text-align: center;
+    /* text-align: center; */
     font-size: 1vw !important;
 }
 
@@ -58,7 +58,7 @@
         font-weight: normal;
         border-radius: 2vw;
         padding: 2vw;
-        text-align: center;
+        /* text-align: center; */
         font-size: 3vw !important;
     }
 

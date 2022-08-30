@@ -482,14 +482,19 @@ h2 {
 .search-container {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   margin: 2vw;
+  line-height: 1vw;
+  gap: 2vw;
+  color: #263d42;
 }
 
 /* -----TASKS----- */
 .tasks-container {
   padding: 0vw 1vw;
   margin: 0 18vw;
+  display: flex;
+  flex-direction: column;
 }
 
 .task-tabs {
@@ -574,11 +579,12 @@ h2 {
 .task-div {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  gap: 2vw;
+  align-items: center;
+  justify-content:center;
+  align-self: center;
+  gap: 4vw;
   margin: 0;
   padding: 0;
-  align-items: center;
   font-size: 0.8vw;
   transition: 0.3s;
 }
@@ -586,11 +592,14 @@ h2 {
 .task-div-checked {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
-  font-size: 0.8vw;
-  gap: 2vw;
+  justify-content: center;
+  align-self: center;
+  gap: 4vw;
   opacity: 0.3;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8vw;
   transition: 0.3s;
   /* text-decoration: line-through; */
 }
@@ -611,6 +620,7 @@ h2 {
   line-height: 2vw;
   height: 2vw;
   width: 2vw;
+  margin: 0;
   border-radius: 50%;
   background-color: green;
   color: white;

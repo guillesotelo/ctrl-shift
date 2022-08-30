@@ -21,7 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SwitchBTN from '../components/SwitchBTN';
 
 export default function Home() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState({ search: '' })
   const [user, setUser] = useState({})
   const [ledger, setLedger] = useState('')
   const [settings, setSettings] = useState('')
@@ -131,7 +131,7 @@ export default function Home() {
 
     const budgetPattern = budgetArr.map(item => item > 0 ? '#A5DF6A' : '#DF736A')
     const balancePattern = months.map(month => {
-      if(balanceCalculator(arrData, month) > 0) return '#A5DF6A'
+      if (balanceCalculator(arrData, month) > 0) return '#A5DF6A'
       else return '#DF736A'
     })
 
@@ -262,7 +262,7 @@ export default function Home() {
         monthSalary -= mov.amount
       }
     })
-    if(monthSalary === salary) return 0
+    if (monthSalary === salary) return 0
     else return monthSalary
   }
 
@@ -367,6 +367,7 @@ export default function Home() {
           ledger: ledger.id || -1,
           user: ledger.email
         }
+        setData({ ...data, [key]: '' })
         getAllMovements(newData)
       }
     }
@@ -453,6 +454,7 @@ export default function Home() {
               name='amount'
               type='number'
               value={data.amount || ''}
+              style={{ textAlign: 'center' }}
             />
             <InputField
               label=''
@@ -584,7 +586,15 @@ export default function Home() {
             placeholder='Buscar movimiento...'
             type='text'
             name='search'
+            value={data.search || ''}
           />
+          {data.search !== '' &&
+            <h3
+              className='search-erase-btn'
+              onClick={() => {
+              updateData('search', '')
+              setData({ ...data, search: '' })
+            }}>✖</h3>}
         </div>
         {
           arrData.length || data.search ? <div className='div-charts'>

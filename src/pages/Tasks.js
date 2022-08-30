@@ -22,11 +22,9 @@ export default function Tasks() {
     const [isEdit, setIsEdit] = useState(false)
     const [dateClicked, setDateClicked] = useState(false)
     const [timeClicked, setTimeClicked] = useState(false)
-    const [tab, setTab] = useState('unfinished')
+    const [tab, setTab] = useState('unChecked')
     const dispatch = useDispatch()
     registerLocale("es", es)
-
-    // console.log("allTasks", allTasks)
 
     useEffect(() => {
         pullTasks()
@@ -42,7 +40,7 @@ export default function Tasks() {
 
         if (tasks) {
             setAllTasks(JSON.parse(tasks))
-            const _tasks = tab === 'finished' ? JSON.parse(tasks).filter(t => t.isChecked) : JSON.parse(tasks).filter(t => !t.isChecked)
+            const _tasks = tab === 'isChecked' ? JSON.parse(tasks).filter(t => t.isChecked) : JSON.parse(tasks).filter(t => !t.isChecked)
             setTaskArr(_tasks)
         }
         else setTaskArr([])
@@ -92,14 +90,12 @@ export default function Tasks() {
     const saveTaskOrder = async newOrder => {
         try {
             if (newOrder !== allTasks) {
-                console.log("YES", newOrder)
                 const newLedger = await dispatch(updateLedgerData({
                     tasks: JSON.stringify(newOrder),
                     id: ledgerId
                 })).then(data => data.payload)
 
                 if (newLedger) {
-                    console.log("newLedger", newLedger)
                     setOpenModal(false)
                     localStorage.removeItem('ledger')
                     localStorage.setItem('ledger', JSON.stringify(newLedger.data))
@@ -110,7 +106,7 @@ export default function Tasks() {
     }
 
     const compareTasks = (a, b) => {
-        if(a.name === b.name && a.details === b.details && a.date === b.date) return true
+        if (a.name === b.name && a.details === b.details && a.date === b.date) return true
         else return false
     }
 
@@ -346,11 +342,11 @@ export default function Tasks() {
                 : ''
             }
             <div className='task-tabs'>
-                <h4 onClick={() => setTab('unfinished')} className='task-tab-title' style={{ borderBottom: tab === 'unfinished' ? '2px solid #CCA43B' : '' }}>Sin finalizar</h4>
+                <h4 onClick={() => setTab('unChecked')} className='task-tab-title' style={{ borderBottom: tab === 'unChecked' ? '2px solid #CCA43B' : '' }}>Sin finalizar</h4>
                 <h4>|</h4>
-                <h4 onClick={() => setTab('finished')} className='task-tab-title' style={{ borderBottom: tab === 'finished' ? '2px solid #CCA43B' : '' }}>Finalizadas</h4>
+                <h4 onClick={() => setTab('isChecked')} className='task-tab-title' style={{ borderBottom: tab === 'isChecked' ? '2px solid #CCA43B' : '' }}>Finalizadas</h4>
             </div>
-            {taskArr.length ?
+            {allTasks.length ?
                 <div className='task-list' style={{ filter: openModal && 'blur(10px)' }}>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
@@ -359,7 +355,7 @@ export default function Tasks() {
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
-                                    {taskArr.map((task, i) => (
+                                    {allTasks.map((task, i) => ((task[tab] || (tab==='unChecked' && !task.isChecked)) &&
                                         <Draggable key={i} draggableId={String(i)} index={i}>
                                             {(provided, snapshot) => (
                                                 <div
@@ -369,9 +365,14 @@ export default function Tasks() {
                                                     style={getItemStyle(
                                                         snapshot.isDragging,
                                                         provided.draggableProps.style
-                                                    )}
-                                                >
-                                                    <div className={`${task.isChecked ? 'task-div-checked' : 'task-div'}`} key={i} style={{ borderBottom: i === taskArr.length - 1 ? 'none' : '1px solid lightgray' }}>
+                                                    )}>
+                                                    <div
+                                                        className={`${task.isChecked ? 'task-div-checked' : 'task-div'}`}
+                                                        key={i}
+                                                        style={{ 
+                                                            borderBottom: '1px solid lightgray',
+                                                        }}
+                                                    >
                                                         <h4 className={`${task.isChecked ? 'task-check-checked' : 'task-check'}`} onClick={() => checkTask(task)}>✓</h4>
                                                         <h4
                                                             className='task-name'
