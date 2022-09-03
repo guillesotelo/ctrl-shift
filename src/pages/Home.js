@@ -29,6 +29,8 @@ export default function Home() {
   const [allUsers, setAllUsers] = useState([])
   const [allPayTypes, setAllPayTypes] = useState([])
   const [allCategories, setAllCategories] = useState([])
+  const [withInstallments, setWithInstallments] = useState(false)
+  const [installments, setInstallments] = useState(2)
   const [categoryChart, setCategoryChart] = useState({ labels: [], datasets: [] })
   const [balanceChart, setBalanceChart] = useState({ labels: [], datasets: [] })
   const [typeChart, setTypeChart] = useState({ labels: [], datasets: [] })
@@ -80,6 +82,7 @@ export default function Home() {
       author: authors[0],
       amount: 0,
       detail: '',
+      installments: 2,
       date: new Date(),
       category: categories[0],
       ledger: localLedger.id || -1,
@@ -266,6 +269,19 @@ export default function Home() {
     else return monthSalary
   }
 
+  const saveInstallments = async (movData, i) => {
+    try {
+      let saved = {}
+      for (let j = 1; j <= i; j++) {
+        movData.installments = `${j}/${i}`
+        const newDate = new Date(movData.date)
+        if (j > 1) movData.date = newDate.setMonth(newDate.getMonth() + 1)
+        saved = await dispatch(saveMovement(movData)).then(d => d.payload)
+      }
+      return saved
+    } catch (err) { console.error(Error) }
+  }
+
   const handleSave = async () => {
     try {
       if (checkDataOk(data)) {
@@ -273,8 +289,16 @@ export default function Home() {
         const submitData = data
         if (!submitData.detail) submitData.detail = '-'
 
-        if (isEdit) saved = await dispatch(editMovement(submitData)).then(d => d.payload)
-        else saved = await dispatch(saveMovement(submitData)).then(d => d.payload)
+        if (isEdit) {
+          saved = await dispatch(editMovement(submitData)).then(d => d.payload)
+        }
+        else {
+          if (withInstallments) {
+            saved = await saveInstallments(submitData, installments)
+          } else {
+            saved = await dispatch(saveMovement(submitData)).then(d => d.payload)
+          }
+        }
 
         if (saved && saved.status === 200) toast.success('Gasto guardado!')
         else toast.error('Error al guardar')
@@ -288,12 +312,15 @@ export default function Home() {
           author: allUsers[0],
           amount: '',
           detail: '',
+          installments: 2,
           date: new Date(),
           ledger: ledger.id,
           user: user.email
         })
         setOpenModal(false)
         setIsEdit(false)
+        setWithInstallments(false)
+        setInstallments(2)
         setCheck(-1)
 
         setTimeout(() => renderCharts(), 500)
@@ -306,10 +333,13 @@ export default function Home() {
     setIsEdit(false)
     setCheck(-1)
     setOpenModal(false)
+    setWithInstallments(false)
+    setInstallments(2)
     setData({
       ...data,
       amount: '',
       detail: '',
+      installments: 2,
       pay_type: allPayTypes[0],
       category: allCategories[0],
       author: allUsers[0],
@@ -327,6 +357,7 @@ export default function Home() {
           'Categoria': mov.category,
           'Tipo de Pago': mov.pay_type,
           'Usuario': mov.user,
+          'Cuota': mov.installments || '1/1',
           'Monto': mov.amount
         }
       })
@@ -478,9 +509,38 @@ export default function Home() {
               updateData={updateData}
               value={data.pay_type}
             />
+            {!isEdit &&
+              <div className='installments-section'>
+                <SwitchBTN
+                  sw={withInstallments}
+                  onChangeSw={() => setWithInstallments(!withInstallments)}
+                  label='Cuotas'
+                  style={{ transform: 'scale(0.8)', margin: 0 }}
+                />
+                {withInstallments &&
+                  <div className='installments-count'>
+                    <CTAButton
+                      handleClick={() => installments < 120 ? setInstallments(installments + 1) : {}}
+                      label='+'
+                      color={APP_COLORS.YELLOW}
+                      style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
+                      className='category-budget-setter'
+                    />
+                    <h4 style={{ alignSelf: 'center', margin: 0 }}>{installments}</h4>
+                    <CTAButton
+                      handleClick={() => installments > 2 ? setInstallments(installments - 1) : {}}
+                      label='─'
+                      color={APP_COLORS.YELLOW}
+                      style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
+                      className='category-budget-setter'
+                    />
+                  </div>
+                }
+              </div>
+            }
             <DropdownBTN
               options={allCategories}
-              label='Categoria'
+              label='Categoría'
               name='category'
               updateData={updateData}
               value={data.category}
@@ -592,16 +652,16 @@ export default function Home() {
             <h3
               className='search-erase-btn'
               onClick={() => {
-              updateData('search', '')
-              setData({ ...data, search: '' })
-            }}>✖</h3>}
+                updateData('search', '')
+                setData({ ...data, search: '' })
+              }}>✖</h3>}
         </div>
         {
           arrData.length || data.search ? <div className='div-charts'>
             <div className='separator' style={{ width: '85%' }}></div>
             {Object.keys(budget).length > 1 && settings.isMonthly ?
               <>
-                <BarChart chartData={budgetChart} title='Presupuesto por categoria' />
+                <BarChart chartData={budgetChart} title='Presupuesto por categoría' />
                 <div className='separator' style={{ width: '85%' }}></div>
                 <PieChart chartData={budgetChart2} title='Porcentaje total %' />
                 <div className='separator' style={{ width: '85%' }}></div>
@@ -615,7 +675,7 @@ export default function Home() {
               </>
               : ''
             }
-            <BarChart chartData={categoryChart} title='Categorias' />
+            <BarChart chartData={categoryChart} title='Categorías' />
             <div className='separator' style={{ width: '85%' }}></div>
             <PolarChart chartData={typeChart} title='Tipos de Pago' />
             <div className='separator' style={{ width: '85%' }}></div>

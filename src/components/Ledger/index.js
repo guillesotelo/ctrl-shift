@@ -27,7 +27,7 @@ export default function Ledger() {
         const _settings = {
             authors: [`${username}`],
             payTypes: ['Efectivo', 'Débito', 'TC', 'Transferencia'],
-            categories: ['Varios', 'Mercado', 'Lujos', 'Gasto Fijo', 'Electro/Deco', 'Vestimenta'],
+            categories: ['Varios', 'Mercado', 'Transporte', 'Lujos', 'Gasto Fijo', 'Electro/Deco', 'Vestimenta'],
             salary: 0
         }
 

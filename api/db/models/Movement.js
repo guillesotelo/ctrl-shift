@@ -21,6 +21,10 @@ const movementSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    installments: {
+        type: String,
+        default: '1/1'
+    },
     category: {
         type: String
     },

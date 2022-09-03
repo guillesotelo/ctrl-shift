@@ -15,7 +15,6 @@ router.get('/', async (req, res, next) => {
                 if (mov.isEncrypted) {
                     const movData = mov
 
-                    movData.date = mov.date
                     movData.author = decrypt(mov.author)
                     movData.detail = decrypt(mov.detail)
                     movData.amount = decrypt(mov.amount)
@@ -43,6 +42,7 @@ router.post('/', async (req, res, next) => {
             amount: encrypt(req.body.amount),
             category: encrypt(req.body.category),
             pay_type: encrypt(req.body.pay_type),
+            installments: req.body.installments,
             user: encrypt(req.body.user),
             isEncrypted: true
         }

@@ -45,8 +45,8 @@ export default function Settings() {
     const pullSettings = () => {
         const { settings, id } = JSON.parse(localStorage.getItem('ledger'))
         const _settings = JSON.parse(settings)
-        setData({ 
-            ..._settings, 
+        setData({
+            ..._settings,
             id,
             newAuthor: '',
             newCategory: '',
@@ -78,17 +78,17 @@ export default function Settings() {
         const newValue = Number(budget[category]) || 0
         console.log("newValue", newValue)
         if (type === '-' && newValue > 0 && budget.total < 100) {
-            setBudget({ 
-                ...budget, 
-                [category]: newValue.toFixed(1) <= 1 ? newValue - 0.1 : newValue - 1, 
-                total: newValue.toFixed(1) <= 1 ? budget.total + 0.1 : budget.total + 1 
+            setBudget({
+                ...budget,
+                [category]: newValue.toFixed(1) <= 1 ? newValue - 0.1 : newValue - 1,
+                total: newValue.toFixed(1) <= 1 ? budget.total + 0.1 : budget.total + 1
             })
         }
         if (type === '+' && newValue < 100 && budget.total > 0) {
-            setBudget({ 
-                ...budget, 
-                [category]: newValue.toFixed(1) < 1 ? newValue + 0.1 : newValue + 1, 
-                total: newValue.toFixed(1) < 1 ? budget.total - 0.1 : budget.total - 1 
+            setBudget({
+                ...budget,
+                [category]: newValue.toFixed(1) < 1 ? newValue + 0.1 : newValue + 1,
+                total: newValue.toFixed(1) < 1 ? budget.total - 0.1 : budget.total - 1
             })
         }
     }
@@ -107,6 +107,7 @@ export default function Settings() {
                     name='newSalary'
                     type='text'
                     value={data.newSalary >= 0 ? data.newSalary : data.salary}
+                    style={{ textAlign: 'center' }}
                 />
             </div>
 
@@ -150,10 +151,10 @@ export default function Settings() {
                     <CTAButton
                         handleClick={() => {
                             if (data.newCategory && data.newCategory !== '') {
-                                setData({ 
-                                    ...data, 
+                                setData({
+                                    ...data,
                                     categories: data.categories.concat(data.newCategory),
-                                    newCategory: '' 
+                                    newCategory: ''
                                 })
                                 setNewAuthor(false)
                                 setNewPayType(false)
@@ -205,9 +206,10 @@ export default function Settings() {
                         </div>
                     )
                 }
-                <div className='settings-budget-rest' style={{ justifyContent: 'center' } }>
+                <div className='settings-budget-rest' style={{ justifyContent: 'center' }}>
                     <h4 className='settings-budget-item-text'>Restante:</h4>
                     <h4 className='settings-budget-item-percent'>%{budget.total.toFixed(1)}</h4>
+                    <h4 className='settings-budget-item-percent'>(${(data.salary * budget.total.toFixed(1) / 100).toFixed(0)})</h4>
                 </div>
             </div>
 
@@ -237,8 +239,8 @@ export default function Settings() {
                     <CTAButton
                         handleClick={() => {
                             if (data.newAuthor && data.newAuthor !== '') {
-                                setData({ 
-                                    ...data, 
+                                setData({
+                                    ...data,
                                     authors: data.authors.concat(data.newAuthor),
                                     newAuthor: ''
                                 })
@@ -290,8 +292,8 @@ export default function Settings() {
                     <CTAButton
                         handleClick={() => {
                             if (data.newPayType && data.newPayType !== '') {
-                                setData({ 
-                                    ...data, 
+                                setData({
+                                    ...data,
                                     payTypes: data.payTypes.concat(data.newPayType),
                                     newPayType: ''
                                 })

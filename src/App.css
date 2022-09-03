@@ -762,6 +762,28 @@ h2 {
     justify-content: center;
   }
 
+  .fill-section-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .installments-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #CCA43B;
+    border-radius: 1vw;
+    width: fit-content;
+    /* padding: 1vw; */
+    margin: 4vw 0 0 0;
+  }
+
+  .installments-count {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .div-modal-btns {
     margin: 8vw 0;
     display: flex;

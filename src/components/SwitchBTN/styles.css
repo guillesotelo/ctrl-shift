@@ -53,6 +53,7 @@
     .switch-container {
         padding: 0;
         margin: 2vw 2vw 0 2vw;
+        width: fit-content;
     }
     
     .switch-label {
