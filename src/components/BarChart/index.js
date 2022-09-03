@@ -24,7 +24,7 @@ export default function BarChart(props) {
         }
     }
 
-    const isMobile = navigator.userAgentData.mobile
+    const isMobile = navigator.userAgentData && navigator.userAgentData.mobile
     
     const barHeight = isMobile ? window.outerHeight * 0.4 : window.outerHeight * 0.7
     const barWidth = window.outerWidth * 0.85
