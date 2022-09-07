@@ -5,8 +5,8 @@ const { Reveal } = require('../db/models')
 //Get reveal
 router.get('/', async (req, res, next) => {
     try {
-        const { email, name } = req.body
-        const revealed = await Reveal.findOne({ email, name })
+        const { email } = req.body
+        const revealed = await Reveal.findOne({ email })
         if(!revealed) return res.status(404).send('Reveal not found.')
 
         return revealed
@@ -16,9 +16,9 @@ router.get('/', async (req, res, next) => {
 //Add reveal
 router.post('/', async (req, res, next) => {
     try {
-        const { email, name } = req.body
-        const exists = await Reveal.findOne({ email, name })
-        if (!exists) return res.status(404).send('Email and name already in use.')
+        // const { email, name } = req.body
+        // const exists = await Reveal.findOne({ email, name })
+        // if (!exists) return res.status(404).send('Email and name already in use.')
 
         const reveal = await Reveal.create(req.body)
         if (!reveal) return res.status(404).send('Error creating Reveal.')
