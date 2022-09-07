@@ -5,7 +5,7 @@ const revealSchema = new mongoose.Schema({
         type: String,
     },
     email: {
-        type: Date,
+        type: String,
         required: true
     },
     gender: {
