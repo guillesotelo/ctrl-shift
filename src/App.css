@@ -506,6 +506,11 @@ h2 {
   color: #263d42;
 }
 
+.search-erase-btn:hover {
+  cursor: pointer;
+  color:#CCA43B;
+}
+
 /* -----TASKS----- */
 .tasks-container {
   padding: 0vw 1vw;
