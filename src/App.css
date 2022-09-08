@@ -67,6 +67,23 @@ canvas {
   justify-content: center;
 }
 
+.installments-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #CCA43B;
+  border-radius: 1vw;
+  width: fit-content;
+  /* padding: 1vw; */
+  margin: 1.5vw 0;
+}
+
+.installments-count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .div-modal-btns {
   margin: 1vw;
   display: flex;
