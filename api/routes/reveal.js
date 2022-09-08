@@ -5,11 +5,12 @@ const { Reveal } = require('../db/models')
 //Get reveal
 router.get('/', async (req, res, next) => {
     try {
-        const { email, name } = req.body
-        const revealed = await Reveal.findOne({ email, name })
-        if(!revealed) return res.status(404).send('Reveal not found.')
+        const { email, name } = req.query
+        console.log("req", req.query)
+        const revealed = await Reveal.find({ email }).exec()
+        if(!revealed || !revealed.length) return res.status(404).send('Reveal not found.')
 
-        return revealed
+        res.status(200).json(revealed)
     } catch (err) { console.log(err) }
 })
 
