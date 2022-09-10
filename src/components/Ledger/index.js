@@ -22,12 +22,15 @@ export default function Ledger() {
     const ledger = JSON.parse(localStorage.getItem('ledger'))
 
     useEffect(() => {
-        const { email, username } = JSON.parse(localStorage.getItem('user'))
+        const localUser = JSON.parse(localStorage.getItem('user'))
 
+        if(!localUser) return history.push('/')
+        const { email, username } = localUser
+        
         const _settings = {
             authors: [`${username}`],
             payTypes: ['Efectivo', 'Débito', 'TC', 'Transferencia'],
-            categories: ['Varios', 'Mercado', 'Transporte', 'Lujos', 'Gasto Fijo', 'Electro/Deco', 'Vestimenta'],
+            categories: ['Varios', 'Mercado', 'Transporte', 'Lujos', 'Gasto Fijo', 'Electro/Deco', 'Salud','Indumentaria'],
             salary: 0
         }
 

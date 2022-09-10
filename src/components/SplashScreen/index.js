@@ -14,22 +14,32 @@ export default function SplashScreen() {
         const localUser = JSON.parse(localStorage.getItem('user'))
         const localLedger = JSON.parse(localStorage.getItem('ledger'))
 
-        if (!localUser || !localUser.email) history.push('/login')
-        if (!localLedger || !localLedger.email) history.push('/ledger')
+        if (!localUser || !localUser.email) {
+            render()
+            setTimeout(() => history.push('/login'), 2000)
+        } 
+        else if (!localLedger || !localLedger.email || !localLedger.id) {
+            render()
+            setTimeout(() => history.push('/ledger'), 2000)
+        }
 
-        getUpdatedLedger(localLedger.id)
+        else getUpdatedLedger(localLedger.id)
     }, [])
 
     const getUpdatedLedger = async ledgerId => {
         const updatedLedger = await dispatch(getLedger(ledgerId)).then(data => data.payload)
-        if(updatedLedger) setTimeout(() => history.push('/home'), 2000)
-      }
+        if (updatedLedger) setTimeout(() => history.push('/home'), 2000)
+    }
 
-    return (
+    const render = () => {
+        return (
         <div className='splash-container'>
             <div className='logo-login-container'>
                 <img className='logo-img' src={Logo} alt="Control Shift" />
             </div>
         </div>
-    )
+        )
+    }
+
+    return render()
 }
