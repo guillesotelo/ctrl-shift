@@ -40,7 +40,7 @@ export default function Login() {
             if (login.username) {
                 const hasLedger = login.defaultLedger
                 toast.info(`Bienvenid@, ${login.username}!`)
-                setTimeout(() => history.push(`${hasLedger ? '/home' : '/ledger'}`), 2000)
+                setTimeout(() => history.push(`${hasLedger ? '/' : '/ledger'}`), 2000)
             } else toast.error('Credenciales incorrectas')
         } catch (_) { toast.error('Error al iniciar sesión') }
     }
@@ -56,7 +56,7 @@ export default function Login() {
         <div className='login-container'>
             <ToastContainer autoClose={2000} />
             <div className='logo-login-container'>
-                <img className='logo-img' src={Logo} alt="Ctrol Shiflt" />
+                <img className='logo-img' src={Logo} alt="Control Shift" />
             </div>
             <div className='login-section'>
                 <h4 className='hi-login'>Hola!<br />Ingresa tus credenciales para comenzar</h4>

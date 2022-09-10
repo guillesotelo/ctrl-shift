@@ -13,7 +13,7 @@ import PolarChart from '../components/PolarChart'
 import TrashCan from '../assets/trash-can.svg'
 import EyeClosed from '../assets/eye-closed.svg'
 import { getMovements, saveMovement, editMovement, removeMovement } from '../store/reducers/movement'
-import { updateLedgerData } from '../store/reducers/ledger';
+import { updateLedgerData, getLedger } from '../store/reducers/ledger';
 import { APP_COLORS, PALETTE } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
@@ -56,21 +56,21 @@ export default function Home() {
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('user'))
     const localLedger = JSON.parse(localStorage.getItem('ledger'))
-    if (!localUser || !localUser.email) history.push('/')
-    if (!localLedger || !localLedger.email) history.push('/')
+    if (!localLedger || !localLedger.email) history.push('/ledger')
 
+    if (!localUser || !localUser.email) history.push('/login')
+    
     setUser(localUser)
     setLedger(localLedger)
 
-    const { isMonthly } = JSON.parse(localLedger.settings)
-    if (isMonthly) setSw(isMonthly)
-
-    const {
+    const { 
+      isMonthly,
       authors,
       categories,
       payTypes,
-      salary
+      salary 
     } = JSON.parse(localLedger.settings)
+    if (isMonthly) setSw(isMonthly)
 
     setAllUsers(authors)
     setAllPayTypes(payTypes)
@@ -91,11 +91,8 @@ export default function Home() {
     }
 
     setData(newData)
-
     getAllMovements(newData)
-
     pullSettings()
-
   }, [])
 
   useEffect(() => {

@@ -14,6 +14,35 @@ router.get('/all', async (req, res, next) => {
     } catch (err) { console.log(err) }
 })
 
+// Get Ledger by ID
+router.get('/', async (req, res, next) => {
+    try {
+        const { id } = req.query
+        const ledger = await Ledger.findById(id)
+        if (!ledger) return res.status(404).send('Ledger not found.')
+
+        if (ledger.isEncrypted) {
+            res.status(200).json({
+                id: ledger.id,
+                email: ledger.email,
+                name: ledger.name,
+                settings: ledger.settings.includes('authors') ? ledger.settings : decrypt(ledger.settings),
+                notes: ledger.notes === '[]' ? ledger.notes : decrypt(ledger.notes),
+                tasks: ledger.tasks === '[]' ? ledger.tasks : decrypt(ledger.tasks)
+            })
+        } else {
+            res.status(200).json({
+                id: ledger.id,
+                email: ledger.email,
+                name: ledger.name,
+                settings: ledger.settings,
+                notes: ledger.notes || [],
+                tasks: ledger.tasks || []
+            })
+        }
+    } catch (err) { console.log(err) }
+})
+
 //Login Ledger
 router.post('/', async (req, res, next) => {
     try {

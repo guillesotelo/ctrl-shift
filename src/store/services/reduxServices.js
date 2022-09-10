@@ -94,6 +94,15 @@ const getAllLedgersByEmail = async email => {
     } catch (err) { console.log(err) }
 }
 
+const getLedgerById = async id => {
+    try {
+        const ledger = await axios.get(`${API_URL}/api/ledger?id=${id}`)
+        localStorage.removeItem('ledger')
+        localStorage.setItem('ledger', JSON.stringify(ledger.data))
+        return ledger.data
+    } catch (err) { console.log(err) }
+}
+
 const loginLedger = async data => {
     try {
         const res = await axios.post(`${API_URL}/api/ledger`, data)
@@ -116,6 +125,7 @@ export {
     updateMovement,
     createLedger,
     getAllLedgersByEmail,
+    getLedgerById,
     loginLedger,
     updateLedger,
     deleteMovement

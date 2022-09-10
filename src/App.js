@@ -1,6 +1,7 @@
 import "./App.css";
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import SplashScreen from "./components/SplashScreen";
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
@@ -17,6 +18,9 @@ function App() {
     return (
           <Switch>
             <Route exact path="/"> 
+              <SplashScreen/>
+            </Route>
+            <Route path="/login"> 
               <Login/>
             </Route>
             <Route path="/register"> 
