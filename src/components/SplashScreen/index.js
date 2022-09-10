@@ -13,7 +13,7 @@ export default function SplashScreen() {
     useEffect(() => {
         const localUser = JSON.parse(localStorage.getItem('user'))
         const localLedger = JSON.parse(localStorage.getItem('ledger'))
-        
+
         if (!localUser || !localUser.email) history.push('/login')
         if (!localLedger || !localLedger.email) history.push('/ledger')
 
@@ -26,7 +26,7 @@ export default function SplashScreen() {
       }
 
     return (
-        <div className='slpash-container'>
+        <div className='splash-container'>
             <div className='logo-login-container'>
                 <img className='logo-img' src={Logo} alt="Control Shift" />
             </div>
