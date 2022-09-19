@@ -5,9 +5,23 @@
     margin: 0 2vw;
 }
 
+.table-titles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .table-title {
     font-size: 1.5vw;
     margin: 0.8vw 0;
+    color: #263d42;
+}
+
+.table-year {
+    font-size: 1.5vw;
+    margin: 0.8vw 0;
+    color: #263d42;
 }
 
 .table-headers {
@@ -95,9 +109,23 @@
         transform: none;
     }
 
+    .table-titles {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .table-title {
         font-size: 4vw;
         margin: 0vw 1vw 2vw;
+        color: #263d42;
+    }
+    
+    .table-year {
+        font-size: 4vw;
+        margin: 0vw 1vw 2vw;
+        color: #263d42;
     }
 
     .table-headers {

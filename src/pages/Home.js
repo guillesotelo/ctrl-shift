@@ -47,6 +47,7 @@ export default function Home() {
   const [budget, setBudget] = useState({})
   const [check, setCheck] = useState(-1)
   const [month, setMonth] = useState(new Date().getMonth())
+  const [year, setYear] = useState(new Date().getFullYear())
   const [sw, setSw] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -206,7 +207,7 @@ export default function Home() {
     if (allData) {
       return allData.filter(item => {
         const itemDate = new Date(item.date)
-        return month === itemDate.getMonth()
+        return month === itemDate.getMonth() && year === itemDate.getFullYear()
       })
     } else return []
   }
@@ -269,8 +270,11 @@ export default function Home() {
   const saveInstallments = async (movData, i) => {
     try {
       let saved = {}
+      const partial = (movData.amount / i).toFixed(2)
+
       for (let j = 1; j <= i; j++) {
         movData.installments = `${j}/${i}`
+        movData.amount = partial
         const newDate = new Date(movData.date)
         if (j > 1) movData.date = newDate.setMonth(newDate.getMonth() + 1)
         saved = await dispatch(saveMovement(movData)).then(d => d.payload)
@@ -433,7 +437,7 @@ export default function Home() {
       <ToastContainer autoClose={2000} />
       {removeModal &&
         <div className='remove-modal'>
-          <h3>Estas a punto de eliminar:<br /><br />'{arrData[check].detail}' - ${arrData[check].amount}</h3>
+          <h3>Estas a punto de eliminar:<br /><br />{arrData[check].detail} <br /> ${arrData[check].amount}</h3>
           <div className='remove-btns'>
             <CTAButton
               label='Cancelar'
@@ -605,11 +609,41 @@ export default function Home() {
 
       {settings.isMonthly ?
         <div className='home-month-tab' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
-          <h4 className='month-arrow-left' onClick={() => setMonth(month - 1)}>{`◀`}</h4>
-          <h4 className='month-before' onClick={() => setMonth(month - 1)}>{months[month - 1]}</h4>
+          <h4 className='month-arrow-left' onClick={() => {
+              if(months[month - 1]) {
+                setMonth(month - 1)
+              } else {
+                setMonth(11)
+                setYear(year - 1)
+              }}}>{`◀`}
+          </h4>
+          <h4 className='month-before' onClick={() => {
+              if(months[month - 1]) {
+                setMonth(month - 1)
+              } else {
+                setMonth(11)
+                setYear(year - 1)
+              }}}>
+              {months[month - 1] ? months[month - 1] : months[11]}
+          </h4>
           <h4 className='actual-month'>{months[month]}</h4>
-          <h4 className='month-after' onClick={() => setMonth(month + 1)}>{months[month + 1]}</h4>
-          <h4 className='month-arrow-right' onClick={() => setMonth(month + 1)}>{`▶`}</h4>
+          <h4 className='month-after' onClick={() => {
+              if(months[month + 1]) {
+                setMonth(month + 1)
+              } else {
+                setMonth(0)
+                setYear(year + 1)
+              }}}>
+              {months[month + 1] ? months[month + 1] : months[0]}
+          </h4>
+          <h4 className='month-arrow-right' onClick={() => {
+              if(months[month + 1]) {
+                setMonth(month + 1)
+              } else {
+                setMonth(0)
+                setYear(year + 1)
+              }}}>{`▶`}
+          </h4>
         </div>
         : ''}
 
@@ -617,6 +651,7 @@ export default function Home() {
         <MovementsTable
           tableData={arrData}
           tableTitle={`Movimientos (${arrData.length})`}
+          tableYear={year}
           setIsEdit={setIsEdit}
           isEdit={isEdit}
           setCheck={setCheck}

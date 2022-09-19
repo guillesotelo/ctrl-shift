@@ -6,6 +6,7 @@ export default function MovementsTable(props) {
     const {
         tableData,
         tableTitle,
+        tableYear,
         setIsEdit,
         isEdit,
         setCheck,
@@ -30,7 +31,10 @@ export default function MovementsTable(props) {
 
     return (
         <div className='table-container'>
-            <h4 className='table-title'>{tableTitle || ''}</h4>
+            <div className='table-titles'>
+                <h4 className='table-title'>{tableTitle || ''}</h4>
+                <h4 className='table-year'>{tableYear || ''}</h4>
+            </div>
             <div className='table-headers'>
                 {
                     headers.map((header, i) => <h4 key={i} className='table-header'>{header}</h4>)
