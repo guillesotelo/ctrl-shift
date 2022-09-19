@@ -27,9 +27,7 @@ function App() {
               <Register/>
             </Route>
             <Route path="/home"> 
-              <Header/>
               <Home/>
-              <Footer/>
             </Route>
             <Route path="/ledger"> 
               <Header/>

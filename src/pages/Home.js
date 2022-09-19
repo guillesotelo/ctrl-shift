@@ -19,6 +19,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
 import SwitchBTN from '../components/SwitchBTN';
+import SplashScreen from '../components/SplashScreen';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 export default function Home() {
   const [data, setData] = useState({ search: '' })
@@ -49,6 +52,7 @@ export default function Home() {
   const [month, setMonth] = useState(new Date().getMonth())
   const [year, setYear] = useState(new Date().getFullYear())
   const [sw, setSw] = useState(false)
+  const [splashed, setSplashed] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -60,16 +64,16 @@ export default function Home() {
     if (!localLedger || !localLedger.email) history.push('/ledger')
 
     if (!localUser || !localUser.email) history.push('/login')
-    
+
     setUser(localUser)
     setLedger(localLedger)
 
-    const { 
+    const {
       isMonthly,
       authors,
       categories,
       payTypes,
-      salary 
+      salary
     } = JSON.parse(localLedger.settings)
     if (isMonthly) setSw(isMonthly)
 
@@ -432,290 +436,298 @@ export default function Home() {
     }
   }
 
-  return (
-    <div className='home-container'>
-      <ToastContainer autoClose={2000} />
-      {removeModal &&
-        <div className='remove-modal'>
-          <h3>Estas a punto de eliminar:<br /><br />{arrData[check].detail} <br /> ${arrData[check].amount}</h3>
-          <div className='remove-btns'>
-            <CTAButton
-              label='Cancelar'
-              color={APP_COLORS.GRAY}
-              handleClick={() => setRemoveModal(false)}
-              size='fit-content'
-            />
-            <CTAButton
-              label='Confirmar'
-              color={APP_COLORS.SPACE}
-              handleClick={() => {
-                setRemoveModal(false)
-                handleRemoveItem()
-              }}
-              size='fit-content'
-            />
-          </div>
-        </div>
-      }
-      {openModal &&
-        <div className='fill-section-container'>
-          <h3 style={{ color: APP_COLORS.GRAY }}>Info del pago:</h3>
-          <div className='fill-section'>
-            <CTAButton
-              handleClick={() => setDateClicked(!dateClicked)}
-              label={data.date.toLocaleDateString()}
-              size='100%'
-              color={APP_COLORS.SPACE}
-            />
-            {dateClicked &&
-              <DatePicker
-                selected={data.date || ''}
-                onChange={date => {
-                  updateData('date', date)
-                  setTimeout(() => setDateClicked(false), 200)
-                }
-                }
-                dateFormat="dd/MM/YYY"
-                inline
+  return (!splashed ? <SplashScreen setSplashed={setSplashed} /> :
+    <>
+      <Header />
+      <div className='home-container'>
+        <ToastContainer autoClose={2000} />
+        {removeModal &&
+          <div className='remove-modal'>
+            <h3>Estas a punto de eliminar:<br /><br />{arrData[check].detail} <br /> ${arrData[check].amount}</h3>
+            <div className='remove-btns'>
+              <CTAButton
+                label='Cancelar'
+                color={APP_COLORS.GRAY}
+                handleClick={() => setRemoveModal(false)}
+                size='fit-content'
               />
-            }
-            <InputField
-              label=''
-              updateData={updateData}
-              placeholder='$ -'
-              name='amount'
-              type='number'
-              value={data.amount || ''}
-              style={{ textAlign: 'center' }}
-            />
-            <InputField
-              label=''
-              updateData={updateData}
-              placeholder='Detalle del gasto...'
-              name='detail'
-              type='text'
-              value={data.detail}
-            />
-            <DropdownBTN
-              options={allUsers}
-              label='Autor'
-              name='author'
-              updateData={updateData}
-              value={data.author}
-            />
-            <DropdownBTN
-              options={allPayTypes}
-              label='Tipo de pago'
-              name='pay_type'
-              updateData={updateData}
-              value={data.pay_type}
-            />
-            {!isEdit &&
-              <div className='installments-section'>
-                <SwitchBTN
-                  sw={withInstallments}
-                  onChangeSw={() => setWithInstallments(!withInstallments)}
-                  label='Cuotas'
-                  style={{ transform: 'scale(0.8)', margin: 0 }}
+              <CTAButton
+                label='Confirmar'
+                color={APP_COLORS.SPACE}
+                handleClick={() => {
+                  setRemoveModal(false)
+                  handleRemoveItem()
+                }}
+                size='fit-content'
+              />
+            </div>
+          </div>
+        }
+        {openModal &&
+          <div className='fill-section-container'>
+            <h3 style={{ color: APP_COLORS.GRAY }}>Info del pago:</h3>
+            <div className='fill-section'>
+              <CTAButton
+                handleClick={() => setDateClicked(!dateClicked)}
+                label={data.date.toLocaleDateString()}
+                size='100%'
+                color={APP_COLORS.SPACE}
+              />
+              {dateClicked &&
+                <DatePicker
+                  selected={data.date || ''}
+                  onChange={date => {
+                    updateData('date', date)
+                    setTimeout(() => setDateClicked(false), 200)
+                  }
+                  }
+                  dateFormat="dd/MM/YYY"
+                  inline
                 />
-                {withInstallments &&
-                  <div className='installments-count'>
-                    <CTAButton
-                      handleClick={() => installments < 120 ? setInstallments(installments + 1) : {}}
-                      label='+'
-                      color={APP_COLORS.YELLOW}
-                      style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
-                      className='category-budget-setter'
-                    />
-                    <h4 style={{ alignSelf: 'center', margin: 0 }}>{installments}</h4>
-                    <CTAButton
-                      handleClick={() => installments > 2 ? setInstallments(installments - 1) : {}}
-                      label='─'
-                      color={APP_COLORS.YELLOW}
-                      style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
-                      className='category-budget-setter'
-                    />
-                  </div>
-                }
+              }
+              <InputField
+                label=''
+                updateData={updateData}
+                placeholder='$ -'
+                name='amount'
+                type='number'
+                value={data.amount || ''}
+                style={{ textAlign: 'center' }}
+              />
+              <InputField
+                label=''
+                updateData={updateData}
+                placeholder='Detalle del gasto...'
+                name='detail'
+                type='text'
+                value={data.detail}
+              />
+              <DropdownBTN
+                options={allUsers}
+                label='Autor'
+                name='author'
+                updateData={updateData}
+                value={data.author}
+              />
+              <DropdownBTN
+                options={allPayTypes}
+                label='Tipo de pago'
+                name='pay_type'
+                updateData={updateData}
+                value={data.pay_type}
+              />
+              {!isEdit &&
+                <div className='installments-section'>
+                  <SwitchBTN
+                    sw={withInstallments}
+                    onChangeSw={() => setWithInstallments(!withInstallments)}
+                    label='Cuotas'
+                    style={{ transform: 'scale(0.8)', margin: 0 }}
+                  />
+                  {withInstallments &&
+                    <div className='installments-count'>
+                      <CTAButton
+                        handleClick={() => installments < 120 ? setInstallments(installments + 1) : {}}
+                        label='+'
+                        color={APP_COLORS.YELLOW}
+                        style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
+                        className='category-budget-setter'
+                      />
+                      <h4 style={{ alignSelf: 'center', margin: 0 }}>{installments}</h4>
+                      <CTAButton
+                        handleClick={() => installments > 2 ? setInstallments(installments - 1) : {}}
+                        label='─'
+                        color={APP_COLORS.YELLOW}
+                        style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
+                        className='category-budget-setter'
+                      />
+                    </div>
+                  }
+                </div>
+              }
+              <DropdownBTN
+                options={allCategories}
+                label='Categoría'
+                name='category'
+                updateData={updateData}
+                value={data.category}
+              />
+              <div className='div-modal-btns'>
+                <CTAButton
+                  handleClick={handleCancel}
+                  label='Cancelar'
+                  size='100%'
+                  color={APP_COLORS.GRAY}
+                />
+                <CTAButton
+                  handleClick={handleSave}
+                  label='Guardar'
+                  size='100%'
+                  color={APP_COLORS.YELLOW}
+                />
+              </div>
+            </div>
+          </div>
+        }
+        {
+          <div className='main-section' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
+            <CTAButton
+              handleClick={handleEdit}
+              label='Editar'
+              size='80%'
+              color={APP_COLORS.GRAY}
+              disabled={!isEdit}
+              style={{ fontSize: '4vw' }}
+            />
+            {isEdit &&
+              <div onClick={() => setRemoveModal(true)}>
+                <img style={{ transform: 'scale(0.7)' }} className='svg-trash' src={TrashCan} alt="Trash Can" />
               </div>
             }
-            <DropdownBTN
-              options={allCategories}
-              label='Categoría'
-              name='category'
-              updateData={updateData}
-              value={data.category}
+            <CTAButton
+              handleClick={() => {
+                if (lastData.category) {
+                  setData({
+                    ...data,
+                    author: lastData.author,
+                    pay_type: lastData.pay_type,
+                    category: lastData.category
+                  })
+                }
+                setIsEdit(false)
+                setOpenModal(!openModal)
+              }}
+              label='Nuevo Gasto'
+              size='80%'
+              color={APP_COLORS.YELLOW}
+              style={{ color: 'black', fontSize: '4vw' }}
             />
-            <div className='div-modal-btns'>
-              <CTAButton
-                handleClick={handleCancel}
-                label='Cancelar'
-                size='100%'
-                color={APP_COLORS.GRAY}
-              />
-              <CTAButton
-                handleClick={handleSave}
-                label='Guardar'
-                size='100%'
-                color={APP_COLORS.YELLOW}
-              />
-            </div>
           </div>
-        </div>
-      }
-      {
-        <div className='main-section' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
-          <CTAButton
-            handleClick={handleEdit}
-            label='Editar'
-            size='80%'
-            color={APP_COLORS.GRAY}
-            disabled={!isEdit}
-            style={{ fontSize: '4vw' }}
-          />
-          {isEdit &&
-            <div onClick={() => setRemoveModal(true)}>
-              <img style={{ transform: 'scale(0.7)' }} className='svg-trash' src={TrashCan} alt="Trash Can" />
-            </div>
+        }
+
+        <div className='salary-div' onClick={() => setViewSalary(!viewSalary)} style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
+          <h4 className='salary-text'>Saldo Actual:</h4>
+          {
+            viewSalary ? <h4 className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
+              : <img className='svg-eye' src={EyeClosed} alt="Show Salary" />
           }
-          <CTAButton
-            handleClick={() => {
-              if (lastData.category) {
-                setData({
-                  ...data,
-                  author: lastData.author,
-                  pay_type: lastData.pay_type,
-                  category: lastData.category
-                })
+        </div>
+
+        {settings.isMonthly ?
+          <div className='home-month-tab' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
+            <h4 className='month-arrow-left' onClick={() => {
+              if (months[month - 1]) {
+                setMonth(month - 1)
+              } else {
+                setMonth(11)
+                setYear(year - 1)
               }
-              setIsEdit(false)
-              setOpenModal(!openModal)
-            }}
-            label='Nuevo Gasto'
-            size='80%'
-            color={APP_COLORS.YELLOW}
-            style={{ color: 'black', fontSize: '4vw' }}
-          />
-        </div>
-      }
-
-      <div className='salary-div' onClick={() => setViewSalary(!viewSalary)} style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
-        <h4 className='salary-text'>Saldo Actual:</h4>
-        {
-          viewSalary ? <h4 className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
-            : <img className='svg-eye' src={EyeClosed} alt="Show Salary" />
-        }
-      </div>
-
-      {settings.isMonthly ?
-        <div className='home-month-tab' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
-          <h4 className='month-arrow-left' onClick={() => {
-              if(months[month - 1]) {
+            }}>{`◀`}
+            </h4>
+            <h4 className='month-before' onClick={() => {
+              if (months[month - 1]) {
                 setMonth(month - 1)
               } else {
                 setMonth(11)
                 setYear(year - 1)
-              }}}>{`◀`}
-          </h4>
-          <h4 className='month-before' onClick={() => {
-              if(months[month - 1]) {
-                setMonth(month - 1)
-              } else {
-                setMonth(11)
-                setYear(year - 1)
-              }}}>
+              }
+            }}>
               {months[month - 1] ? months[month - 1] : months[11]}
-          </h4>
-          <h4 className='actual-month'>{months[month]}</h4>
-          <h4 className='month-after' onClick={() => {
-              if(months[month + 1]) {
+            </h4>
+            <h4 className='actual-month'>{months[month]}</h4>
+            <h4 className='month-after' onClick={() => {
+              if (months[month + 1]) {
                 setMonth(month + 1)
               } else {
                 setMonth(0)
                 setYear(year + 1)
-              }}}>
+              }
+            }}>
               {months[month + 1] ? months[month + 1] : months[0]}
-          </h4>
-          <h4 className='month-arrow-right' onClick={() => {
-              if(months[month + 1]) {
+            </h4>
+            <h4 className='month-arrow-right' onClick={() => {
+              if (months[month + 1]) {
                 setMonth(month + 1)
               } else {
                 setMonth(0)
                 setYear(year + 1)
-              }}}>{`▶`}
-          </h4>
-        </div>
-        : ''}
-
-      <div style={{ filter: (openModal || removeModal) && 'blur(10px)' }} className='table-div'>
-        <MovementsTable
-          tableData={arrData}
-          tableTitle={`Movimientos (${arrData.length})`}
-          tableYear={year}
-          setIsEdit={setIsEdit}
-          isEdit={isEdit}
-          setCheck={setCheck}
-          check={check}
-        />
-        <div className='sub-table-btns'>
-          <SwitchBTN
-            sw={sw}
-            onChangeSw={onChangeSw}
-            label='Mensual'
-          />
-          <CTAButton
-            handleClick={downloadCSV}
-            label='⇩ Extracto'
-            size='fit-content'
-            color={APP_COLORS.SPACE}
-            style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
-          />
-        </div>
-        <div className='search-container'>
-          <InputField
-            label=''
-            updateData={updateData}
-            placeholder='Buscar movimiento...'
-            type='text'
-            name='search'
-            value={data.search || ''}
-          />
-          {data.search !== '' &&
-            <h3
-              className='search-erase-btn'
-              onClick={() => {
-                updateData('search', '')
-                setData({ ...data, search: '' })
-              }}>✖</h3>}
-        </div>
-        {
-          arrData.length || data.search ? <div className='div-charts'>
-            <div className='separator' style={{ width: '85%' }}></div>
-            {Object.keys(budget).length > 1 && settings.isMonthly ?
-              <>
-                <BarChart chartData={budgetChart} title='Presupuesto por categoría' />
-                <div className='separator' style={{ width: '85%' }}></div>
-                <PieChart chartData={budgetChart2} title='Porcentaje total %' />
-                <div className='separator' style={{ width: '85%' }}></div>
-              </>
-              : ''
-            }
-            {!settings.isMonthly ?
-              <>
-                <BarChart chartData={balanceChart} title='Balance Anual' />
-                <div className='separator' style={{ width: '85%' }}></div>
-              </>
-              : ''
-            }
-            <BarChart chartData={categoryChart} title='Categorías' />
-            <div className='separator' style={{ width: '85%' }}></div>
-            <PolarChart chartData={typeChart} title='Tipos de Pago' />
-            <div className='separator' style={{ width: '85%' }}></div>
-            <PolarChart chartData={authorChart} title='Autores' />
+              }
+            }}>{`▶`}
+            </h4>
           </div>
-            : ''
-        }
+          : ''}
+
+        <div style={{ filter: (openModal || removeModal) && 'blur(10px)' }} className='table-div'>
+          <MovementsTable
+            tableData={arrData}
+            tableTitle={`Movimientos (${arrData.length})`}
+            tableYear={year}
+            setIsEdit={setIsEdit}
+            isEdit={isEdit}
+            setCheck={setCheck}
+            check={check}
+          />
+          <div className='sub-table-btns'>
+            <SwitchBTN
+              sw={sw}
+              onChangeSw={onChangeSw}
+              label='Mensual'
+            />
+            <CTAButton
+              handleClick={downloadCSV}
+              label='⇩ Extracto'
+              size='fit-content'
+              color={APP_COLORS.SPACE}
+              style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
+            />
+          </div>
+          <div className='search-container'>
+            <InputField
+              label=''
+              updateData={updateData}
+              placeholder='Buscar movimiento...'
+              type='text'
+              name='search'
+              value={data.search || ''}
+            />
+            {data.search !== '' &&
+              <h3
+                className='search-erase-btn'
+                onClick={() => {
+                  updateData('search', '')
+                  setData({ ...data, search: '' })
+                }}>✖</h3>}
+          </div>
+          {
+            arrData.length || data.search ? <div className='div-charts'>
+              <div className='separator' style={{ width: '85%' }}></div>
+              {Object.keys(budget).length > 1 && settings.isMonthly ?
+                <>
+                  <BarChart chartData={budgetChart} title='Presupuesto por categoría' />
+                  <div className='separator' style={{ width: '85%' }}></div>
+                  <PieChart chartData={budgetChart2} title='Porcentaje total %' />
+                  <div className='separator' style={{ width: '85%' }}></div>
+                </>
+                : ''
+              }
+              {!settings.isMonthly ?
+                <>
+                  <BarChart chartData={balanceChart} title='Balance Anual' />
+                  <div className='separator' style={{ width: '85%' }}></div>
+                </>
+                : ''
+              }
+              <BarChart chartData={categoryChart} title='Categorías' />
+              <div className='separator' style={{ width: '85%' }}></div>
+              <PolarChart chartData={typeChart} title='Tipos de Pago' />
+              <div className='separator' style={{ width: '85%' }}></div>
+              <PolarChart chartData={authorChart} title='Autores' />
+            </div>
+              : ''
+          }
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
