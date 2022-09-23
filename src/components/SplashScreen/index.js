@@ -5,29 +5,25 @@ import { getLedger } from '../../store/reducers/ledger';
 import Logo from '../../assets/logo.png'
 import './styles.css'
 
-export default function SplashScreen({ setSplashed }) {
+export default function SplashScreen() {
 
     const history = useHistory()
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(setSplashed) {
-            setTimeout(() => setSplashed(true), 1500)
-        } else {
-            const localUser = JSON.parse(localStorage.getItem('user'))
-            const localLedger = JSON.parse(localStorage.getItem('ledger'))
-    
-            if (!localUser || !localUser.email) {
-                render()
-                setTimeout(() => history.push('/login'), 2000)
-            } 
-            else if (!localLedger || !localLedger.email || !localLedger.id) {
-                render()
-                setTimeout(() => history.push('/ledger'), 2000)
-            }
-    
-            else getUpdatedLedger(localLedger.id)
+        const localUser = JSON.parse(localStorage.getItem('user'))
+        const localLedger = JSON.parse(localStorage.getItem('ledger'))
+
+        if (!localUser || !localUser.email) {
+            render()
+            setTimeout(() => history.push('/login'), 2000)
+        } 
+        else if (!localLedger || !localLedger.email || !localLedger.id) {
+            render()
+            setTimeout(() => history.push('/ledger'), 2000)
         }
+
+        else getUpdatedLedger(localLedger.id)
     }, [])
 
     const getUpdatedLedger = async ledgerId => {
