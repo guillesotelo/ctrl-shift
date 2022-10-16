@@ -48,7 +48,7 @@ export default function Tasks() {
 
     const handleSave = async () => {
         try {
-            if (!data.name) return toast.error('Revisa los campos')
+            if (!data.name) return toast.error('Revisa los datos')
             const newTask = {
                 name: data.name,
                 details: data.details,

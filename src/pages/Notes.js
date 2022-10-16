@@ -25,7 +25,7 @@ export default function Notes() {
 
     const handleSave = async () => {
         try {
-            if (!data.name || !data.details) return toast.error('Revisa los campos')
+            if (!data.name || !data.details) return toast.error('Revisa los datos')
             const _notes = check.name ? data.notes.filter(note => note !== check) : data.notes
             const newNote = {
                 name: data.name,

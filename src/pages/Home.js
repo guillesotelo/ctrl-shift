@@ -276,7 +276,7 @@ export default function Home() {
         movData.installments = `${j}/${i}`
         movData.amount = partial
         const newDate = new Date(movData.date)
-        if (j > 1) movData.date = newDate.setMonth(newDate.getMonth() + 1)
+        if (j > 1) movData.date = newDate.setMonth(newDate.getMonth() + 1, 1)
         saved = await dispatch(saveMovement(movData)).then(d => d.payload)
       }
       return saved
@@ -358,7 +358,7 @@ export default function Home() {
           'Categoria': mov.category,
           'Tipo de Pago': mov.pay_type,
           'Usuario': mov.user,
-          'Cuota': mov.installments || '1/1',
+          'Cuota': mov.installments !== '2' ? mov.installments : '1/1',
           'Monto': mov.amount
         }
       })

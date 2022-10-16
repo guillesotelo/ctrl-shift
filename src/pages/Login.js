@@ -93,7 +93,7 @@ export default function Login() {
                     text='continue_with'
                     shape='circle'
                 /> */}
-                <h4 className='login-register-text'>No tienes cuenta en Google? <button onClick={goToRegister} className='login-register-link'>Regístrate</button></h4>
+                <h4 className='login-register-text'>No tienes cuenta? <button onClick={goToRegister} className='login-register-link'>Regístrate</button></h4>
             </div>
         </div>
     )
