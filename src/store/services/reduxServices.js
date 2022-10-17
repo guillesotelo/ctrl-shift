@@ -120,6 +120,7 @@ export {
     registerUser,
     googleLogin,
     setUserVoid,
+    updateUser,
     getAllMovements,
     createMovement,
     updateMovement,

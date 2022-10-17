@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { MESSAGE } from '../../constants/messages'
 import './styles.css'
 
 export default function MovementsTable(props) {
@@ -12,8 +14,10 @@ export default function MovementsTable(props) {
         setCheck,
         check
     } = props
-    const headers = ['Fecha', 'Detalle', 'Autor', 'Categoria', 'Tipo', 'Monto']
     const rowData = tableData && tableData.length ? tableData : []
+    const navigatorLan = navigator.language || navigator.userLanguage
+    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+    const headers = MESSAGE[lan].TABLE_HEADERS
 
     const handleCheck = key => {
         if(isEdit) {
@@ -63,7 +67,7 @@ export default function MovementsTable(props) {
                     </>
                     :
                     <div className='table-row' style={{ backgroundColor: '#E5E5E5', height: '2.5vw', justifyContent: 'center' }}>
-                        No hay movimientos para mostrar.
+                        {MESSAGE[lan].NO_MOVEMENTS}
                     </div>
             }
         </div>

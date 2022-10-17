@@ -94,6 +94,26 @@
         margin: 0vw !important;
     }
 
+    #cta-btn {
+        font-size: 4vw !important;
+        padding: 2.5vw 5vw !important;
+        color: rgb(0, 0, 0);
+        background-color: rgb(156, 156, 156);
+        border: none;
+        border-radius: 2vw;
+        margin: 0vw !important;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 2vw;
+        width: 100%;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    #cta-btn:hover {
+        opacity: 0.8;
+    }
+
     .category-budget-setter {
         width: 10%;
         margin: 0 1vw;

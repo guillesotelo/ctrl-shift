@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
 import { ExportToCsv } from 'export-to-csv';
 import DatePicker from 'react-datepicker'
@@ -19,6 +19,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
 import SwitchBTN from '../components/SwitchBTN';
+import { MESSAGE } from '../constants/messages'
 
 export default function Home() {
   const [data, setData] = useState({ search: '' })
@@ -51,8 +52,9 @@ export default function Home() {
   const [sw, setSw] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
-
-  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+  const navigatorLan = navigator.language || navigator.userLanguage
+  const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+  const months = MESSAGE[lan].MONTHS
 
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('user'))
@@ -233,10 +235,10 @@ export default function Home() {
     try {
       const removed = await dispatch(removeMovement(arrData[check])).then(d => d.payload)
       if (removed) {
-        toast.info('Gasto borrado!')
+        toast.info(MESSAGE[lan].MOV_DEL)
         setTimeout(() => getAllMovements(data), 1000)
       }
-      else toast.error('Error al borrar')
+      else toast.error(MESSAGE[lan].MOV_ERR)
       setCheck(-1)
       setIsEdit(false)
     } catch (err) { console.error(err) }
@@ -301,8 +303,8 @@ export default function Home() {
           }
         }
 
-        if (saved && saved.status === 200) toast.success('Gasto guardado!')
-        else toast.error('Error al guardar')
+        if (saved && saved.status === 200) toast.success(MESSAGE[lan].MOV_SAVED)
+        else toast.error(MESSAGE[lan].SAVE_ERR)
 
         setTimeout(() => getAllMovements(submitData), 250)
 
@@ -326,8 +328,8 @@ export default function Home() {
 
         setTimeout(() => renderCharts(), 500)
       }
-      else toast.error('Revisa los campos')
-    } catch (err) { toast.error('Error al guardar') }
+      else toast.error(MESSAGE[lan].CHECK_FIELDS)
+    } catch (err) { toast.error(MESSAGE[lan].SAVE_ERR) }
   }
 
   const handleCancel = () => {
@@ -351,16 +353,17 @@ export default function Home() {
   const downloadCSV = () => {
     if (arrData.length) {
       const csvData = arrData.map(mov => {
-        return {
-          'Fecha': (new Date(mov.date)).toLocaleDateString(),
-          'Detalle': mov.detail,
-          'Autor': mov.author,
-          'Categoria': mov.category,
-          'Tipo de Pago': mov.pay_type,
-          'Usuario': mov.user,
-          'Cuota': mov.installments !== '2' ? mov.installments : '1/1',
-          'Monto': mov.amount
-        }
+        const csvRow = {}
+
+        csvRow[MESSAGE[lan].DATE] = (new Date(mov.date)).toLocaleDateString()
+        csvRow[MESSAGE[lan].DETAIL] = mov.detail
+        csvRow[MESSAGE[lan].AUTHOR] = mov.author
+        csvRow[MESSAGE[lan].CATEGORY] = mov.category
+        csvRow[MESSAGE[lan].PAY_TYPE] = mov.pay_type
+        csvRow[MESSAGE[lan].INSTALLMENT] = mov.installments !== '2' ? mov.installments : '1/1'
+        csvRow[MESSAGE[lan].AMOUNT] = mov.amount
+
+        return csvRow
       })
 
       const options = {
@@ -369,16 +372,16 @@ export default function Home() {
         decimalSeparator: '.',
         showLabels: true,
         showTitle: true,
-        title: `Movimientos del Libro "${ledger.name}"`,
+        title: `${MESSAGE[lan].CSV_NAME} "${ledger.name}"`,
         useTextFile: false,
         useBom: true,
         useKeysAsHeaders: true,
-        filename: `Extracto de ${ledger.name}`
+        filename: `${MESSAGE[lan].CSV_TITLE} ${ledger.name}`
       }
       const csvExporter = new ExportToCsv(options);
 
       csvExporter.generateCsv(csvData);
-    } else toast.info('No hay movimientos para extraer')
+    } else toast.info(MESSAGE[lan].CSV_NONE)
   }
 
   const updateData = (key, newData) => {
@@ -418,7 +421,7 @@ export default function Home() {
       if (newLedger) {
         localStorage.removeItem('ledger')
         localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-        toast.info(`${!sw ? 'Cambiado a Movimientos Mensuales' : 'Cambiado a Todos los Movimientos'}`)
+        toast.info(`${!sw ? MESSAGE[lan].SW_MON : MESSAGE[lan].SW_ALL}`)
         setTimeout(() => {
           pullSettings()
           history.go(0)
@@ -428,7 +431,7 @@ export default function Home() {
 
     } catch (err) {
       console.error(err)
-      toast.error('Error de conexión')
+      toast.error(MESSAGE[lan].CONN_ERR)
     }
   }
 
@@ -437,16 +440,16 @@ export default function Home() {
       <ToastContainer autoClose={2000} />
       {removeModal &&
         <div className='remove-modal'>
-          <h3>Estas a punto de eliminar:<br /><br />{arrData[check].detail} <br /> ${arrData[check].amount}</h3>
+          <h3>{MESSAGE[lan].TO_DELETE}:<br /><br />{arrData[check].detail} <br /> ${arrData[check].amount}</h3>
           <div className='remove-btns'>
             <CTAButton
-              label='Cancelar'
+              label={MESSAGE[lan].CANCEL}
               color={APP_COLORS.GRAY}
               handleClick={() => setRemoveModal(false)}
               size='fit-content'
             />
             <CTAButton
-              label='Confirmar'
+              label={MESSAGE[lan].CONFIRM}
               color={APP_COLORS.SPACE}
               handleClick={() => {
                 setRemoveModal(false)
@@ -459,7 +462,7 @@ export default function Home() {
       }
       {openModal &&
         <div className='fill-section-container'>
-          <h3 style={{ color: APP_COLORS.GRAY }}>Info del pago:</h3>
+          <h3 style={{ color: APP_COLORS.GRAY }}>{MESSAGE[lan].MOV_INFO}:</h3>
           <div className='fill-section'>
             <CTAButton
               handleClick={() => setDateClicked(!dateClicked)}
@@ -482,7 +485,7 @@ export default function Home() {
             <InputField
               label=''
               updateData={updateData}
-              placeholder='$ -'
+              placeholder={`${MESSAGE[lan].FIAT} -`}
               name='amount'
               type='number'
               value={data.amount || ''}
@@ -491,21 +494,21 @@ export default function Home() {
             <InputField
               label=''
               updateData={updateData}
-              placeholder='Detalle del gasto...'
+              placeholder={MESSAGE[lan].MOV_DETAIL}
               name='detail'
               type='text'
               value={data.detail}
             />
             <DropdownBTN
               options={allUsers}
-              label='Autor'
+              label={MESSAGE[lan].AUTHOR}
               name='author'
               updateData={updateData}
               value={data.author}
             />
             <DropdownBTN
               options={allPayTypes}
-              label='Tipo de pago'
+              label={MESSAGE[lan].PAY_TYPE}
               name='pay_type'
               updateData={updateData}
               value={data.pay_type}
@@ -515,7 +518,7 @@ export default function Home() {
                 <SwitchBTN
                   sw={withInstallments}
                   onChangeSw={() => setWithInstallments(!withInstallments)}
-                  label='Cuotas'
+                  label={MESSAGE[lan].INSTALLMENTS}
                   style={{ transform: 'scale(0.8)', margin: 0 }}
                 />
                 {withInstallments &&
@@ -541,7 +544,7 @@ export default function Home() {
             }
             <DropdownBTN
               options={allCategories}
-              label='Categoría'
+              label={MESSAGE[lan].CATEGORY}
               name='category'
               updateData={updateData}
               value={data.category}
@@ -549,13 +552,13 @@ export default function Home() {
             <div className='div-modal-btns'>
               <CTAButton
                 handleClick={handleCancel}
-                label='Cancelar'
+                label={MESSAGE[lan].CANCEL}
                 size='100%'
                 color={APP_COLORS.GRAY}
               />
               <CTAButton
                 handleClick={handleSave}
-                label='Guardar'
+                label={MESSAGE[lan].SAVE}
                 size='100%'
                 color={APP_COLORS.YELLOW}
               />
@@ -567,7 +570,7 @@ export default function Home() {
         <div className='main-section' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
           <CTAButton
             handleClick={handleEdit}
-            label='Editar'
+            label={MESSAGE[lan].EDIT}
             size='80%'
             color={APP_COLORS.GRAY}
             disabled={!isEdit}
@@ -591,7 +594,7 @@ export default function Home() {
               setIsEdit(false)
               setOpenModal(!openModal)
             }}
-            label='Nuevo Gasto'
+            label={MESSAGE[lan].MOV_NEW}
             size='80%'
             color={APP_COLORS.YELLOW}
             style={{ color: 'black', fontSize: '4vw' }}
@@ -600,9 +603,9 @@ export default function Home() {
       }
 
       <div className='salary-div' onClick={() => setViewSalary(!viewSalary)} style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
-        <h4 className='salary-text'>Saldo Actual:</h4>
+        <h4 className='salary-text'>{MESSAGE[lan].SALARY}:</h4>
         {
-          viewSalary ? <h4 className='salary'>$ {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
+          viewSalary ? <h4 className='salary'>{MESSAGE[lan].FIAT} {salary.toLocaleString('us-US', { currency: 'ARS' })}</h4>
             : <img className='svg-eye' src={EyeClosed} alt="Show Salary" />
         }
       </div>
@@ -634,7 +637,7 @@ export default function Home() {
       <div style={{ filter: (openModal || removeModal) && 'blur(10px)' }} className='table-div'>
         <MovementsTable
           tableData={arrData}
-          tableTitle={`Movimientos (${arrData.length})`}
+          tableTitle={`${MESSAGE[lan].MOVEMENTS} (${arrData.length})`}
           tableYear={year}
           setIsEdit={setIsEdit}
           isEdit={isEdit}
@@ -645,11 +648,11 @@ export default function Home() {
           <SwitchBTN
             sw={sw}
             onChangeSw={onChangeSw}
-            label='Mensual'
+            label={MESSAGE[lan].MONTHLY}
           />
           <CTAButton
             handleClick={downloadCSV}
-            label='⇩ Extracto'
+            label={`⇩ ${MESSAGE[lan].CSV_BTN}`}
             size='fit-content'
             color={APP_COLORS.SPACE}
             style={{ fontSize: '3.5vw', margin: '2vw', alignSelf: 'flex-end', cursor: 'pointer' }}
@@ -659,7 +662,7 @@ export default function Home() {
           <InputField
             label=''
             updateData={updateData}
-            placeholder='Buscar movimiento...'
+            placeholder={MESSAGE[lan].MOV_SEARCH}
             type='text'
             name='search'
             value={data.search || ''}
@@ -677,25 +680,25 @@ export default function Home() {
             <div className='separator' style={{ width: '85%' }}></div>
             {Object.keys(budget).length > 1 && settings.isMonthly ?
               <>
-                <BarChart chartData={budgetChart} title='Resto por categoría' />
+                <BarChart chartData={budgetChart} title={MESSAGE[lan].CAT_REST} />
                 <div className='separator' style={{ width: '85%' }}></div>
-                <PieChart chartData={budgetChart2} title='Presupuesto por categoría %' />
+                <PieChart chartData={budgetChart2} title={`${MESSAGE[lan].CAT_BUD} %`} />
                 <div className='separator' style={{ width: '85%' }}></div>
               </>
               : ''
             }
             {!settings.isMonthly ?
               <>
-                <BarChart chartData={balanceChart} title='Balance Anual' />
+                <BarChart chartData={balanceChart} title={MESSAGE[lan].AN_BAL} />
                 <div className='separator' style={{ width: '85%' }}></div>
               </>
               : ''
             }
-            <BarChart chartData={categoryChart} title='Gastos por categoría' />
+            <BarChart chartData={categoryChart} title={MESSAGE[lan].CAT_EXP} />
             <div className='separator' style={{ width: '85%' }}></div>
-            <PolarChart chartData={typeChart} title='Tipos de Pago' />
+            <PolarChart chartData={typeChart} title={MESSAGE[lan].PAY_TYPES} />
             <div className='separator' style={{ width: '85%' }}></div>
-            <PolarChart chartData={authorChart} title='Autores' />
+            <PolarChart chartData={authorChart} title={MESSAGE[lan].AUTHORS} />
           </div>
             : ''
         }

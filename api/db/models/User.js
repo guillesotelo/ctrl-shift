@@ -23,6 +23,9 @@ const userSchema = new mongoose.Schema({
     isGoogleUser: {
         type: Boolean,
         default: false
+    },
+    language: {
+        type: String
     }
 })
 

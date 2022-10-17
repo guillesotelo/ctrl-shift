@@ -155,6 +155,29 @@ h2 {
   margin: 2vw 0 1vw 0;
 }
 
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4vw;
+  background-color: lightgray;
+  padding: 4vw 2vw;
+  width: 35%;
+  border-radius: 2vw;
+  z-index: 2;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: black
+}
+
 .hi-login {
   font-size: 1vw;
   text-align: center;
@@ -899,7 +922,7 @@ h2 {
 
   .login-register-link {
     color: rgb(100, 100, 218);
-    font-size: 3vw;
+    font-size: 3.5vw;
     background-color: transparent;
     border: none;
     padding: 0;

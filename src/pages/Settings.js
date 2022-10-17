@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from "react-redux";
-import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import { APP_COLORS } from '../constants/colors'
 import CTAButton from '../components/CTAButton'
 import InputField from '../components/InputField'
 import { updateLedgerData } from '../store/reducers/ledger';
+import { MESSAGE } from '../constants/messages'
 
 export default function Settings() {
     const [data, setData] = useState({
@@ -20,9 +20,9 @@ export default function Settings() {
     const [newSalary, setNewSalary] = useState(false)
     const [budget, setBudget] = useState({ total: 100 })
     const [edited, setEdited] = useState(false)
-
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigatorLan = navigator.language || navigator.userLanguage
+    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
 
     useEffect(() => {
         pullSettings()
@@ -66,7 +66,7 @@ export default function Settings() {
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success('Guardado con éxito!')
+                toast.success(MESSAGE[lan].SET_SUCC)
                 setTimeout(() => pullSettings(), 1500)
             }
             setEdited(false)
@@ -96,14 +96,14 @@ export default function Settings() {
     return (
         <div className='settings-container'>
             <ToastContainer autoClose={2000} />
-            <h4 className='settings-title'>Configuracion de Movimientos</h4>
+            <h4 className='settings-title'>{MESSAGE[lan].SET_TITLE}</h4>
 
-            <h4 className='settings-module-title' style={{ marginBottom: 0 }}>Saldo Mensual</h4>
+            <h4 className='settings-module-title' style={{ marginBottom: 0 }}>{MESSAGE[lan].SET_SALARY}</h4>
             <div className='settings-salary'>
                 <InputField
                     label=''
                     updateData={updateData}
-                    placeholder='$ -'
+                    placeholder={`${MESSAGE[lan].SET_SALARY} -`}
                     name='newSalary'
                     type='text'
                     value={data.newSalary >= 0 ? data.newSalary : data.salary}
@@ -118,7 +118,7 @@ export default function Settings() {
                         setNewSalary(false)
                         setEdited(true)
                     }}
-                    label='Actualizar'
+                    label={MESSAGE[lan].SET_UPDATE}
                     size='25%'
                     color={APP_COLORS.YELLOW}
                     style={{ color: 'black', marginTop: '3vw' }}
@@ -127,7 +127,7 @@ export default function Settings() {
 
             <div className='separator' style={{ width: '85%' }}></div>
 
-            <h4 className='settings-module-title'>Categorias</h4>
+            <h4 className='settings-module-title'>{MESSAGE[lan].SET_CAT}</h4>
             <div className='div-settings-module'>
                 {
                     data.categories.map((cat, i) =>
@@ -143,7 +143,7 @@ export default function Settings() {
                     <InputField
                         label=''
                         updateData={updateData}
-                        placeholder='Nombre...'
+                        placeholder={MESSAGE[lan].SET_CATNAME}
                         name='newCategory'
                         type='text'
                         style={{ margin: '0 20vw' }}
@@ -162,7 +162,7 @@ export default function Settings() {
                                 setEdited(true)
                             } else setNewCategory(false)
                         }}
-                        label='Agregar'
+                        label={MESSAGE[lan].SET_ADD}
                         size='25%'
                         color={APP_COLORS.YELLOW}
                         style={{ color: 'black', marginTop: '2vw' }}
@@ -181,7 +181,7 @@ export default function Settings() {
             <div className='separator' style={{ width: '85%' }}></div>
 
 
-            <h4 className='settings-module-title'>Presupuesto</h4>
+            <h4 className='settings-module-title'>{MESSAGE[lan].SET_BUD}</h4>
             <div className='div-budget-module'>
                 {
                     data.categories.map((cat, i) =>
@@ -207,7 +207,7 @@ export default function Settings() {
                     )
                 }
                 <div className='settings-budget-rest' style={{ justifyContent: 'center' }}>
-                    <h4 className='settings-budget-item-text'>Restante:</h4>
+                    <h4 className='settings-budget-item-text'>{MESSAGE[lan].SET_RES}:</h4>
                     <h4 className='settings-budget-item-percent'>%{budget.total.toFixed(1)}</h4>
                     <h4 className='settings-budget-item-percent'>(${(data.salary * budget.total.toFixed(1) / 100).toFixed(0)})</h4>
                 </div>
@@ -215,7 +215,7 @@ export default function Settings() {
 
             <div className='separator' style={{ width: '85%' }}></div>
 
-            <h4 className='settings-module-title'>Autores</h4>
+            <h4 className='settings-module-title'>{MESSAGE[lan].SET_AU}</h4>
             <div className='div-settings-module'>
                 {
                     data.authors.map((author, i) =>
@@ -231,7 +231,7 @@ export default function Settings() {
                     <InputField
                         label=''
                         updateData={updateData}
-                        placeholder='Nombre...'
+                        placeholder={MESSAGE[lan].SET_CATNAME}
                         name='newAuthor'
                         type='text'
                         style={{ margin: '0 20vw' }}
@@ -250,7 +250,7 @@ export default function Settings() {
                                 setEdited(true)
                             } else setNewAuthor(false)
                         }}
-                        label='Agregar'
+                        label={MESSAGE[lan].SET_ADD}
                         size='25%'
                         color={APP_COLORS.YELLOW}
                         style={{ color: 'black', marginTop: '2vw' }}
@@ -268,7 +268,7 @@ export default function Settings() {
 
             <div className='separator' style={{ width: '85%' }}></div>
 
-            <h4 className='settings-module-title'>Tipos de Pago</h4>
+            <h4 className='settings-module-title'>{MESSAGE[lan].SET_PAYTYPES}</h4>
             <div className='div-settings-module'>
                 {
                     data.payTypes.map((pay, i) =>
@@ -284,7 +284,7 @@ export default function Settings() {
                     <InputField
                         label=''
                         updateData={updateData}
-                        placeholder='Nombre...'
+                        placeholder={MESSAGE[lan].SET_CATNAME}
                         name='newPayType'
                         type='text'
                         style={{ margin: '0 20vw' }}
@@ -303,7 +303,7 @@ export default function Settings() {
                                 setEdited(true)
                             } else setNewPayType(false)
                         }}
-                        label='Agregar'
+                        label={MESSAGE[lan].SET_ADD}
                         size='25%'
                         color={APP_COLORS.YELLOW}
                         style={{ color: 'black', marginTop: '2vw' }}
@@ -327,7 +327,7 @@ export default function Settings() {
                                 pullSettings()
                                 setEdited(false)
                             }}
-                            label='Descartar'
+                            label={MESSAGE[lan].SET_DISCARD}
                             color='#8c8c8c'
                             size='fit-content'
                             disabled={!Object.keys(data).length}
@@ -335,7 +335,7 @@ export default function Settings() {
                         />
                         <CTAButton
                             handleClick={handleSave}
-                            label='Guardar Cambios'
+                            label={MESSAGE[lan].SET_SAVE}
                             color={APP_COLORS.YELLOW}
                             size='fit-content'
                             disabled={!Object.keys(data).length}

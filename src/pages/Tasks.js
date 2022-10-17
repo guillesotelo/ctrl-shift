@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DatePicker, { registerLocale } from 'react-datepicker'
 import es from "date-fns/locale/es"
 import TrashCan from '../assets/trash-can.svg'
@@ -11,6 +11,7 @@ import { APP_COLORS } from '../constants/colors'
 import { updateLedgerData } from '../store/reducers/ledger';
 import { ToastContainer, toast } from 'react-toastify';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { MESSAGE } from '../constants/messages'
 
 export default function Tasks() {
     const [taskArr, setTaskArr] = useState([])
@@ -24,6 +25,8 @@ export default function Tasks() {
     const [timeClicked, setTimeClicked] = useState(false)
     const [tab, setTab] = useState('unChecked')
     const dispatch = useDispatch()
+    const navigatorLan = navigator.language || navigator.userLanguage
+    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
     registerLocale("es", es)
 
     useEffect(() => {
@@ -48,7 +51,7 @@ export default function Tasks() {
 
     const handleSave = async () => {
         try {
-            if (!data.name) return toast.error('Revisa los datos')
+            if (!data.name) return toast.error(MESSAGE[lan].CHECK_DATA)
             const newTask = {
                 name: data.name,
                 details: data.details,
@@ -75,7 +78,7 @@ export default function Tasks() {
                 setOpenModal(false)
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success('Tarea guardada con éxito!')
+                toast.success(MESSAGE[lan].T_SUCC)
                 setTimeout(() => pullTasks(), 1500)
             }
             setData({
@@ -132,7 +135,7 @@ export default function Tasks() {
                 setOpenModal(false)
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success(`${checked.isChecked ? 'Tarea re-activada!' : 'Tarea finalizada!'}`)
+                toast.success(`${checked.isChecked ? MESSAGE[lan].T_REAC : MESSAGE[lan].T_FIN}`)
                 setTimeout(() => pullTasks(), 200)
             }
 
@@ -152,7 +155,7 @@ export default function Tasks() {
                 setOpenModal(false)
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success('Tarea eliminada')
+                toast.success(MESSAGE[lan].T_DEL)
                 setTimeout(() => pullTasks(), 200)
             }
 
@@ -168,22 +171,22 @@ export default function Tasks() {
         const tomorrow = new Date().setDate(now.getDate() + 1)
         const dayAfter = new Date().setDate(now.getDate() + 2)
         const afterDayAfter = new Date().setDate(now.getDate() + 3)
-        const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+        const days = MESSAGE[lan].DAYS
         let parsed = `${withTime ? taskDate.toLocaleDateString() + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : taskDate.toLocaleDateString()}`
         let color = 'black'
 
         if (taskDate.getDay() === now.getDay() && taskDate.getDate() === now.getDate()) {
             color = 'green'
-            parsed = `${withTime ? 'Hoy' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Hoy'}`
+            parsed = `${withTime ? MESSAGE[lan].TODAY + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Hoy'}`
         }
         else if (taskDate.getDay() === new Date(yesterday).getDay() && taskDate.getDate() === new Date(yesterday).getDate()) {
             color = 'red'
             parsed = 'Ayer'
-            parsed = `${withTime ? 'Ayer' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Ayer'}`
+            parsed = `${withTime ? MESSAGE[lan].YESTERDAY + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Ayer'}`
         }
         else if (taskDate.getDay() === new Date(tomorrow).getDay() && taskDate.getDate() === new Date(tomorrow).getDate()) {
             color = 'green'
-            parsed = `${withTime ? 'Mañana' + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Mañana'}`
+            parsed = `${withTime ? MESSAGE[lan].TOMORROW + ', ' + taskDate.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' }) : 'Mañana'}`
         }
         else if ((taskDate.getDay() === new Date(dayAfter).getDay() && taskDate.getDate() === new Date(dayAfter).getDate()) ||
             (taskDate.getDay() === new Date(afterDayAfter).getDay() && taskDate.getDate() === new Date(afterDayAfter).getDate())
@@ -233,11 +236,11 @@ export default function Tasks() {
             <ToastContainer autoClose={1000} />
             {openModal ?
                 <div className='task-modal'>
-                    <h3 style={{ color: APP_COLORS.GRAY }} className='task-modal-title'>{isEdit ? 'Editar Tarea' : 'Nueva Tarea'}</h3>
+                    <h3 style={{ color: APP_COLORS.GRAY }} className='task-modal-title'>{isEdit ? MESSAGE[lan].T_EDIT : MESSAGE[lan].T_NEW}</h3>
                     <InputField
                         label=''
                         updateData={updateData}
-                        placeholder='Título de la tarea'
+                        placeholder={MESSAGE[lan].T_TITLE}
                         name='name'
                         type='text'
                         className='task-title-input'
@@ -247,7 +250,7 @@ export default function Tasks() {
                     <InputField
                         label=''
                         updateData={updateData}
-                        placeholder='Detalles...'
+                        placeholder={MESSAGE[lan].N_DETAIL}
                         name='details'
                         type='textarea'
                         style={{ height: 'fit-content', textAlign: 'left', marginBottom: '2vw' }}
@@ -260,7 +263,7 @@ export default function Tasks() {
                                     setTimeClicked(false)
                                     setDateClicked(!dateClicked)
                                 }}
-                                label={data.date instanceof Date && isFinite(data.date) ? data.date.toLocaleDateString() : 'Agregar Fecha'}
+                                label={data.date instanceof Date && isFinite(data.date) ? data.date.toLocaleDateString() : MESSAGE[lan].T_ADD_DATE}
                                 color={APP_COLORS.SPACE}
                                 className='task-date-btn'
                             />
@@ -322,7 +325,7 @@ export default function Tasks() {
                                 setDateClicked(false)
                                 setTimeClicked(false)
                             }}
-                            label='Cancelar'
+                            label={MESSAGE[lan].CANCEL}
                             size='100%'
                             color={APP_COLORS.GRAY}
                         />
@@ -332,7 +335,7 @@ export default function Tasks() {
                             : ''}
                         <CTAButton
                             handleClick={() => handleSave()}
-                            label='Guardar'
+                            label={MESSAGE[lan].SAVE}
                             size='100%'
                             color={APP_COLORS.YELLOW}
                             style={{ color: 'black' }}
@@ -342,9 +345,9 @@ export default function Tasks() {
                 : ''
             }
             <div className='task-tabs'>
-                <h4 onClick={() => setTab('unChecked')} className='task-tab-title' style={{ borderBottom: tab === 'unChecked' ? '2px solid #CCA43B' : '' }}>Sin finalizar</h4>
+                <h4 onClick={() => setTab('unChecked')} className='task-tab-title' style={{ borderBottom: tab === 'unChecked' ? '2px solid #CCA43B' : '' }}>{MESSAGE[lan].T_UNF}</h4>
                 <h4>|</h4>
-                <h4 onClick={() => setTab('isChecked')} className='task-tab-title' style={{ borderBottom: tab === 'isChecked' ? '2px solid #CCA43B' : '' }}>Finalizadas</h4>
+                <h4 onClick={() => setTab('isChecked')} className='task-tab-title' style={{ borderBottom: tab === 'isChecked' ? '2px solid #CCA43B' : '' }}>{MESSAGE[lan].T_FIN}</h4>
             </div>
             {allTasks.length ?
                 <div className='task-list' style={{ filter: openModal && 'blur(10px)' }}>
@@ -355,7 +358,7 @@ export default function Tasks() {
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
-                                    {allTasks.map((task, i) => ((task[tab] || (tab==='unChecked' && !task.isChecked)) &&
+                                    {allTasks.map((task, i) => ((task[tab] || (tab === 'unChecked' && !task.isChecked)) &&
                                         <Draggable key={i} draggableId={String(i)} index={i}>
                                             {(provided, snapshot) => (
                                                 <div
@@ -369,7 +372,7 @@ export default function Tasks() {
                                                     <div
                                                         className={`${task.isChecked ? 'task-div-checked' : 'task-div'}`}
                                                         key={i}
-                                                        style={{ 
+                                                        style={{
                                                             borderBottom: '1px solid lightgray',
                                                         }}
                                                     >
@@ -430,8 +433,8 @@ export default function Tasks() {
                 </div>
                 :
                 <h4 className='task-no-tasks' style={{ filter: openModal && 'blur(10px)' }}>
-                    No hay tareas a la vista 🧐
-                    <br />Comienza creando una nueva ➕
+                    {MESSAGE[lan].T_NONE} 🧐
+                    <br />{MESSAGE[lan].T_TEXT} ➕
                 </h4>
             }
             <CTAButton

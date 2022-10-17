@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CTAButton from '../components/CTAButton'
 import InputField from '../components/InputField'
 import { APP_COLORS } from '../constants/colors'
@@ -7,6 +7,7 @@ import { updateLedgerData } from '../store/reducers/ledger';
 import { ToastContainer, toast } from 'react-toastify';
 import TrashCan from '../assets/trash-can.svg'
 import EditPen from '../assets/edit-icon.svg'
+import { MESSAGE } from '../constants/messages'
 
 export default function Notes() {
     const [isEdit, setIsEdit] = useState(false)
@@ -14,6 +15,8 @@ export default function Notes() {
     const [data, setData] = useState({ name: '', details: '', notes: [] })
     const [check, setCheck] = useState({})
     const dispatch = useDispatch()
+    const navigatorLan = navigator.language || navigator.userLanguage
+    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
 
     useEffect(() => {
         pullNotes()
@@ -25,7 +28,7 @@ export default function Notes() {
 
     const handleSave = async () => {
         try {
-            if (!data.name || !data.details) return toast.error('Revisa los datos')
+            if (!data.name || !data.details) return toast.error(MESSAGE[lan].CHECK_DATA)
             const _notes = check.name ? data.notes.filter(note => note !== check) : data.notes
             const newNote = {
                 name: data.name,
@@ -42,7 +45,7 @@ export default function Notes() {
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success('Guardado con éxito!')
+                toast.success(MESSAGE[lan].SET_SUCC)
                 setTimeout(() => pullNotes(), 1500)
             }
             setIsEdit(false)
@@ -60,7 +63,7 @@ export default function Notes() {
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.info('Nota eliminada')
+                toast.info(MESSAGE[lan].N_DELETED)
                 setTimeout(() => pullNotes(), 1500)
             }
             setIsEdit(false)
@@ -84,16 +87,16 @@ export default function Notes() {
             <ToastContainer autoClose={2000} />
             {removeModal &&
                 <div className='remove-modal'>
-                    <h3>Estas a punto de eliminar:<br /><br />'{check.name}'</h3>
+                    <h3>{MESSAGE[lan].TO_DELETE}:<br /><br />'{check.name}'</h3>
                     <div className='remove-btns'>
                         <CTAButton
-                            label='Cancelar'
+                            label={MESSAGE[lan].CANCEL}
                             color={APP_COLORS.GRAY}
                             handleClick={() => setRemoveModal(false)}
                             size='fit-content'
                         />
                         <CTAButton
-                            label='Confirmar'
+                            label={MESSAGE[lan].CONFIRM}
                             color={APP_COLORS.SPACE}
                             handleClick={() => {
                                 setRemoveModal(false)
@@ -106,7 +109,7 @@ export default function Notes() {
             }
             {!isEdit &&
                 <CTAButton
-                    label='Nueva Nota'
+                    label={MESSAGE[lan].N_NEW}
                     color={APP_COLORS.YELLOW}
                     handleClick={() => {
                         setData({...data, name: '', details: ''})
@@ -122,7 +125,7 @@ export default function Notes() {
                     <InputField
                         label=''
                         updateData={updateData}
-                        placeholder='Nombre de la nota...'
+                        placeholder={MESSAGE[lan].N_NAME}
                         name='name'
                         type='text'
                         style={{ height: 'fit-content', textAlign: 'left' }}
@@ -131,7 +134,7 @@ export default function Notes() {
                     <InputField
                         label=''
                         updateData={updateData}
-                        placeholder='Detalles...'
+                        placeholder={MESSAGE[lan].N_DETAIL}
                         name='details'
                         type='textarea'
                         rows={8}
@@ -140,7 +143,7 @@ export default function Notes() {
                     {((data.name || data.details || check) && isEdit) ?
                         <div className='new-note-btns'>
                             <CTAButton
-                                label='Descartar'
+                                label={MESSAGE[lan].DISCARD}
                                 color={APP_COLORS.LIGHT}
                                 handleClick={() => {
                                     setCheck(0)
@@ -150,7 +153,7 @@ export default function Notes() {
                                 style={{ color: 'black', fontSize: '5vw' }}
                             />
                             <CTAButton
-                                label='Guardar'
+                                label={MESSAGE[lan].SAVE}
                                 color={APP_COLORS.YELLOW}
                                 handleClick={() => {
                                     handleSave()
