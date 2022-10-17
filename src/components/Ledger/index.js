@@ -21,7 +21,7 @@ export default function Ledger() {
     const history = useHistory()
     const dispatch = useDispatch()
     const ledger = JSON.parse(localStorage.getItem('ledger'))
-    const navigatorLan = navigator.language || navigator.userLanguage
+    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
     const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
 
     useEffect(() => {

@@ -21,7 +21,7 @@ export default function Settings() {
     const [budget, setBudget] = useState({ total: 100 })
     const [edited, setEdited] = useState(false)
     const dispatch = useDispatch()
-    const navigatorLan = navigator.language || navigator.userLanguage
+    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
     const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
 
     useEffect(() => {

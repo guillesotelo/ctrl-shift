@@ -9,7 +9,7 @@ export default function () {
     const user = JSON.parse(localStorage.getItem('user'))
     const ledger = JSON.parse(localStorage.getItem('ledger'))
     const history = useHistory()
-    const navigatorLan = navigator.language || navigator.userLanguage
+    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
     const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
 
   return (

@@ -5,7 +5,7 @@ import './styles.css'
 
 export default function SwitchBTN(props) {
 
-    const navigatorLan = navigator.language || navigator.userLanguage
+    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
     const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
 
     const {

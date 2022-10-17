@@ -3,6 +3,8 @@ const router = express.Router()
 const { User } = require('../db/models')
 const { OAuth2Client } = require('google-auth-library')
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID)
+const transporter = require('../helpers/mailer')
+const { encrypt, decrypt } = require('../helpers')
 
 //User Login
 router.post('/', async (req, res, next) => {
@@ -60,6 +62,48 @@ router.post('/update', async (req, res, next) => {
             username: newUser.username,
             defaultLedger: newUser.defaultLedger
         })
+    } catch (err) { console.log(err) }
+})
+
+router.post('/reset', async (req, res, next) => {
+    try {
+        const { userEmail } = req.query
+        if (userEmail) {
+            const userData = await User.findOne({ email: decrypt(userEmail) })
+            const generatedPass = (Math.random() + 1).toString(36).substring(7)
+
+            const newUser = await User.findOneAndUpdate(
+                { email: decrypt(userEmail) }, { ...userData, password: generatedPass }, { new: true })
+            if (!newUser) return res.status(404).send('Error updating User.')
+
+            const html = `
+            <div style='margin-top: 10vw; text-align: center;'>
+                <h3>Your password has been changed to:</h3>
+                <h2>${generatedPass}</h2>
+                <h3><a href='https://ctrlshift.herokuapp.com/login'>Login</a> again with the new credential and change it as soon as you can.</h3>
+            </di>
+            `
+            res.send(html)
+        } else {
+            const { email } = req.body
+            const user = await User.findOne({ email }).exec()
+            if (!user) return res.status(401).json({})
+
+            await transporter.sendMail({
+                from: `"CtrlShift" <${process.env.EMAIL}>`,
+                to: email,
+                subject: 'Password Reset',
+                html: `<div style='margin-top: 3vw; text-align: center;'>
+                            <h2>Hello there!</h2>
+                            <h3>Click <a href='https://ctrlshift.herokuapp.com/api/reset?userEmail=${encrypt(email)}'>here</a> to reset your password.</h3>
+                            <img src="https://i.ibb.co/WvfH2hZ/ctrlshift-logo.png" style='height: 50px; width: auto; margin-top: 2vw;' alt="ctrlshift-logo" border="0">
+                            <h5>CtrlShift App</h5>
+                        </div>`
+            }).catch((err) => console.error('Something went wrong!', err))
+            res.status(200).json({})
+        }
+
+        res.status(404).send("Email not found.")
     } catch (err) { console.log(err) }
 })
 

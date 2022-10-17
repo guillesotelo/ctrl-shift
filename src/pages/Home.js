@@ -52,7 +52,7 @@ export default function Home() {
   const [sw, setSw] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
-  const navigatorLan = navigator.language || navigator.userLanguage
+  const navigatorLan = navigator.language || navigator.userLanguage || 'en'
   const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
   const months = MESSAGE[lan].MONTHS
 

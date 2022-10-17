@@ -33,6 +33,13 @@ const updateUser = async data => {
     } catch (err) { console.log(err) }
 }
 
+const resetPassord = async data => {
+    try {
+        const user = await axios.post(`${API_URL}/api/user/reset`, data)
+        return user
+    } catch (err) { console.log(err) }
+}
+
 const setUserVoid = async () => {
     try {
         await axios.get(`${API_URL}/api/auth/logout`)
@@ -121,6 +128,7 @@ export {
     googleLogin,
     setUserVoid,
     updateUser,
+    resetPassord,
     getAllMovements,
     createMovement,
     updateMovement,

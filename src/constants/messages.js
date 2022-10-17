@@ -11,6 +11,9 @@ export const MESSAGE = {
         LOGIN_BTN: 'Entrar',
         LOGIN_REG_TEXT: 'No tienes cuenta?',
         LOGIN_REG_LINK: 'Regístrate',
+        LOGIN_REMEMBER: 'No recuerdo mi contraseña',
+        TO_SEND_MAIL: 'Cambiar contraseña desde mi email',
+        MAIL_SENT: 'Mail enviado!',
 
         //REGISTER
         CHECK_DATA: 'Revisa los datos',
@@ -146,6 +149,9 @@ export const MESSAGE = {
         LOGIN_BTN: 'Login',
         LOGIN_REG_TEXT: 'Don`t have an account?',
         LOGIN_REG_LINK: 'Register',
+        LOGIN_REMEMBER: 'Reset password',
+        TO_SEND_MAIL: 'Change password from my email',
+        MAIL_SENT: 'Email sent!',
 
         //REGISTER
         CHECK_DATA: 'Check the data',
@@ -185,7 +191,7 @@ export const MESSAGE = {
         //SETTINGS
         SET_SUCC: 'Saved successfully!',
         SET_TITLE: 'Movement Settings',
-        SET_SALARY: 'Monthly Balance',
+        SET_SALARY: 'Monthly Income',
         SET_UPDATE: 'Update',
         SET_CAT: 'Categories',
         SET_CATNAME: 'Name...',
@@ -227,7 +233,7 @@ export const MESSAGE = {
 
         //TABLE
         TABLE_HEADERS: ['Date', 'Detail', 'Author', 'Category', 'Pay Type', 'Amount'],
-        NO_MOVEMENTS: 'No moves to show',
+        NO_MOVEMENTS: 'No expenses to show',
 
         //HOME
         MONTHS: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -240,7 +246,7 @@ export const MESSAGE = {
         AUTHOR: 'Author',
         CATEGORY: 'Category',
         PAY_TYPE: 'Type of payment',
-        INSTALLMENT: 'Quota',
+        INSTALLMENT: 'Installment',
         AMOUNT: 'Amount',
         CSV_NAME: 'Book Moves',
         CSV_TITLE: 'Excerpt from',
@@ -251,7 +257,7 @@ export const MESSAGE = {
         MOV_INFO: 'Payment info',
         FIAT: '$',
         MOV_DETAIL: 'Detail of the expense...',
-        INSTALLMENTS: 'Quotas',
+        INSTALLMENTS: 'Installments',
         EDIT: 'Edit',
         MOV_NEW: 'New Expense',
         SALARY: 'Current Balance',
@@ -281,6 +287,9 @@ export const MESSAGE = {
         LOGIN_BTN: 'Login',
         LOGIN_REG_TEXT: 'Don`t have an account?',
         LOGIN_REG_LINK: 'Register',
+        LOGIN_REMEMBER: 'Reset password',
+        TO_SEND_MAIL: 'Change password from my email',
+        MAIL_SENT: 'Email sent!',
 
         //REGISTER
         CHECK_DATA: 'Check the data',
@@ -321,7 +330,7 @@ export const MESSAGE = {
         //SETTINGS
         SET_SUCC: 'Saved successfully!',
         SET_TITLE: 'Movement Settings',
-        SET_SALARY: 'Monthly Balance',
+        SET_SALARY: 'Monthly Income',
         SET_UPDATE: 'Update',
         SET_CAT: 'Categories',
         SET_CATNAME: 'Name...',
@@ -363,7 +372,7 @@ export const MESSAGE = {
 
         //TABLE
         TABLE_HEADERS: ['Date', 'Detail', 'Author', 'Category', 'Pay Type', 'Amount'],
-        NO_MOVEMENTS: 'No moves to show',
+        NO_MOVEMENTS: 'No expenses to show',
 
         //HOME
         MONTHS: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -376,7 +385,7 @@ export const MESSAGE = {
         AUTHOR: 'Author',
         CATEGORY: 'Category',
         PAY_TYPE: 'Type of payment',
-        INSTALLMENT: 'Quota',
+        INSTALLMENT: 'Installment',
         AMOUNT: 'Amount',
         CSV_NAME: 'Book Moves',
         CSV_TITLE: 'Excerpt from',
@@ -387,7 +396,7 @@ export const MESSAGE = {
         MOV_INFO: 'Payment info',
         FIAT: '$',
         MOV_DETAIL: 'Detail of the expense...',
-        INSTALLMENTS: 'Quotas',
+        INSTALLMENTS: 'Installments',
         EDIT: 'Edit',
         MOV_NEW: 'New Expense',
         SALARY: 'Current Balance',
@@ -417,6 +426,9 @@ export const MESSAGE = {
         LOGIN_BTN: 'Enter',
         LOGIN_REG_TEXT: 'Har du inget konto?',
         LOGIN_REG_LINK: 'Registrera',
+        LOGIN_REMEMBER: 'Kom ihåg mitt lösenord',
+        TO_SEND_MAIL: 'Ändra lösenord från min e-post',
+        MAIL_SENT: 'E-post skickat!',
 
         //REGISTER
         CHECK_DATA: 'Kontrollera data',

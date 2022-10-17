@@ -25,7 +25,7 @@ export default function Tasks() {
     const [timeClicked, setTimeClicked] = useState(false)
     const [tab, setTab] = useState('unChecked')
     const dispatch = useDispatch()
-    const navigatorLan = navigator.language || navigator.userLanguage
+    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
     const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
     registerLocale("es", es)
 

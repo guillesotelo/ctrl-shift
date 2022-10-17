@@ -15,7 +15,7 @@ export default function MovementsTable(props) {
         check
     } = props
     const rowData = tableData && tableData.length ? tableData : []
-    const navigatorLan = navigator.language || navigator.userLanguage
+    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
     const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
     const headers = MESSAGE[lan].TABLE_HEADERS
 
@@ -58,7 +58,7 @@ export default function MovementsTable(props) {
                                 <h4 className='table-row-item'>{row.author || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.category || 'n/a'}</h4>
                                 <h4 className='table-row-item'>{row.pay_type || 'n/a'}</h4>
-                                <h4 className='table-row-item'>${row.amount || 'n/a'}</h4>
+                                <h4 className='table-row-item'>{lan !== 'se' ? `$ ${row.amount}` : `${row.amount} Kr` || 'n/a'}</h4>
                             </div>
                         )}
                         {maxItems < rowData.length &&
