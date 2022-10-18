@@ -147,9 +147,9 @@ export const MESSAGE = {
         EMAIL_PHR: 'Email',
         PASS_PHR: 'Password',
         LOGIN_BTN: 'Login',
-        LOGIN_REG_TEXT: 'Don`t have an account?',
+        LOGIN_REG_TEXT: `Don't have an account?`,
         LOGIN_REG_LINK: 'Register',
-        LOGIN_REMEMBER: 'Reset password',
+        LOGIN_REMEMBER: `I don't remember my password`,
         TO_SEND_MAIL: 'Change password from my email',
         MAIL_SENT: 'Email sent!',
 
@@ -285,9 +285,9 @@ export const MESSAGE = {
         EMAIL_PHR: 'Email',
         PASS_PHR: 'Password',
         LOGIN_BTN: 'Login',
-        LOGIN_REG_TEXT: 'Don`t have an account?',
+        LOGIN_REG_TEXT: `Don't have an account?`,
         LOGIN_REG_LINK: 'Register',
-        LOGIN_REMEMBER: 'Reset password',
+        LOGIN_REMEMBER: `I don't remember my password`,
         TO_SEND_MAIL: 'Change password from my email',
         MAIL_SENT: 'Email sent!',
 

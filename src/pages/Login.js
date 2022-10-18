@@ -14,6 +14,7 @@ import { APP_COLORS } from '../constants/colors'
 import { ToastContainer, toast } from 'react-toastify';
 import { GoogleLogin } from '@react-oauth/google';
 import { MESSAGE } from '../constants/messages'
+import { VERSION } from '../constants/app'
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
@@ -115,7 +116,6 @@ export default function Login() {
                     type='password'
                     style={{ fontWeight: 'normal', fontSize: '4vw' }}
                 />
-                {/* {data.email && <button onClick={() => setMailModal(true)} className='login-register-link'>{MESSAGE[lan].LOGIN_REMEMBER}</button>} */}
                 <CTAButton
                     label={MESSAGE[lan].LOGIN_BTN}
                     handleClick={onLogin}
@@ -123,7 +123,7 @@ export default function Login() {
                     color={APP_COLORS.SPACE}
                     style={{ margin: '10vw', fontSize: '4vw' }}
                     className='cta-login'
-                />
+                    />
                 {/* <GoogleLogin
                     onSuccess={googleData => onLogin(googleData)}
                     onError={handleFailure}
@@ -134,6 +134,8 @@ export default function Login() {
                     shape='circle'
                 /> */}
                 <h4 className='login-register-text'>{MESSAGE[lan].LOGIN_REG_TEXT} <button onClick={goToRegister} className='login-register-link'>{MESSAGE[lan].LOGIN_REG_LINK}</button></h4>
+                {data.email && <button onClick={() => setMailModal(true)} className='login-remember-link'>{MESSAGE[lan].LOGIN_REMEMBER}</button>}
+                <h4 className='login-version-text'>{VERSION}</h4>
             </div>
         </div>
     )

@@ -918,16 +918,36 @@ h2 {
     font-size: 3.5vw;
     text-align: center;
     font-weight: normal;
-    margin: 6vw 0
+  }
+
+  .login-version-text {
+    font-size: 3.5vw;
+    text-align: center;
+    font-weight: normal;
+    position: absolute;
+    bottom: 0;
+    width: 70%;
+    color: gray
   }
 
   .login-register-link {
+    color: rgb(100, 100, 218);
+    font-size: 3.5vw;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .login-remember-link {
     color: rgb(100, 100, 218);
     font-size: 3.5vw;
     background-color: transparent;
     border: none;
     padding: 0;
     cursor: pointer;
+    margin: 10vw 0;
   }
 
   .account-container {

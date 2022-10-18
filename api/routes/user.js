@@ -87,7 +87,7 @@ router.post('/reset', async (req, res, next) => {
         } else {
             const { email } = req.body
             const user = await User.findOne({ email }).exec()
-            if (!user) return res.status(401).json({})
+            if (!user) return res.status(404).json('Email not found.')
 
             await transporter.sendMail({
                 from: `"CtrlShift" <${process.env.EMAIL}>`,
@@ -96,14 +96,13 @@ router.post('/reset', async (req, res, next) => {
                 html: `<div style='margin-top: 3vw; text-align: center;'>
                             <h2>Hello there!</h2>
                             <h3>Click <a href='https://ctrlshift.herokuapp.com/api/reset?userEmail=${encrypt(email)}'>here</a> to reset your password.</h3>
-                            <img src="../../../public/images/ctrlshift_logo.png" style='height: 50px; width: auto; margin-top: 2vw;' alt="ctrlshift-logo" border="0">
-                            <h5>CtrlShift App</h5>
+                            <img src="https://i.imgur.com/8XcuFOs.png" style='height: 50px; width: auto; margin-top: 4vw;' alt="ctrlshift-logo" border="0">
+                            <h5 style='margin: 4px;'>CtrlShift App</h5>
                         </div>`
             }).catch((err) => console.error('Something went wrong!', err))
             res.status(200).json({})
         }
 
-        res.status(404).send("Email not found.")
     } catch (err) { console.log(err) }
 })
 
