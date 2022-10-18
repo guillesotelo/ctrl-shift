@@ -10,6 +10,7 @@ const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
     }).concat(logs),
+    devTools: process.env.NODE_ENV !== 'production',
     reducer: {
         user: userReducer,
         movement: movementReducer,
