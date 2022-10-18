@@ -96,7 +96,7 @@ router.post('/reset', async (req, res, next) => {
                 html: `<div style='margin-top: 3vw; text-align: center;'>
                             <h2>Hello there!</h2>
                             <h3>Click <a href='https://ctrlshift.herokuapp.com/api/reset?userEmail=${encrypt(email)}'>here</a> to reset your password.</h3>
-                            <img src="https://i.ibb.co/WvfH2hZ/ctrlshift-logo.png" style='height: 50px; width: auto; margin-top: 2vw;' alt="ctrlshift-logo" border="0">
+                            <img src="../../../public/images/ctrlshift_logo.png" style='height: 50px; width: auto; margin-top: 2vw;' alt="ctrlshift-logo" border="0">
                             <h5>CtrlShift App</h5>
                         </div>`
             }).catch((err) => console.error('Something went wrong!', err))
