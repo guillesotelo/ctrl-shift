@@ -6,6 +6,7 @@ import CTAButton from '../components/CTAButton'
 import InputField from '../components/InputField'
 import { updateLedgerData } from '../store/reducers/ledger';
 import { MESSAGE } from '../constants/messages'
+import { getUserLanguage } from '../helpers';
 
 export default function Settings() {
     const [data, setData] = useState({
@@ -21,8 +22,7 @@ export default function Settings() {
     const [budget, setBudget] = useState({ total: 100 })
     const [edited, setEdited] = useState(false)
     const dispatch = useDispatch()
-    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
-    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
 
     useEffect(() => {
         pullSettings()

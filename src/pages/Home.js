@@ -20,6 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
 import SwitchBTN from '../components/SwitchBTN';
 import { MESSAGE } from '../constants/messages'
+import { getUserLanguage } from '../helpers';
 
 export default function Home() {
   const [data, setData] = useState({ search: '' })
@@ -52,8 +53,7 @@ export default function Home() {
   const [sw, setSw] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
-  const navigatorLan = navigator.language || navigator.userLanguage || 'en'
-  const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+  const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
   const months = MESSAGE[lan].MONTHS
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CTAButton from '../components/CTAButton'
 import InputField from '../components/InputField'
 import Logo from '../assets/logo.png'
@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { GoogleLogin } from '@react-oauth/google';
 import { MESSAGE } from '../constants/messages'
 import { VERSION } from '../constants/app'
+import { getUserLanguage } from '../helpers';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
@@ -22,7 +23,7 @@ export default function Login() {
     const [mailNModal, setMailModal] = useState(false)
     const dispatch = useDispatch()
     const history = useHistory()
-    const lan = navigator.language || navigator.userLanguage || 'en'
+    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
 
     const updateData = (key, newData) => {
         setData({ ...data, [key]: newData })

@@ -47,7 +47,7 @@ export const MESSAGE = {
 
         //ACCOUNT
         NAME: 'Nombre',
-        LEDGER: 'Libro conectado',
+        LEDGER: 'Libro actual',
         CONN_LED: 'Crear / Conectar Libro',
 
         //SETTINGS
@@ -174,7 +174,7 @@ export const MESSAGE = {
         L_TEXT2: 'To start using CtrlShift you must create a Ledger, where all your movements will be saved.',
         L_TEXT2_2: 'Then other people will be able to participate in your Ledger, connecting with the name and password.',
         L_TEXT2_3: 'You can also connect with an existing Ledger.',
-        L_CURRENT: 'Current Book',
+        L_CURRENT: 'Current Ledger',
         L_NEW: 'New Book',
         L_NEW_LABEL: 'New Accounting Book',
         L_CONN: 'Connect Existing',
@@ -185,7 +185,7 @@ export const MESSAGE = {
 
         //ACCOUNT
         NAME: 'Name',
-        LEDGER: 'Connected Book',
+        LEDGER: 'Current Ledger',
         CONN_LED: 'Create/Connect Book',
 
         //SETTINGS
@@ -313,7 +313,7 @@ export const MESSAGE = {
         L_TEXT2: 'To start using CtrlShift you must create a Ledger, where all your movements will be saved.',
         L_TEXT2_2: 'Then other people will be able to participate in your Ledger, connecting with the name and password.',
         L_TEXT2_3: 'You can also connect with an existing Ledger.',
-        L_CURRENT: 'Current Book',
+        L_CURRENT: 'Current Ledger',
         L_NEW: 'New Book',
         L_NEW_LABEL: 'New Accounting Book',
         L_CONN: 'Connect Existing',
@@ -324,7 +324,7 @@ export const MESSAGE = {
 
         //ACCOUNT
         NAME: 'Name',
-        LEDGER: 'Connected Book',
+        LEDGER: 'Current Ledger',
         CONN_LED: 'Create/Connect Book',
 
         //SETTINGS

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { MESSAGE } from '../../constants/messages'
+import { getUserLanguage } from '../../helpers';
 import './styles.css'
 
 export default function MovementsTable(props) {
@@ -15,8 +16,7 @@ export default function MovementsTable(props) {
         check
     } = props
     const rowData = tableData && tableData.length ? tableData : []
-    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
-    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
     const headers = MESSAGE[lan].TABLE_HEADERS
 
     const handleCheck = key => {

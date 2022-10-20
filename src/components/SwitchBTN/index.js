@@ -1,12 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { MESSAGE } from '../../constants/messages'
+import { getUserLanguage } from '../../helpers';
 import './styles.css'
 
 export default function SwitchBTN(props) {
 
-    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
-    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
 
     const {
         onChangeSw,

@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import TrashCan from '../assets/trash-can.svg'
 import EditPen from '../assets/edit-icon.svg'
 import { MESSAGE } from '../constants/messages'
+import { getUserLanguage } from '../helpers';
 
 export default function Notes() {
     const [isEdit, setIsEdit] = useState(false)
@@ -15,8 +16,7 @@ export default function Notes() {
     const [data, setData] = useState({ name: '', details: '', notes: [] })
     const [check, setCheck] = useState({})
     const dispatch = useDispatch()
-    const navigatorLan = navigator.language || navigator.userLanguage
-    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
 
     useEffect(() => {
         pullNotes()

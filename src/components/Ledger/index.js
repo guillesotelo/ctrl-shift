@@ -10,6 +10,7 @@ import {
     saveLedger,
     logLedger
 } from '../../store/reducers/ledger'
+import { getUserLanguage } from '../../helpers';
 import { MESSAGE } from '../../constants/messages'
 import 'react-toastify/dist/ReactToastify.css';
 import './styles.css'
@@ -21,8 +22,7 @@ export default function Ledger() {
     const history = useHistory()
     const dispatch = useDispatch()
     const ledger = JSON.parse(localStorage.getItem('ledger'))
-    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
-    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
 
     useEffect(() => {
         const localUser = JSON.parse(localStorage.getItem('user'))

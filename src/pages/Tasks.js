@@ -12,6 +12,7 @@ import { updateLedgerData } from '../store/reducers/ledger';
 import { ToastContainer, toast } from 'react-toastify';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { MESSAGE } from '../constants/messages'
+import { getUserLanguage } from '../helpers';
 
 export default function Tasks() {
     const [taskArr, setTaskArr] = useState([])
@@ -25,8 +26,7 @@ export default function Tasks() {
     const [timeClicked, setTimeClicked] = useState(false)
     const [tab, setTab] = useState('unChecked')
     const dispatch = useDispatch()
-    const navigatorLan = navigator.language || navigator.userLanguage || 'en'
-    const lan = useSelector(state => state.user && state.user.lan || navigatorLan)
+    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
     registerLocale("es", es)
 
     useEffect(() => {

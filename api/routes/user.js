@@ -21,7 +21,8 @@ router.post('/', async (req, res, next) => {
         res.status(200).json({
             username: user.username,
             email,
-            defaultLedger: user.defaultLedger || null
+            defaultLedger: user.defaultLedger || null,
+            language: user.language || null
         })
 
     } catch (err) { console.log(err) }
@@ -60,7 +61,8 @@ router.post('/update', async (req, res, next) => {
             id: newUser.id,
             email: newUser.email,
             username: newUser.username,
-            defaultLedger: newUser.defaultLedger
+            defaultLedger: newUser.defaultLedger,
+            language: user.language || null
         })
     } catch (err) { console.log(err) }
 })
