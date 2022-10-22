@@ -14,10 +14,9 @@ import { getUserLanguage } from '../helpers';
 import { toast } from 'react-toastify'
 
 export default function Account() {
-  const [data, setData] = useState({})
   const [showPassBox, setShowPassBox] = useState(false)
-
   const user = JSON.parse(localStorage.getItem('user'))
+  const [data, setData] = useState(user)
   const ledger = JSON.parse(localStorage.getItem('ledger'))
   const dispatch = useDispatch()
   const history = useHistory()
@@ -32,7 +31,10 @@ export default function Account() {
   const saveUserData = async () => {
     try {
       const saved = await dispatch(updateUserData(data)).then(data => data.payload)
-      if(saved) toast.success(MESSAGE[lan].SET_SUCC)
+      if(saved) {
+        localStorage.setItem('user', JSON.stringify(saved.data))
+        toast.success(MESSAGE[lan].SET_SUCC)
+      }
       else toast.error(MESSAGE[lan].SAVE_ERR)
     } catch (err) { }
   }
@@ -51,7 +53,7 @@ export default function Account() {
           }
         </div>
       </div>
-      {/* <Dropdown
+      <Dropdown
         style={{ margin: '2vw 0' }}
         onSelect={selected => {
           const { code, title } = LANGUAGES.find(({ code }) => selected === code)
@@ -69,8 +71,8 @@ export default function Account() {
             <Dropdown.Item key={code} eventKey={code}><Flag height="16" code={code} /> {title}</Dropdown.Item>
           ))}
         </Dropdown.Menu>
-      </Dropdown> */}
-      {/* <CTAButton
+      </Dropdown>
+      <CTAButton
         label='Change Password'
         handleClick={() => setShowPassBox(true)}
         size='55%'
@@ -107,7 +109,7 @@ export default function Account() {
           color={APP_COLORS.SPACE}
           style={{ marginTop: '6vw', fontSize: '4vw' }}
         />
-      } */}
+      }
     </div>
   )
 }

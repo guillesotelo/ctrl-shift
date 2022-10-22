@@ -43,6 +43,9 @@ router.post("/auth/google", async (req, res) => {
 //Create user
 router.post('/create', async (req, res, next) => {
     try {
+        const emailRegistered = await User.findOne({ email: req.body.email }).exec()
+        if (emailRegistered) return res.status(401).send('Email already in use')
+
         const user = await User.create(req.body)
         if (!user) return res.status(400).send('Bad request')
         res.status(201).send(`User created successfully`)
@@ -52,9 +55,10 @@ router.post('/create', async (req, res, next) => {
 //Update User Data
 router.post('/update', async (req, res, next) => {
     try {
-        const { user, newData } = req.body
+        const { email, username } = req.body
+
         const newUser = await User.findOneAndUpdate(
-            { username: user.username, email: user.email }, newData, { new: true })
+            { username, email }, req.body, { useFindAndModify: false })
         if (!newUser) return res.status(404).send('Error updating User.')
 
         res.status(200).json({
@@ -62,49 +66,47 @@ router.post('/update', async (req, res, next) => {
             email: newUser.email,
             username: newUser.username,
             defaultLedger: newUser.defaultLedger,
-            language: user.language || null
+            language: newUser.language
         })
     } catch (err) { console.log(err) }
 })
 
-router.get('/reset', async (req, res, next) => {
+router.post('/resetPassword', async (req, res, next) => {
     try {
-        const { userEmail } = req.query
-        if (!userEmail) res.send(404).json('Wrong parameters')
+        const { userEmail, password, currentPass } = req.body
+        if (!userEmail) res.send(404).send('Wrong parameters')
 
-        const userData = await User.findOne({ email: decrypt(userEmail) })
-        const generatedPass = (Math.random() + 1).toString(36).substring(7)
+        const email = decrypt(userEmail)
 
-        const newUser = await User.findOneAndUpdate(
-            { email: decrypt(userEmail) }, { ...userData, password: generatedPass }, { new: true })
-        if (!newUser) return res.status(404).send('Error updating User.')
+        const userData = await User.findOne({ email })
+        if (!userData) return res.status(404).send('Email not found.')
+
+        const compareRes = await userData.comparePassword(currentPass)
+        if (!compareRes) return res.status(401).send('Invalid credentials')
+
+        const updatedUser = await User.findOneAndUpdate(
+            { email }, { password }, { useFindAndModify: false })
+        if (!updatedUser) return res.status(404).send('Error updating User.')
 
         await transporter.sendMail({
             from: `"CtrlShift" <${process.env.EMAIL}>`,
             to: email,
             subject: 'Your password has been changed',
             html: `<div style='margin-top: 3vw; text-align: center;'>
-                            <h2>Hello there!</h2>
-                            <h3>Use your new passowrd to login. We advise to change it afterwards</h3>
-                            <h3>New Password: ${generatedPass}</h3>
+                            <h2>Hello, ${userData.username}!</h2>
+                            <h3>Your password has been changed.</h3>
+                            <h4>If it wasn't you, please <a href='https://ctrlshift.herokuapp.com/resetPassword?userEmail=${userEmail}'>re-generate it</a> to a new one right away, or reply to this email with your registered email and username.</h4>
                             <img src="https://i.imgur.com/8XcuFOs.png" style='height: 50px; width: auto; margin-top: 4vw;' alt="ctrlshift-logo" border="0">
                             <a href='https://ctrlshift.herokuapp.com/login'><h5 style='margin: 4px;'>CtrlShift App</h5></a>
                         </div>`
         }).catch((err) => console.error('Something went wrong!', err))
 
-        const html = `
-            <div style='margin-top: 10vw; text-align: center;'>
-                <h3>Your password has been changed to:</h3>
-                <h2>${generatedPass}</h2>
-                <h3><a href='https://ctrlshift.herokuapp.com/login'>Login</a> again with the new credential and change it as soon as you can.</h3>
-            </di>
-            `
-        res.send(html)
+        res.status(200).json({ messsage: 'Password updated successfully' })
 
     } catch (err) { console.log(err) }
 })
 
-router.post('/reset', async (req, res, next) => {
+router.post('/resetByEmail', async (req, res, next) => {
     try {
         const { email } = req.body
         const user = await User.findOne({ email }).exec()
@@ -115,8 +117,8 @@ router.post('/reset', async (req, res, next) => {
             to: email,
             subject: 'Password Reset',
             html: `<div style='margin-top: 3vw; text-align: center;'>
-                        <h2>Hello there!</h2>
-                        <h3>Click <a href='https://ctrlshift.herokuapp.com/api/user/reset?userEmail=${encrypt(email)}'>here</a> to reset your password.</h3>
+                        <h2>Hello, ${user.username}!</h2>
+                        <h3>Click <a href='https://ctrlshift.herokuapp.com/resetPassword?userEmail=${encrypt(email)}'>here</a> to reset your password.</h3>
                         <img src="https://i.imgur.com/8XcuFOs.png" style='height: 50px; width: auto; margin-top: 4vw;' alt="ctrlshift-logo" border="0">
                         <h5 style='margin: 4px;'>CtrlShift Team</h5>
                     </div>`

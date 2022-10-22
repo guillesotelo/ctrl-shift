@@ -33,9 +33,16 @@ const updateUser = async data => {
     } catch (err) { console.log(err) }
 }
 
-const resetPassord = async data => {
+const resetPassordByEmail = async data => {
     try {
-        const user = await axios.post(`${API_URL}/api/user/reset`, data)
+        const user = await axios.post(`${API_URL}/api/user/resetByEmail`, data)
+        return user
+    } catch (err) { console.log(err) }
+}
+
+const resetPass = async data => {
+    try {
+        const user = await axios.post(`${API_URL}/api/user/resetPassword`, data)
         return user
     } catch (err) { console.log(err) }
 }
@@ -128,7 +135,8 @@ export {
     googleLogin,
     setUserVoid,
     updateUser,
-    resetPassord,
+    resetPass,
+    resetPassordByEmail,
     getAllMovements,
     createMovement,
     updateMovement,

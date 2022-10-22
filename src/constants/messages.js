@@ -26,12 +26,20 @@ export const MESSAGE = {
         REGISTER_BTN: 'Registrarme',
         BACK_BTN: 'Volver',
 
+        //RESET PASSWORD
+        EMAIL_NOT_FOUND: 'No hemos podido encontrar el email con el cual ingresaste.',
+        CHANGE_PASS: 'Cambiar contraseña',
+        ACTUAL_PASS: 'Contraseña actual',
+        NEW_PASS: 'Nueva contraseña',
+        SAME_PASS: 'Debes ingresar una contraseña diferente',
+
         //LEDGER
         L_PAY_TYPES: ['Efectivo', 'Débito', 'TC', 'Transferencia'],
-        L_CATEGORIES: ['Varios', 'Mercado', 'Transporte', 'Lujos', 'Gasto Fijo', 'Electro/Deco', 'Salud','Indumentaria'],
+        L_CATEGORIES: ['Varios', 'Mercado', 'Transporte', 'Lujos', 'Gasto Fijo', 'Electro/Deco', 'Salud', 'Indumentaria'],
         L_SAVED: 'Guardado con éxito! Redirigiendo...',
         L_CONNECTED: 'Guardado con éxito! Redirigiendo...',
         L_DISCONNECTED: 'Desconectado con éxito! Redirigiendo...',
+        L_TEXT1: 'Si quieres que otras personas participen de tu Libro, compárteles el nombre y contraseña.',
         L_TEXT1_2: 'También puedes conectarte con un Libro existente.',
         L_TEXT2: 'Para comenzar a utilizar CtrlShift, tienes que crear un Libro Contable, donde todos tus gastos serán guardados.',
         L_TEXT2_2: 'Luego, otros usuarios podrán participar de tu Libro, conectándose a través del nombre y contraseña que hayas elegido.',
@@ -164,6 +172,13 @@ export const MESSAGE = {
         REGISTER_BTN: 'Register',
         BACK_BTN: 'Back',
 
+        //RESET PASSOWRD
+        EMAIL_NOT_FOUND: `We couldn't find the email you signed in with.`,
+        CHANGE_PASS: 'Change Password',
+        ACTUAL_PASS: 'Current password',
+        NEW_PASS: 'New password',
+        SAME_PASS: 'You must choose a different password',
+
         //LEDGER
         L_PAY_TYPES: ['Cash', 'Debit', 'Credit Card', 'Transfer'],
         L_CATEGORIES: ['Various', 'Market', 'Transport', 'Luxury', 'Fixed Expense', 'Electro/Deco', 'Health', 'Clothes'],
@@ -176,7 +191,7 @@ export const MESSAGE = {
         L_TEXT2_3: 'You can also connect with an existing Ledger.',
         L_CURRENT: 'Current Ledger',
         L_NEW: 'New Book',
-        L_NEW_LABEL: 'New Accounting Book',
+        L_NEW_LABEL: 'New Ledger',
         L_CONN: 'Connect Existing',
         L_NAME: 'Book Name',
         L_CONN_LABEL: 'Connect to Existing Book',
@@ -302,6 +317,13 @@ export const MESSAGE = {
         REGISTER_BTN: 'Register',
         BACK_BTN: 'Back',
 
+        //RESET PASSOWRD
+        EMAIL_NOT_FOUND: `We couldn't find the email you signed in with.`,
+        CHANGE_PASS: 'Change Password',
+        ACTUAL_PASS: 'Current password',
+        NEW_PASS: 'New password',
+        SAME_PASS: 'You must choose a different password',
+
         //LEDGER
         L_PAY_TYPES: ['Cash', 'Debit', 'Credit Card', 'Transfer'],
         L_CATEGORIES: ['Various', 'Market', 'Transport', 'Luxury', 'Fixed Expense', 'Electro/Deco', 'Health', 'Clothes'],
@@ -315,7 +337,7 @@ export const MESSAGE = {
         L_TEXT2_3: 'You can also connect with an existing Ledger.',
         L_CURRENT: 'Current Ledger',
         L_NEW: 'New Book',
-        L_NEW_LABEL: 'New Accounting Book',
+        L_NEW_LABEL: 'New Ledger',
         L_CONN: 'Connect Existing',
         L_NAME: 'Book Name',
         L_CONN_LABEL: 'Connect to Existing Book',
@@ -441,6 +463,13 @@ export const MESSAGE = {
         REGISTER_BTN: 'Registrera',
         BACK_BTN: 'Tillbaka',
 
+        //RESET PASSWORD
+        EMAIL_NOT_FOUND: 'Vi kunde inte hitta e-postadressen du loggade in med.',
+        CHANGE_PASS: 'Ändra lösenord',
+        ACTUAL_PASS: 'Nuvarande lösenord',
+        NEW_PASS: 'Nytt lösenord',
+        SAME_PASS: 'Du måste välja ett annat lösenord',
+
         //LEDGER
         L_PAY_TYPES: ['Kontanter', 'Debet', 'Kreditkort', 'Överföring'],
         L_CATEGORIES: ['Olika', 'Marknad', 'Transport', 'Lyx', 'Fast utgift', 'Electro/Deco', 'Hälsa', 'Kläder'],
@@ -514,7 +543,7 @@ export const MESSAGE = {
         NO_MOVEMENTS: 'Inga rörelser att visa',
 
         //HOME
-        MÅNADER: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December' ],
+        MONTHS: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
         MOV_DEL: 'Utgift raderade!',
         MOV_ERR: 'Fel vid borttagning',
         MOV_SAVED: 'Utgifter sparade!',

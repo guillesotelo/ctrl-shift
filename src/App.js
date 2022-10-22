@@ -12,6 +12,7 @@ import Settings from './pages/Settings'
 import Footer from "./components/Footer";
 import Notes from "./pages/Notes";
 import Tasks from "./pages/Tasks";
+import ResetPassword from "./pages/ResetPassword";
 // import NotFound from './pages/NotFound'
  
 function App() {
@@ -25,6 +26,9 @@ function App() {
             </Route>
             <Route path="/register"> 
               <Register/>
+            </Route>
+            <Route path="/resetPassword"> 
+              <ResetPassword/>
             </Route>
             <Route path="/home"> 
               <Header/>

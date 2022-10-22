@@ -950,6 +950,10 @@ h2 {
     margin: 10vw 0;
   }
 
+  .new-pass-container {
+    width: 70%;
+  }
+
   .account-container {
     margin: 10vw 4vw;
     display: flex;

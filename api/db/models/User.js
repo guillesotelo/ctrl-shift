@@ -31,12 +31,14 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function (next) {
     const user = this
-    if(this.isModified('password') || this.isNew) {
+    if (this.isModified('password') || this.isNew) {
         bcrypt.genSalt(10, function (saltError, salt) {
-            if(saltError) return next(saltError)
-            else{
+            if (saltError) return next(saltError)
+            else {
                 bcrypt.hash(user.password, salt, function (hashError, hash) {
-                    if(hashError) return next(hashError)
+                    if (hashError) return next(hashError)
+                    console.log("password not hashed", user.passowrd)
+                    console.log("password hashed", hash)
                     user.password = hash
                     next()
                 })
@@ -45,8 +47,24 @@ userSchema.pre('save', function (next) {
     } else return next()
 })
 
-function notGoogleUser() { 
-    return !this.isGoogleUser 
+userSchema.pre('findOneAndUpdate', function (next) {
+    const update = this.getUpdate()
+    if (update.password) {
+        bcrypt.genSalt(10, function (saltError, salt) {
+            if (saltError) return next(saltError)
+            else {
+                bcrypt.hash(update.password, salt, function (hashError, hash) {
+                    if (hashError) return next(hashError)
+                    update.password = hash;
+                    next()
+                })
+            }
+        })
+    } else return next()
+})
+
+function notGoogleUser() {
+    return !this.isGoogleUser
 }
 
 userSchema.methods.comparePassword = function (password) {
