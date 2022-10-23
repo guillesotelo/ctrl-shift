@@ -16,7 +16,7 @@ export default function MovementsTable(props) {
         check
     } = props
     const rowData = tableData && tableData.length ? tableData : []
-    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
+    const lan = getUserLanguage()
     const headers = MESSAGE[lan].TABLE_HEADERS
 
     const handleCheck = key => {

@@ -28,7 +28,10 @@ router.get('/', async (req, res, next) => {
 
             res.status(200).json(decryptedMovs)
         }
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 //Create new Movement
@@ -49,7 +52,10 @@ router.post('/', async (req, res, next) => {
 
         const newMovement = await Movement.create(movData)
         res.status(200).json({ newMovement })
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 //Update Movement by ID
@@ -69,7 +75,10 @@ router.post('/update', async (req, res, next) => {
         if (!updated) return res.status(404).send('Error updating Movement.')
 
         res.status(200).json({ message: 'Updated' })
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 //Remove Mocement by ID
@@ -80,7 +89,10 @@ router.post('/remove', async (req, res, next) => {
         if (!removed) return res.status(404).send('Error deleting Movement.')
 
         res.status(200).json({ message: 'Removed' })
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 module.exports = router

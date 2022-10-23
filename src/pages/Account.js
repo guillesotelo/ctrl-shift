@@ -9,20 +9,23 @@ import Flag from 'react-world-flags'
 import { LANGUAGES } from '../constants/languages.js'
 import { MESSAGE } from '../constants/messages'
 import { APP_COLORS } from '../constants/colors'
-import { updateUserData } from '../store/reducers/user'
+import { changePassword, updateUserData } from '../store/reducers/user'
 import { getUserLanguage } from '../helpers';
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
+import MoonLoader from "react-spinners/MoonLoader";
 
 export default function Account() {
   const [showPassBox, setShowPassBox] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+  const [lan, setLan] = useState(getUserLanguage())
+  const [toggleContents, setToggleContents] = useState(<><Flag code={lan} height="16" />{MESSAGE[lan].SET_LAN}</>)
   const user = JSON.parse(localStorage.getItem('user'))
   const [data, setData] = useState(user)
   const ledger = JSON.parse(localStorage.getItem('ledger'))
   const dispatch = useDispatch()
   const history = useHistory()
-  const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
 
-  const [toggleContents, setToggleContents] = useState(<><Flag code={'us'} height="16" />{MESSAGE[lan].SET_LAN}</>)
 
   const updateData = (key, newData) => {
     setData({ ...data, [key]: newData })
@@ -30,17 +33,28 @@ export default function Account() {
 
   const saveUserData = async () => {
     try {
+      setLoading(true)
       const saved = await dispatch(updateUserData(data)).then(data => data.payload)
-      if(saved) {
+
+      if (saved) {
+        localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(saved.data))
-        toast.success(MESSAGE[lan].SET_SUCC)
+        setLoading(false)
+        toast.success(MESSAGE[lan].SAVE_SUCC)
       }
-      else toast.error(MESSAGE[lan].SAVE_ERR)
-    } catch (err) { }
+      else {
+        setLoading(false)
+        toast.error(MESSAGE[lan].SAVE_ERR)
+      }
+      setIsEdit(false)
+      setShowPassBox(false)
+      setData({})
+    } catch (err) { toast.error(MESSAGE[lan].SAVE_ERR) }
   }
 
   return (
     <div className='account-container'>
+      <ToastContainer autoClose={2000} />
       <div className='account-info'>
         <img style={{ transform: 'scale(1.2)' }} className='svg-account' src={AccountIcon} alt="User Group" />
         <div style={{ borderLeft: '1px solid lightgray', height: '20vw' }}></div>
@@ -57,12 +71,13 @@ export default function Account() {
         style={{ margin: '2vw 0' }}
         onSelect={selected => {
           const { code, title } = LANGUAGES.find(({ code }) => selected === code)
-
+          setLan(selected)
           updateData('language', selected)
+          setIsEdit(true)
           setToggleContents(<><Flag code={code} height="16" /> {title}</>)
         }}
       >
-        <Dropdown.Toggle variant="secondary" id="cta-btn" className="text-left" style={{ width: '100%' }}>
+        <Dropdown.Toggle variant="secondary" id="cta-btn" className="text-left" style={{ width: '114%' }}>
           {toggleContents}
         </Dropdown.Toggle>
 
@@ -72,43 +87,64 @@ export default function Account() {
           ))}
         </Dropdown.Menu>
       </Dropdown>
-      <CTAButton
-        label='Change Password'
-        handleClick={() => setShowPassBox(true)}
-        size='55%'
-        color={APP_COLORS.SPACE}
-        style={{ marginTop: '6vw', fontSize: '4vw' }}
-      />
-      {showPassBox &&
-        <>
+
+      {showPassBox ?
+        <div className='account-change-pass'>
           <InputField
-            label=''
             updateData={updateData}
-            placeholder={MESSAGE[lan].PASS_PHR}
+            placeholder={MESSAGE[lan].ACTUAL_PASS}
+            name='currentPass'
+            type='password'
+            style={{ fontWeight: 'normal', fontSize: '4vw' }}
+            autoComplete='new-password'
+          />
+          <InputField
+            updateData={updateData}
+            placeholder={MESSAGE[lan].NEW_PASS}
             name='password'
-            type='text'
+            type='password'
             style={{ fontWeight: 'normal', fontSize: '4vw' }}
             autoComplete='new-password'
           />
-          <InputField
-            label=''
-            updateData={updateData}
-            placeholder={MESSAGE[lan].PASS2}
-            name='password2'
-            type='text'
-            style={{ fontWeight: 'normal', fontSize: '4vw' }}
-            autoComplete='new-password'
-          />
-        </>
-      }
-      {(showPassBox || data.language) &&
+        </div>
+        :
         <CTAButton
-          label='Save'
-          handleClick={() => saveUserData()}
+          label={MESSAGE[lan].CHANGE_PASS}
+          handleClick={() => setShowPassBox(true)}
           size='55%'
           color={APP_COLORS.SPACE}
           style={{ marginTop: '6vw', fontSize: '4vw' }}
         />
+      }
+      {loading ? <MoonLoader color='#CCA43B' />
+        : (showPassBox || isEdit) ?
+          <>
+            {(data.password && data.currentPass && (data.password !== data.currentPass)) || (!showPassBox && isEdit) ?
+            <CTAButton
+              label={MESSAGE[lan].SAVE}
+              handleClick={() => saveUserData()}
+              size='55%'
+              color={APP_COLORS.YELLOW}
+              style={{ marginTop: '6vw', fontSize: '4vw', color: 'black' }}
+            />
+            :''
+            }
+            <CTAButton
+              label={MESSAGE[lan].CANCEL}
+              handleClick={() => {
+                const lang = getUserLanguage()
+                setIsEdit(false)
+                setData({})
+                setShowPassBox(false)
+                setLan(lang)
+                setToggleContents(<><Flag code={lang} height="16" />{MESSAGE[lang].SET_LAN}</>)
+              }}
+              size='55%'
+              color={APP_COLORS.GRAY}
+              style={{ marginTop: '6vw', fontSize: '4vw' }}
+            />
+          </>
+          : ''
       }
     </div>
   )

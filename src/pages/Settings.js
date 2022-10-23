@@ -22,7 +22,7 @@ export default function Settings() {
     const [budget, setBudget] = useState({ total: 100 })
     const [edited, setEdited] = useState(false)
     const dispatch = useDispatch()
-    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
+    const lan = getUserLanguage()
 
     useEffect(() => {
         pullSettings()
@@ -66,7 +66,7 @@ export default function Settings() {
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success(MESSAGE[lan].SET_SUCC)
+                toast.success(MESSAGE[lan].SAVE_SUCC)
                 setTimeout(() => pullSettings(), 1500)
             }
             setEdited(false)

@@ -11,7 +11,10 @@ router.get('/all', async (req, res, next) => {
         if (!ledgers) return res.status(404).send('No ledgers found.')
 
         res.status(200).json(ledgers)
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 // Get Ledger by ID
@@ -40,7 +43,10 @@ router.get('/', async (req, res, next) => {
                 tasks: ledger.tasks || []
             })
         }
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 //Login Ledger
@@ -72,7 +78,10 @@ router.post('/', async (req, res, next) => {
                 tasks: ledger.tasks || []
             })
         }
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 //Create new Ledger
@@ -98,7 +107,10 @@ router.post('/create', async (req, res, next) => {
             notes: decrypt(newLedger.notes),
             tasks: decrypt(newLedger.tasks)
         })
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 //Update Ledger Data
@@ -138,7 +150,10 @@ router.post('/update', async (req, res, next) => {
                 tasks: newLedger.tasks || []
             })
         }
-    } catch (err) { console.log(err) }
+    } catch (err) {
+        console.error('Something went wrong!', err)
+        res.send(500).send('Server Error')
+    }
 })
 
 module.exports = router

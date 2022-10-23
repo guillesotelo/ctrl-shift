@@ -6,7 +6,7 @@ import './styles.css'
 
 export default function SwitchBTN(props) {
 
-    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
+    const lan = getUserLanguage()
 
     const {
         onChangeSw,

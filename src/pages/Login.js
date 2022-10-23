@@ -23,7 +23,7 @@ export default function Login() {
     const [mailNModal, setMailModal] = useState(false)
     const dispatch = useDispatch()
     const history = useHistory()
-    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
+    const lan = getUserLanguage()
 
     const updateData = (key, newData) => {
         setData({ ...data, [key]: newData })

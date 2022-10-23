@@ -12,52 +12,52 @@ import Settings from './pages/Settings'
 import Footer from "./components/Footer";
 import Notes from "./pages/Notes";
 import Tasks from "./pages/Tasks";
-import ResetPassword from "./pages/ResetPassword";
+import ChangePass from "./pages/ChangePass";
 // import NotFound from './pages/NotFound'
- 
+
 function App() {
-    return (
-          <Switch>
-            <Route exact path="/"> 
-              <SplashScreen/>
-            </Route>
-            <Route path="/login"> 
-              <Login/>
-            </Route>
-            <Route path="/register"> 
-              <Register/>
-            </Route>
-            <Route path="/resetPassword"> 
-              <ResetPassword/>
-            </Route>
-            <Route path="/home"> 
-              <Header/>
-              <Home/>
-              <Footer/>
-            </Route>
-            <Route path="/ledger"> 
-              <Header/>
-              <Ledger/>
-            </Route>
-            <Route path="/account"> 
-              <Header/>
-              <Account/>
-            </Route>
-            <Route path="/settings"> 
-              <Header/>
-              <Settings/>
-              <Footer/>
-            </Route>
-            <Route path="/notes"> 
-              <Header/>
-              <Notes/>
-            </Route>
-            <Route path="/tasks"> 
-              <Header/>
-              <Tasks/>
-            </Route>
-          </Switch>
-    )
+  return (
+    <Switch>
+      <Route exact path="/">
+        <SplashScreen />
+      </Route>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/register">
+        <Register />
+      </Route>
+      <Route path="/changePass">
+        <ChangePass />
+      </Route>
+      <Route path="/home">
+        <Header />
+        <Home />
+        <Footer />
+      </Route>
+      <Route path="/ledger">
+        <Header />
+        <Ledger />
+      </Route>
+      <Route path="/account">
+        <Header />
+        <Account />
+      </Route>
+      <Route path="/settings">
+        <Header />
+        <Settings />
+        <Footer />
+      </Route>
+      <Route path="/notes">
+        <Header />
+        <Notes />
+      </Route>
+      <Route path="/tasks">
+        <Header />
+        <Tasks />
+      </Route>
+    </Switch>
+  )
 }
 
 export default App;

@@ -22,7 +22,7 @@ export default function Ledger() {
     const history = useHistory()
     const dispatch = useDispatch()
     const ledger = JSON.parse(localStorage.getItem('ledger'))
-    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
+    const lan = getUserLanguage()
 
     useEffect(() => {
         const localUser = JSON.parse(localStorage.getItem('user'))

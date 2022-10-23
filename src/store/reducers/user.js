@@ -5,7 +5,7 @@ import {
     registerUser, 
     setUserVoid, 
     updateUser,
-    resetPass,
+    changePass,
     resetPassordByEmail
 } from "../services/reduxServices";
 
@@ -18,7 +18,7 @@ export const googleAuth = createAsyncThunk('GOOGLE_LOGIN', googleLogin)
 export const createUser = createAsyncThunk('CREATE_USER', registerUser)
 export const logOut = createAsyncThunk('LOGOUT_USER', setUserVoid)
 export const sendEmailResetPass = createAsyncThunk('SEND_EMAIL_RESET', resetPassordByEmail)
-export const resetPassword = createAsyncThunk('RESET_PASSWORD', resetPass)
+export const changePassword = createAsyncThunk('CHANGE_PASSWORD', changePass)
 export const updateUserData = createAsyncThunk('UPDATE_USER', updateUser)
 
 const userReducer = createReducer(initialState, {
@@ -27,7 +27,7 @@ const userReducer = createReducer(initialState, {
   [createUser.fulfilled]: (state, action) => action.payload,
   [logOut.fulfilled]: (state, action) => action.payload,
   [sendEmailResetPass.fulfilled]: (state, action) => action.payload,
-  [resetPassword.fulfilled]: (state, action) => action.payload,
+  [changePassword.fulfilled]: (state, action) => action.payload,
   [updateUserData.fulfilled]: (state, action) => action.payload
 });
 

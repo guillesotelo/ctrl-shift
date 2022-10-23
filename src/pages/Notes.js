@@ -16,7 +16,7 @@ export default function Notes() {
     const [data, setData] = useState({ name: '', details: '', notes: [] })
     const [check, setCheck] = useState({})
     const dispatch = useDispatch()
-    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
+    const lan = getUserLanguage()
 
     useEffect(() => {
         pullNotes()
@@ -45,7 +45,7 @@ export default function Notes() {
             if (newLedger) {
                 localStorage.removeItem('ledger')
                 localStorage.setItem('ledger', JSON.stringify(newLedger.data))
-                toast.success(MESSAGE[lan].SET_SUCC)
+                toast.success(MESSAGE[lan].SAVE_SUCC)
                 setTimeout(() => pullNotes(), 1500)
             }
             setIsEdit(false)

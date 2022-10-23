@@ -10,17 +10,17 @@ import { MESSAGE } from '../constants/messages'
 import { VERSION } from '../constants/app'
 import { getUserLanguage } from '../helpers';
 import 'react-toastify/dist/ReactToastify.css';
-import { resetPassword } from '../store/reducers/user';
+import { changePassword } from '../store/reducers/user';
 import MoonLoader from "react-spinners/MoonLoader";
 
-export default function ResetPassword() {
+export default function ChangePass() {
     const [data, setData] = useState({})
     const [emailFound, setEmailFound] = useState(null)
     const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch()
     const history = useHistory()
-    const lan = useSelector(state => state.user && state.user.language || getUserLanguage())
+    const lan = getUserLanguage()
 
     useEffect(() => {
         const { userEmail } = new Proxy(new URLSearchParams(window.location.search), {
@@ -43,7 +43,7 @@ export default function ResetPassword() {
             if(data.password === data.currentPass) return toast.error(MESSAGE[lan].SAME_PASS)
             
             setLoading(true)
-            const saved = await dispatch(resetPassword(data)).then(d => d.payload)
+            const saved = await dispatch(changePassword(data)).then(d => d.payload)
 
             if (saved) {
                 setLoading(false)

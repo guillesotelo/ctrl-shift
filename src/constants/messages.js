@@ -33,6 +33,13 @@ export const MESSAGE = {
         NEW_PASS: 'Nueva contraseña',
         SAME_PASS: 'Debes ingresar una contraseña diferente',
 
+        //MENU
+        MY_ACCOUNT: 'Mi cuenta',
+        SETTINGS: 'Ajustes',
+        NOTES: 'Notas',
+        TASKS: 'Tareas',
+        LOGOUT: 'Cerrar sesión',
+
         //LEDGER
         L_PAY_TYPES: ['Efectivo', 'Débito', 'TC', 'Transferencia'],
         L_CATEGORIES: ['Varios', 'Mercado', 'Transporte', 'Lujos', 'Gasto Fijo', 'Electro/Deco', 'Salud', 'Indumentaria'],
@@ -59,7 +66,7 @@ export const MESSAGE = {
         CONN_LED: 'Crear / Conectar Libro',
 
         //SETTINGS
-        SET_SUCC: 'Guardado con éxito!',
+        SAVE_SUCC: 'Guardado con éxito!',
         SET_TITLE: 'Configuración de Movimientos',
         SET_SALARY: 'Saldo Mensual',
         SET_UPDATE: 'Actualizar',
@@ -179,6 +186,13 @@ export const MESSAGE = {
         NEW_PASS: 'New password',
         SAME_PASS: 'You must choose a different password',
 
+        //MENU
+        MY_ACCOUNT: 'My account',
+        SETTINGS: 'Settings',
+        NOTES: 'Notes',
+        TASKS: 'Tasks',
+        LOGOUT: 'Logout',
+
         //LEDGER
         L_PAY_TYPES: ['Cash', 'Debit', 'Credit Card', 'Transfer'],
         L_CATEGORIES: ['Various', 'Market', 'Transport', 'Luxury', 'Fixed Expense', 'Electro/Deco', 'Health', 'Clothes'],
@@ -204,7 +218,7 @@ export const MESSAGE = {
         CONN_LED: 'Create/Connect Book',
 
         //SETTINGS
-        SET_SUCC: 'Saved successfully!',
+        SAVE_SUCC: 'Saved successfully!',
         SET_TITLE: 'Movement Settings',
         SET_SALARY: 'Monthly Income',
         SET_UPDATE: 'Update',
@@ -324,6 +338,13 @@ export const MESSAGE = {
         NEW_PASS: 'New password',
         SAME_PASS: 'You must choose a different password',
 
+        //MENU
+        MY_ACCOUNT: 'My account',
+        SETTINGS: 'Settings',
+        NOTES: 'Notes',
+        TASKS: 'Tasks',
+        LOGOUT: 'Logout',
+
         //LEDGER
         L_PAY_TYPES: ['Cash', 'Debit', 'Credit Card', 'Transfer'],
         L_CATEGORIES: ['Various', 'Market', 'Transport', 'Luxury', 'Fixed Expense', 'Electro/Deco', 'Health', 'Clothes'],
@@ -350,7 +371,7 @@ export const MESSAGE = {
         CONN_LED: 'Create/Connect Book',
 
         //SETTINGS
-        SET_SUCC: 'Saved successfully!',
+        SAVE_SUCC: 'Saved successfully!',
         SET_TITLE: 'Movement Settings',
         SET_SALARY: 'Monthly Income',
         SET_UPDATE: 'Update',
@@ -470,6 +491,13 @@ export const MESSAGE = {
         NEW_PASS: 'Nytt lösenord',
         SAME_PASS: 'Du måste välja ett annat lösenord',
 
+        //MENU
+        MY_ACCOUNT: 'Mitt konto',
+        SETTINGS: 'Inställningar',
+        NOTES: 'Anteckningar',
+        TASKS: 'Uppgifter',
+        LOGOUT: 'Logga ut',
+
         //LEDGER
         L_PAY_TYPES: ['Kontanter', 'Debet', 'Kreditkort', 'Överföring'],
         L_CATEGORIES: ['Olika', 'Marknad', 'Transport', 'Lyx', 'Fast utgift', 'Electro/Deco', 'Hälsa', 'Kläder'],
@@ -496,7 +524,7 @@ export const MESSAGE = {
         CONN_LED: 'Skapa/anslut bok',
 
         //SETTINGS
-        SET_SUCC: 'Sparat framgångsrikt!',
+        SAVE_SUCC: 'Sparat framgångsrikt!',
         SET_TITLE: 'Rörelseinställningar',
         SET_SALARY: 'Månadssaldo',
         SET_UPDATE: 'Uppdatera',

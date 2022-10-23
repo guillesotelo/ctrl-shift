@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import CTAButton from '../CTAButton'
 import { VERSION } from '../../constants/app'
+import { MESSAGE } from '../../constants/messages'
+import { getUserLanguage } from '../../helpers';
 import './styles.css'
 
 export default function Menu(props) {
   const { menuClass, setMenuClass } = props
   const history = useHistory()
-  const { name } = localStorage.getItem('ledger') && 
+  const lan = getUserLanguage()
+  const { name } = localStorage.getItem('ledger') &&
   localStorage.getItem('ledger') !== null ? JSON.parse(localStorage.getItem('ledger')) : {}
 
   const handleLogOut = () => {
@@ -26,7 +30,7 @@ export default function Menu(props) {
     <div className={`menu-container ${menuClass}`}>
       <div className='menu-items'>
         <CTAButton
-          label='Mi cuenta'
+          label={MESSAGE[lan].MY_ACCOUNT}
           color='#263d42'
           handleClick={handleAccount}
           size='100%'
@@ -37,7 +41,7 @@ export default function Menu(props) {
           name &&
           <>
             <CTAButton
-              label='Movimientos'
+              label={MESSAGE[lan].MOVEMENTS}
               color='#263d42'
               handleClick={() => {
                 setMenuClass('menu-hidden')
@@ -47,7 +51,7 @@ export default function Menu(props) {
               style={{ color: '#CCA43B', fontSize: '5vw', marginTop: '2vw' }}
             />
             <CTAButton
-              label='Ajustes'
+              label={MESSAGE[lan].SETTINGS}
               color='#263d42'
               handleClick={() => {
                 setMenuClass('menu-hidden')
@@ -58,7 +62,7 @@ export default function Menu(props) {
               className='cta-menu'
             />
             <CTAButton
-              label='Notas'
+              label={MESSAGE[lan].NOTES}
               color='#263d42'
               handleClick={() => {
                 setMenuClass('menu-hidden')
@@ -69,7 +73,7 @@ export default function Menu(props) {
               className='cta-menu'
             />
             <CTAButton
-              label='Tareas'
+              label={MESSAGE[lan].TASKS}
               color='#263d42'
               handleClick={() => {
                 setMenuClass('menu-hidden')
@@ -82,7 +86,7 @@ export default function Menu(props) {
           </>
         }
         <CTAButton
-          label='Cerrar sesion'
+          label={MESSAGE[lan].LOGOUT}
           color='#263d42'
           handleClick={handleLogOut}
           size='100%'
