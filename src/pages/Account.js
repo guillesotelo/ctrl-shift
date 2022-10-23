@@ -16,11 +16,13 @@ import MoonLoader from "react-spinners/MoonLoader";
 
 export default function Account() {
   const [showPassBox, setShowPassBox] = useState(false)
+  const [showEmailBox, setShowEmailBox] = useState(false)
+  const [showNameBox, setShowNameBox] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [lan, setLan] = useState(getUserLanguage())
   const [toggleContents, setToggleContents] = useState(<><Flag code={lan} height="16" />{MESSAGE[lan].SET_LAN}</>)
-  const user = JSON.parse(localStorage.getItem('user'))
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
   const [data, setData] = useState(user)
   const ledger = JSON.parse(localStorage.getItem('ledger'))
   const dispatch = useDispatch()
@@ -28,17 +30,24 @@ export default function Account() {
 
 
   const updateData = (key, newData) => {
+    setIsEdit(true)
     setData({ ...data, [key]: newData })
   }
 
   const saveUserData = async () => {
     try {
+      if(data.newEmail) {
+        if(!data.newEmail.includes('@','.')) return toast.error(MESSAGE[lan].CHECK_DATA)
+      }
+      
       setLoading(true)
       const saved = await dispatch(updateUserData(data)).then(data => data.payload)
 
       if (saved) {
         localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(saved.data))
+        setUser(saved.data)
+
         setLoading(false)
         toast.success(MESSAGE[lan].SAVE_SUCC)
       }
@@ -48,6 +57,7 @@ export default function Account() {
       }
       setIsEdit(false)
       setShowPassBox(false)
+      setShowEmailBox(false)
       setData({})
     } catch (err) { toast.error(MESSAGE[lan].SAVE_ERR) }
   }
@@ -88,6 +98,50 @@ export default function Account() {
         </Dropdown.Menu>
       </Dropdown>
 
+      {showNameBox ?
+        <div className='account-change-pass'>
+          <InputField
+            updateData={updateData}
+            placeholder={MESSAGE[lan].NAME}
+            name='newName'
+            type='text'
+            style={{ fontWeight: 'normal', fontSize: '4vw' }}
+            autoComplete='new-password'
+            value={data.newName || data.newName === '' ? data.newName : user.username}
+          />
+        </div>
+        :
+        <CTAButton
+          label={MESSAGE[lan].CHANGE_NAME}
+          handleClick={() => setShowNameBox(true)}
+          size='55%'
+          color={APP_COLORS.SPACE}
+          style={{ marginTop: '6vw', fontSize: '4vw' }}
+        />
+      }
+
+      {showEmailBox ?
+        <div className='account-change-pass'>
+          <InputField
+            updateData={updateData}
+            placeholder={MESSAGE[lan].EMAIL_PHR}
+            name='newEmail'
+            type='email'
+            style={{ fontWeight: 'normal', fontSize: '4vw' }}
+            autoComplete='new-password'
+            value={data.newEmail || data.newEmail === '' ? data.newEmail : user.email}
+          />
+        </div>
+        :
+        <CTAButton
+          label={MESSAGE[lan].CHANGE_EMAIL}
+          handleClick={() => setShowEmailBox(true)}
+          size='55%'
+          color={APP_COLORS.SPACE}
+          style={{ marginTop: '6vw', fontSize: '4vw' }}
+        />
+      }
+
       {showPassBox ?
         <div className='account-change-pass'>
           <InputField
@@ -116,28 +170,32 @@ export default function Account() {
           style={{ marginTop: '6vw', fontSize: '4vw' }}
         />
       }
+
       {loading ? <MoonLoader color='#CCA43B' />
-        : (showPassBox || isEdit) ?
+        : showPassBox || isEdit ?
           <>
-            {(data.password && data.currentPass && (data.password !== data.currentPass)) || (!showPassBox && isEdit) ?
-            <CTAButton
-              label={MESSAGE[lan].SAVE}
-              handleClick={() => saveUserData()}
-              size='55%'
-              color={APP_COLORS.YELLOW}
-              style={{ marginTop: '6vw', fontSize: '4vw', color: 'black' }}
-            />
-            :''
+            {(data.password && data.currentPass && (data.password !== data.currentPass)) 
+              || (!showPassBox && isEdit) || data.newEmail || data.newName ?
+              <CTAButton
+                label={MESSAGE[lan].SAVE}
+                handleClick={() => saveUserData()}
+                size='55%'
+                color={APP_COLORS.YELLOW}
+                style={{ marginTop: '6vw', fontSize: '4vw', color: 'black' }}
+              />
+              : ''
             }
             <CTAButton
               label={MESSAGE[lan].CANCEL}
               handleClick={() => {
                 const lang = getUserLanguage()
                 setIsEdit(false)
-                setData({})
+                setShowNameBox(false)
                 setShowPassBox(false)
+                setShowEmailBox(false)
                 setLan(lang)
                 setToggleContents(<><Flag code={lang} height="16" />{MESSAGE[lang].SET_LAN}</>)
+                setData({})
               }}
               size='55%'
               color={APP_COLORS.GRAY}

@@ -61,7 +61,7 @@ router.post('/create', async (req, res, next) => {
 //Update User Data
 router.post('/update', async (req, res, next) => {
     try {
-        const { email, username, currentPass, newEmail } = req.body
+        const { email, username, currentPass, newEmail, newName } = req.body
         let passwordChanged = false
 
         if (currentPass) {
@@ -73,8 +73,11 @@ router.post('/update', async (req, res, next) => {
             passwordChanged = true
         }
 
+        const newData = req.body
+        if(newName) newData.username = newName
+        
         const newUser = await User.findOneAndUpdate(
-            { username, email }, req.body, { returnDocument: "after", useFindAndModify: false })
+            { username, email }, newData, { returnDocument: "after", useFindAndModify: false })
         if (!newUser) return res.status(404).send('Error updating User.')
 
         if (passwordChanged || newEmail) {

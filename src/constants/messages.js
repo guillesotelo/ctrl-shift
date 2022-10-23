@@ -64,6 +64,8 @@ export const MESSAGE = {
         NAME: 'Nombre',
         LEDGER: 'Libro actual',
         CONN_LED: 'Crear / Conectar Libro',
+        CHANGE_EMAIL: 'Cambiar email',
+        CHANGE_NAME: 'Cambiar nombre',
 
         //SETTINGS
         SAVE_SUCC: 'Guardado con éxito!',
@@ -216,6 +218,8 @@ export const MESSAGE = {
         NAME: 'Name',
         LEDGER: 'Current Ledger',
         CONN_LED: 'Create/Connect Book',
+        CHANGE_EMAIL: 'Change email',
+        CHANGE_NAME: 'Change name',
 
         //SETTINGS
         SAVE_SUCC: 'Saved successfully!',
@@ -369,6 +373,8 @@ export const MESSAGE = {
         NAME: 'Name',
         LEDGER: 'Current Ledger',
         CONN_LED: 'Create/Connect Book',
+        CHANGE_EMAIL: 'Change email',
+        CHANGE_NAME: 'Change name',
 
         //SETTINGS
         SAVE_SUCC: 'Saved successfully!',
@@ -522,7 +528,9 @@ export const MESSAGE = {
         NAME: 'Namn',
         LEDGER: 'Ansluten bok',
         CONN_LED: 'Skapa/anslut bok',
-
+        CHANGE_EMAIL: 'Ändra e-post',
+        CHANGE_NAME: 'Ändra namn',
+        
         //SETTINGS
         SAVE_SUCC: 'Sparat framgångsrikt!',
         SET_TITLE: 'Rörelseinställningar',
