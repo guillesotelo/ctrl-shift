@@ -51,6 +51,7 @@ export const MESSAGE = {
         L_TEXT2: 'Para comenzar a utilizar CtrlShift, tienes que crear un Libro Contable, donde todos tus gastos serán guardados.',
         L_TEXT2_2: 'Luego, otros usuarios podrán participar de tu Libro, conectándose a través del nombre y contraseña que hayas elegido.',
         L_TEXT2_3: 'También puedes participar de un Libro existente.',
+        L_TEXT2_4: 'Todos los datos en esta app estan ecriptados de punta a punta, incluídos los datos de usuario, información de movimientos y ajustes.',
         L_CURRENT: 'Libro Actual',
         L_NEW: 'Nuevo Libro',
         L_NEW_LABEL: 'Nuevo Libro Contable',
@@ -205,6 +206,7 @@ export const MESSAGE = {
         L_TEXT2: 'To start using CtrlShift you must create a Ledger, where all your movements will be saved.',
         L_TEXT2_2: 'Then other people will be able to participate in your Ledger, connecting with the name and password.',
         L_TEXT2_3: 'You can also connect with an existing Ledger.',
+        L_TEXT2_4: 'All data in this app is end-to-end encrypted, including user data, movement information and settings.',
         L_CURRENT: 'Current Ledger',
         L_NEW: 'New Book',
         L_NEW_LABEL: 'New Ledger',
@@ -360,6 +362,7 @@ export const MESSAGE = {
         L_TEXT2: 'To start using CtrlShift you must create a Ledger, where all your movements will be saved.',
         L_TEXT2_2: 'Then other people will be able to participate in your Ledger, connecting with the name and password.',
         L_TEXT2_3: 'You can also connect with an existing Ledger.',
+        L_TEXT2_4: 'All data in this app is end-to-end encrypted, including user data, movement information and settings.',
         L_CURRENT: 'Current Ledger',
         L_NEW: 'New Book',
         L_NEW_LABEL: 'New Ledger',
@@ -515,6 +518,7 @@ export const MESSAGE = {
         L_TEXT2: 'För att börja använda CtrlShift måste du skapa en reskontra där alla dina rörelser kommer att sparas.',
         L_TEXT2_2: 'Då kommer andra personer att kunna delta i din Ledger, ansluta med namn och lösenord.',
         L_TEXT2_3: 'Du kan också ansluta till en befintlig reskontra.',
+        L_TEXT2_4: 'All data i den här appen är krypterad från slut till ände, inklusive användardata, rörelseinformation och inställningar.',
         L_CURRENT: 'Aktuell bok',
         L_NEW: 'Ny bok',
         L_NEW_LABEL: 'Ny bokföringsbok',
@@ -530,7 +534,7 @@ export const MESSAGE = {
         CONN_LED: 'Skapa/anslut bok',
         CHANGE_EMAIL: 'Ändra e-post',
         CHANGE_NAME: 'Ändra namn',
-        
+
         //SETTINGS
         SAVE_SUCC: 'Sparat framgångsrikt!',
         SET_TITLE: 'Rörelseinställningar',

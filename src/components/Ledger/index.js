@@ -88,12 +88,14 @@ export default function Ledger() {
                     <>
                         <h4 className='group-text'>{MESSAGE[lan].L_TEXT1}</h4>
                         <h4 className='group-text'>{MESSAGE[lan].L_TEXT1_2}</h4>
+                        <h4 className='group-text'>{MESSAGE[lan].L_TEXT2_4}</h4>
                     </>
                     :
                     <>
                         <h4 className='group-text'>{MESSAGE[lan].L_TEXT2}</h4>
                         <h4 className='group-text'>{MESSAGE[lan].L_TEXT2_2}</h4>
                         <h4 className='group-text'>{MESSAGE[lan].L_TEXT2_3}</h4>
+                        <h4 className='group-text'>{MESSAGE[lan].L_TEXT2_4}</h4>
                     </>
             }
             {

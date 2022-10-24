@@ -12,7 +12,7 @@ router.post('/', async (req, res, next) => {
         const { email, password, isGoogleUser } = req.body
 
         const user = await User.findOne({ email }).exec()
-        if (!user) return res.status(401).json({})
+        if (!user) return res.status(401).send('Email not found')
 
         if (!isGoogleUser) {
             const compareRes = await user.comparePassword(password)
@@ -75,7 +75,7 @@ router.post('/update', async (req, res, next) => {
 
         const newData = req.body
         if(newName) newData.username = newName
-        
+
         const newUser = await User.findOneAndUpdate(
             { username, email }, newData, { returnDocument: "after", useFindAndModify: false })
         if (!newUser) return res.status(404).send('Error updating User.')
