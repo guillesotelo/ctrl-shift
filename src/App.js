@@ -13,9 +13,13 @@ import Footer from "./components/Footer";
 import Notes from "./pages/Notes";
 import Tasks from "./pages/Tasks";
 import ChangePass from "./pages/ChangePass";
+import { useSelector } from "react-redux";
 // import NotFound from './pages/NotFound'
 
 function App() {
+
+  const hasMovs = useSelector(state => state.movement && state.movement.data) || null
+
   return (
     <Switch>
       <Route exact path="/">
@@ -33,7 +37,7 @@ function App() {
       <Route path="/home">
         <Header />
         <Home />
-        <Footer />
+        {hasMovs && <Footer />}
       </Route>
       <Route path="/ledger">
         <Header />

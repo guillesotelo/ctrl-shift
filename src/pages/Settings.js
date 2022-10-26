@@ -76,7 +76,7 @@ export default function Settings() {
     const updateBudget = (category, type) => {
         setEdited(true)
         const newValue = Number(budget[category]) || 0
-        console.log("newValue", newValue)
+        
         if (type === '-' && newValue > 0 && budget.total < 100) {
             setBudget({
                 ...budget,
@@ -327,7 +327,7 @@ export default function Settings() {
                                 pullSettings()
                                 setEdited(false)
                             }}
-                            label={MESSAGE[lan].SET_DISCARD}
+                            label={MESSAGE[lan].DISCARD}
                             color='#8c8c8c'
                             size='fit-content'
                             disabled={!Object.keys(data).length}

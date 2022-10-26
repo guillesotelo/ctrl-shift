@@ -532,7 +532,7 @@ h2 {
 
 .search-erase-btn:hover {
   cursor: pointer;
-  color:#CCA43B;
+  color: #CCA43B;
 }
 
 /* -----TASKS----- */
@@ -626,7 +626,7 @@ h2 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   align-self: center;
   gap: 4vw;
   margin: 0;
@@ -764,6 +764,7 @@ h2 {
   .home-container {
     padding: 6vw 5vw;
     overflow-x: hidden;
+    min-height: 200%;
   }
 
   .main-section {
