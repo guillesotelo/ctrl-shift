@@ -212,14 +212,14 @@ export const MESSAGE = {
         L_NEW_LABEL: 'New Ledger',
         L_CONN: 'Connect Existing',
         L_NAME: 'Book Name',
-        L_CONN_LABEL: 'Connect to Existing Book',
+        L_CONN_LABEL: 'Connect to Existing Ledger',
         L_CONNECT: 'Connect',
         L_DISCONNECT: 'Disconnect',
 
         //ACCOUNT
         NAME: 'Name',
         LEDGER: 'Current Ledger',
-        CONN_LED: 'Create/Connect Book',
+        CONN_LED: 'Create/Connect Ledger',
         CHANGE_EMAIL: 'Change email',
         CHANGE_NAME: 'Change name',
 
@@ -375,7 +375,7 @@ export const MESSAGE = {
         //ACCOUNT
         NAME: 'Name',
         LEDGER: 'Current Ledger',
-        CONN_LED: 'Create/Connect Book',
+        CONN_LED: 'Create/Connect Ledger',
         CHANGE_EMAIL: 'Change email',
         CHANGE_NAME: 'Change name',
 
@@ -513,10 +513,10 @@ export const MESSAGE = {
         L_SAVED: 'Spara framgångsrikt! Omdirigerar...',
         L_CONNECTED: 'Spara framgångsrikt! Omdirigerar...',
         L_DISCONNECTED: 'Kopplad från! Omdirigerar...',
-        L_TEXT1: 'Om du vill att andra ska delta i din Ledger, dela namnet och lösenordet med dem.',
-        L_TEXT1_2: 'Du kan också ansluta till en annan befintlig Ledger.',
+        L_TEXT1: 'Om du vill att andra ska delta i din Huvudbok, dela namnet och lösenordet med dem.',
+        L_TEXT1_2: 'Du kan också ansluta till en annan befintlig Huvudbok.',
         L_TEXT2: 'För att börja använda CtrlShift måste du skapa en reskontra där alla dina rörelser kommer att sparas.',
-        L_TEXT2_2: 'Då kommer andra personer att kunna delta i din Ledger, ansluta med namn och lösenord.',
+        L_TEXT2_2: 'Då kommer andra personer att kunna delta i din Huvudbok, ansluta med namn och lösenord.',
         L_TEXT2_3: 'Du kan också ansluta till en befintlig reskontra.',
         L_TEXT2_4: 'All data i den här appen är krypterad från slut till ände, inklusive användardata, rörelseinformation och inställningar.',
         L_CURRENT: 'Aktuell bok',
@@ -530,7 +530,7 @@ export const MESSAGE = {
 
         //ACCOUNT
         NAME: 'Namn',
-        LEDGER: 'Ansluten bok',
+        LEDGER: 'Huvudbok',
         CONN_LED: 'Skapa/anslut bok',
         CHANGE_EMAIL: 'Ändra e-post',
         CHANGE_NAME: 'Ändra namn',

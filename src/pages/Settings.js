@@ -27,6 +27,8 @@ export default function Settings() {
     useEffect(() => {
         pullSettings()
     }, [])
+    console.log('data', data)
+    console.log('budget', budget)
 
     const updateData = (key, newData) => {
         if (key === 'newSalary') setNewSalary(true)
@@ -40,6 +42,8 @@ export default function Settings() {
         const newData = { ...data }
         newData[kind] = newItems
         setData(newData)
+
+        setBudget({ ...budget, total: getNewTotalBudget() })
     }
 
     const pullSettings = () => {
@@ -53,13 +57,29 @@ export default function Settings() {
             newPayType: '',
             newSalary: -1
         })
-        if (_settings.budget) setBudget(_settings.budget)
+        if (_settings.budget) {
+            const filteredBudget = {}
+            _settings.categories.forEach(cat => {
+                if (_settings.budget[cat]) filteredBudget[cat] = _settings.budget[cat]
+                else filteredBudget[cat] = 0
+            })
+            filteredBudget.total = _settings.budget.total || 100
+
+            setBudget({ ...filteredBudget, total: getNewTotalBudget(_settings.budget) })
+        }
     }
 
     const handleSave = async () => {
         try {
+            const filteredBudget = {}
+            data.categories.forEach(cat => {
+                if (budget[cat]) filteredBudget[cat] = budget[cat]
+                else filteredBudget[cat] = 0
+            })
+            filteredBudget.total = budget.total || 100
+
             const newLedger = await dispatch(updateLedgerData({
-                settings: JSON.stringify({ ...data, budget }),
+                settings: JSON.stringify({ ...data, budget: filteredBudget }),
                 id: data.id
             })).then(data => data.payload)
 
@@ -74,23 +94,38 @@ export default function Settings() {
     }
 
     const updateBudget = (category, type) => {
-        setEdited(true)
         const newValue = Number(budget[category]) || 0
-        
+
         if (type === '-' && newValue > 0 && budget.total < 100) {
+            setEdited(true)
             setBudget({
                 ...budget,
-                [category]: newValue.toFixed(1) <= 1 ? newValue - 0.1 : newValue - 1,
-                total: newValue.toFixed(1) <= 1 ? budget.total + 0.1 : budget.total + 1
+                [category]: newValue.toFixed(1) <= 1 ? Number((newValue - 0.1).toFixed(1)) : newValue - 1,
+                total: newValue.toFixed(1) <= 1 ? Number((budget.total + 0.1).toFixed(1)) : budget.total + 1
             })
         }
         if (type === '+' && newValue < 100 && budget.total > 0) {
+            setEdited(true)
             setBudget({
                 ...budget,
-                [category]: newValue.toFixed(1) < 1 ? newValue + 0.1 : newValue + 1,
-                total: newValue.toFixed(1) < 1 ? budget.total - 0.1 : budget.total - 1
+                [category]: newValue.toFixed(1) < 1 ? Number((newValue + 0.1).toFixed(1)) : newValue + 1,
+                total: newValue.toFixed(1) < 1 ? Number((budget.total).toFixed(1)) - 0.1 : budget.total - 1
             })
         }
+    }
+
+    const getNewTotalBudget = newBudget => {
+        let sum = 0
+        if (newBudget) {
+            Object.keys(newBudget).forEach(category => {
+                sum += category !== 'total' && newBudget[category]
+            })
+        } else {
+            Object.keys(budget).forEach(category => {
+                sum += category !== 'total' && budget[category]
+            })
+        }
+        return 100 - sum
     }
 
     return (
