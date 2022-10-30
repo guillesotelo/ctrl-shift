@@ -54,9 +54,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "node index.js",
-    "server": "nodemon index.js",
-    "client": "react-app-rewired start",
+    "start": "nodemon index.js",
     "build": "react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
