@@ -11,19 +11,23 @@ export default function SplashScreen() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const localUser = JSON.parse(localStorage.getItem('user'))
-        const localLedger = JSON.parse(localStorage.getItem('ledger'))
+        try {
+            const localUser = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user'))
+            const localLedger = localStorage.getItem('ledger') && JSON.parse(localStorage.getItem('ledger'))
 
-        if (!localUser || !localUser.email) {
-            render()
-            setTimeout(() => history.push('/login'), 2000)
-        } 
-        else if (!localLedger || !localLedger.email || !localLedger.id) {
-            render()
-            setTimeout(() => history.push('/ledger'), 2000)
+            if (!localUser || !localUser.email) {
+                render()
+                setTimeout(() => history.push('/login'), 2000)
+            }
+            else if (!localLedger || !localLedger.email || !localLedger.id) {
+                render()
+                setTimeout(() => history.push('/ledger'), 2000)
+            }
+
+            else getUpdatedLedger(localLedger.id)
+        } catch (err) {
+            history.push('/login')
         }
-
-        else getUpdatedLedger(localLedger.id)
     }, [])
 
     const getUpdatedLedger = async ledgerId => {
@@ -33,11 +37,11 @@ export default function SplashScreen() {
 
     const render = () => {
         return (
-        <div className='splash-container'>
-            <div className='logo-login-container'>
-                <img className='logo-img' src={Logo} alt="Control Shift" />
+            <div className='splash-container'>
+                <div className='logo-login-container'>
+                    <img className='logo-img' src={Logo} alt="Control Shift" />
+                </div>
             </div>
-        </div>
         )
     }
 

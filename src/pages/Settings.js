@@ -27,8 +27,6 @@ export default function Settings() {
     useEffect(() => {
         pullSettings()
     }, [])
-    console.log('data', data)
-    console.log('budget', budget)
 
     const updateData = (key, newData) => {
         if (key === 'newSalary') setNewSalary(true)

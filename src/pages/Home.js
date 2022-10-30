@@ -10,7 +10,9 @@ import MovementsTable from '../components/MovementsTable'
 import BarChart from '../components/BarChart'
 import PieChart from '../components/PieChart'
 import PolarChart from '../components/PolarChart'
+import Calculator from '../components/Calculator'
 import TrashCan from '../assets/trash-can.svg'
+import CalculatorIcon from '../assets/calculator-icon2.svg'
 import EyeClosed from '../assets/eye-closed.svg'
 import { getMovements, saveMovement, editMovement, removeMovement } from '../store/reducers/movement'
 import { updateLedgerData, getLedger } from '../store/reducers/ledger';
@@ -51,6 +53,7 @@ export default function Home() {
   const [month, setMonth] = useState(new Date().getMonth())
   const [year, setYear] = useState(new Date().getFullYear())
   const [sw, setSw] = useState(false)
+  const [calculator, setCalculator] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
   const lan = getUserLanguage()
@@ -62,16 +65,16 @@ export default function Home() {
     if (!localLedger || !localLedger.email) history.push('/ledger')
 
     if (!localUser || !localUser.email) history.push('/login')
-    
+
     setUser(localUser)
     setLedger(localLedger)
 
-    const { 
+    const {
       isMonthly,
       authors,
       categories,
       payTypes,
-      salary 
+      salary
     } = JSON.parse(localLedger.settings)
     if (isMonthly) setSw(isMonthly)
 
@@ -246,7 +249,7 @@ export default function Home() {
 
   const checkDataOk = dataToCheck => {
     const num = dataToCheck.amount
-    if (isNaN(num) || num < 2 || num === 0) return false
+    if (isNaN(num) || num < 0 || num === 0) return false
     return true
   }
 
@@ -482,87 +485,101 @@ export default function Home() {
                 inline
               />
             }
-            <InputField
-              label=''
-              updateData={updateData}
-              placeholder={`${MESSAGE[lan].FIAT} -`}
-              name='amount'
-              type='number'
-              value={data.amount || ''}
-              style={{ textAlign: 'center' }}
-            />
-            <InputField
-              label=''
-              updateData={updateData}
-              placeholder={MESSAGE[lan].MOV_DETAIL}
-              name='detail'
-              type='text'
-              value={data.detail}
-            />
-            <DropdownBTN
-              options={allUsers}
-              label={MESSAGE[lan].AUTHOR}
-              name='author'
-              updateData={updateData}
-              value={data.author}
-            />
-            <DropdownBTN
-              options={allPayTypes}
-              label={MESSAGE[lan].PAY_TYPE}
-              name='pay_type'
-              updateData={updateData}
-              value={data.pay_type}
-            />
-            {!isEdit &&
-              <div className='installments-section' style={{border: withInstallments ? '1px solid #CCA43B' : 'none'}}>
-                <SwitchBTN
-                  sw={withInstallments}
-                  onChangeSw={() => setWithInstallments(!withInstallments)}
-                  label={MESSAGE[lan].INSTALLMENTS}
-                  style={{ transform: 'scale(0.8)', margin: 0 }}
+            <div className='fill-amount-row'>
+              <InputField
+                label=''
+                updateData={updateData}
+                placeholder={`${MESSAGE[lan].FIAT} -`}
+                name='amount'
+                type='number'
+                value={data.amount || ''}
+                size='100%'
+                style={{ textAlign: 'center' }}
+              />
+              <img onClick={() => setCalculator(!calculator)} className='svg-calculator' src={CalculatorIcon} alt="Calculate" />
+            </div>
+            {calculator ?
+              <Calculator
+                updateData={updateData}
+                value={data.amount || 0}
+                setCalculator={setCalculator}
+              />
+              :
+              <>
+                <InputField
+                  label=''
+                  updateData={updateData}
+                  placeholder={MESSAGE[lan].MOV_DETAIL}
+                  name='detail'
+                  type='text'
+                  value={data.detail}
                 />
-                {withInstallments &&
-                  <div className='installments-count'>
-                    <CTAButton
-                      handleClick={() => installments < 120 ? setInstallments(installments + 1) : {}}
-                      label='+'
-                      color={APP_COLORS.YELLOW}
-                      style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
-                      className='category-budget-setter'
+                <DropdownBTN
+                  options={allUsers}
+                  label={MESSAGE[lan].AUTHOR}
+                  name='author'
+                  updateData={updateData}
+                  value={data.author}
+                />
+                <DropdownBTN
+                  options={allPayTypes}
+                  label={MESSAGE[lan].PAY_TYPE}
+                  name='pay_type'
+                  updateData={updateData}
+                  value={data.pay_type}
+                />
+                {!isEdit &&
+                  <div className='installments-section' style={{ border: withInstallments ? '1px solid #CCA43B' : 'none' }}>
+                    <SwitchBTN
+                      sw={withInstallments}
+                      onChangeSw={() => setWithInstallments(!withInstallments)}
+                      label={MESSAGE[lan].INSTALLMENTS}
+                      style={{ transform: 'scale(0.8)', margin: 0 }}
                     />
-                    <h4 style={{ alignSelf: 'center', margin: 0 }}>{installments}</h4>
-                    <CTAButton
-                      handleClick={() => installments > 2 ? setInstallments(installments - 1) : {}}
-                      label='─'
-                      color={APP_COLORS.YELLOW}
-                      style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
-                      className='category-budget-setter'
-                    />
+                    {withInstallments &&
+                      <div className='installments-count'>
+                        <CTAButton
+                          handleClick={() => installments < 120 ? setInstallments(installments + 1) : {}}
+                          label='+'
+                          color={APP_COLORS.YELLOW}
+                          style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
+                          className='category-budget-setter'
+                        />
+                        <h4 style={{ alignSelf: 'center', margin: 0 }}>{installments}</h4>
+                        <CTAButton
+                          handleClick={() => installments > 2 ? setInstallments(installments - 1) : {}}
+                          label='─'
+                          color={APP_COLORS.YELLOW}
+                          style={{ color: 'black', fontWeight: 'bold', transform: 'scale(0.7)' }}
+                          className='category-budget-setter'
+                        />
+                      </div>
+                    }
                   </div>
                 }
-              </div>
+                <DropdownBTN
+                  options={allCategories}
+                  label={MESSAGE[lan].CATEGORY}
+                  name='category'
+                  updateData={updateData}
+                  value={data.category}
+                />
+                <div className='div-modal-btns'>
+                  <CTAButton
+                    handleClick={handleCancel}
+                    label={MESSAGE[lan].CANCEL}
+                    size='100%'
+                    color={APP_COLORS.GRAY}
+                  />
+                  <CTAButton
+                    handleClick={handleSave}
+                    label={MESSAGE[lan].SAVE}
+                    size='100%'
+                    color={APP_COLORS.YELLOW}
+                  />
+                </div>
+              </>
             }
-            <DropdownBTN
-              options={allCategories}
-              label={MESSAGE[lan].CATEGORY}
-              name='category'
-              updateData={updateData}
-              value={data.category}
-            />
-            <div className='div-modal-btns'>
-              <CTAButton
-                handleClick={handleCancel}
-                label={MESSAGE[lan].CANCEL}
-                size='100%'
-                color={APP_COLORS.GRAY}
-              />
-              <CTAButton
-                handleClick={handleSave}
-                label={MESSAGE[lan].SAVE}
-                size='100%'
-                color={APP_COLORS.YELLOW}
-              />
-            </div>
           </div>
         </div>
       }
@@ -613,23 +630,25 @@ export default function Home() {
       {settings.isMonthly ?
         <div className='home-month-tab' style={{ filter: (openModal || removeModal) && 'blur(10px)' }}>
           <h4 className='month-before' onClick={() => {
-              if(months[month - 1]) {
-                setMonth(month - 1)
-              } else {
-                setMonth(11)
-                setYear(year - 1)
-              }}}>
-              {months[month - 1] ? months[month - 1] : months[11]}
+            if (months[month - 1]) {
+              setMonth(month - 1)
+            } else {
+              setMonth(11)
+              setYear(year - 1)
+            }
+          }}>
+            {months[month - 1] ? months[month - 1] : months[11]}
           </h4>
           <h4 className='actual-month'>{months[month]}</h4>
           <h4 className='month-after' onClick={() => {
-              if(months[month + 1]) {
-                setMonth(month + 1)
-              } else {
-                setMonth(0)
-                setYear(year + 1)
-              }}}>
-              {months[month + 1] ? months[month + 1] : months[0]}
+            if (months[month + 1]) {
+              setMonth(month + 1)
+            } else {
+              setMonth(0)
+              setYear(year + 1)
+            }
+          }}>
+            {months[month + 1] ? months[month + 1] : months[0]}
           </h4>
         </div>
         : ''}

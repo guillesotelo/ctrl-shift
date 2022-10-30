@@ -1114,6 +1114,21 @@ h2 {
     filter: invert(73%) sepia(58%) saturate(3448%) hue-rotate(315deg) brightness(78%) contrast(107%);
   }
 
+  .fill-amount-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 3vw;
+    margin: 2vw 0 0 0;
+  }
+
+  .svg-calculator {
+    filter: invert(18%) sepia(30%) saturate(612%) hue-rotate(143deg) brightness(95%) contrast(87%);
+    height: 7vw;
+    width: auto;
+  }
+
   .salary-div {
     display: flex;
     flex-direction: row;
